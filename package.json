@@ -17,8 +17,8 @@
     "programming",
     "javascript",
     "decorators",
-    "pointcuts",
-    "joint-points"
+    "pointcut",
+    "joint point"
   ],
   "author": "Minko Gechev <mgechev@gmail.com>",
   "license": "MIT",
