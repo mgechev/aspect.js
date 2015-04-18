@@ -1,5 +1,5 @@
 {
-  "name": "aopjs",
+  "name": "aop.js",
   "version": "0.0.0",
   "description": "Framework for aspect-oriented programming with JavaScript",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mgechev/aopjs.git"
+    "url": "git://github.com/mgechev/aop.js.git"
   },
   "keywords": [
     "aop",
@@ -23,9 +23,9 @@
   "author": "Minko Gechev <mgechev@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mgechev/aopjs/issues"
+    "url": "https://github.com/mgechev/aop.js/issues"
   },
-  "homepage": "https://github.com/mgechev/aopjs",
+  "homepage": "https://github.com/mgechev/aop.js",
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0"
