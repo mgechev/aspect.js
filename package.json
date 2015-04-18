@@ -1,0 +1,29 @@
+{
+  "name": "aopjs",
+  "version": "0.0.0",
+  "description": "Framework for aspect-oriented programming with JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mgechev/aopjs.git"
+  },
+  "keywords": [
+    "aop",
+    "aspects",
+    "aspect-oriented",
+    "programming",
+    "javascript",
+    "decorators",
+    "pointcuts",
+    "joint-points"
+  ],
+  "author": "Minko Gechev <mgechev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mgechev/aopjs/issues"
+  },
+  "homepage": "https://github.com/mgechev/aopjs"
+}
