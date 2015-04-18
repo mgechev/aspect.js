@@ -25,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/mgechev/aopjs/issues"
   },
-  "homepage": "https://github.com/mgechev/aopjs"
+  "homepage": "https://github.com/mgechev/aopjs",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0"
+  }
 }
