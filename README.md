@@ -13,6 +13,7 @@ Framework for aspect-oriented programming with JavaScript, which takes advantage
   - [ ] Field set
   - [ ] Resolved
   - [ ] Rejected
+- [ ] Static crosscutting
 - [ ] Implement the following aspects:
   - [ ] Before
   - [ ] After
