@@ -2,6 +2,8 @@
 
 Framework for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 7 decorators syntax.
 
+For further reading on decorators, take a look at [the spec](https://github.com/wycats/javascript-decorators).
+
 # Roadmap
 
 - [ ] Implement the following joint points:
