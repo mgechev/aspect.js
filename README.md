@@ -7,7 +7,6 @@ For further reading on decorators, take a look at [the spec](https://github.com/
 # Roadmap
 
 - [ ] Implement the following joint points:
-  - [ ] Method call
   - [ ] Method execution
   - [ ] Constructor call
   - [ ] Constructor execution
