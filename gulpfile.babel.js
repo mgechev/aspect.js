@@ -56,10 +56,3 @@ gulp.task('transform:demo', () => {
     .pipe(gulp.dest('./demo/dist/'));
 });
 
-gulp.task('watch:demo', () => {
-  'use strict';
-  watch('./demo/src/**/*.js', () => {
-    gulp.start('transform:demo');
-  });
-});
-

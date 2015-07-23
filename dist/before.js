@@ -12,12 +12,14 @@ var _Aspect2 = _interopRequireWildcard(_Aspect);
 
 var _AspectCollection = require('./core/AspectCollection');
 
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
 var before = function before(classPattern, methodPattern) {
   'use strict';
-  return function (target, key) {
-    var advice = target[key];
+  return function (target, key, descriptor) {
+    var advice = descriptor.value;
     var when = 'before';
-    _AspectCollection.AspectCollection.register(new _Aspect2['default']({
+    _AspectCollection2['default'].register(new _Aspect2['default']({
       classPattern: classPattern,
       methodPattern: methodPattern,
       advice: advice,

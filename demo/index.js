@@ -1,7 +1,7 @@
-import {
-  before, Wove, Aspect
-} from '../../dist/all.js';
+import before from '../lib/before';
+import Wove from '../lib/core/Wove';
 
+// the advice
 class Logger {
   @before(/.*/, /^get/)
   logBefore() {
@@ -22,4 +22,5 @@ class ArticleCollection {
   }
 }
 
-
+let collection = new ArticleCollection();
+console.log(collection.getArticleById(42));
