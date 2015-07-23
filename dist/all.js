@@ -1819,6 +1819,174 @@ var Wove = function Wove() {
 exports["default"] = Wove;
 module.exports = exports["default"];
 "use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect() {
+  _classCallCheck(this, Aspect);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Wove = function Wove() {
+  _classCallCheck(this, Wove);
+};
+
+exports["default"] = Wove;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect() {
+  _classCallCheck(this, Aspect);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Wove = function Wove() {
+  _classCallCheck(this, Wove);
+};
+
+exports["default"] = Wove;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect() {
+  _classCallCheck(this, Aspect);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Wove = function Wove() {
+  _classCallCheck(this, Wove);
+};
+
+exports["default"] = Wove;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect() {
+  _classCallCheck(this, Aspect);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Wove = function Wove() {
+  _classCallCheck(this, Wove);
+};
+
+exports["default"] = Wove;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect() {
+  _classCallCheck(this, Aspect);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Wove = function Wove() {
+  _classCallCheck(this, Wove);
+};
+
+exports["default"] = Wove;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect() {
+  _classCallCheck(this, Aspect);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Wove = function Wove() {
+  _classCallCheck(this, Wove);
+};
+
+exports["default"] = Wove;
+module.exports = exports["default"];
+"use strict";
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6910,6 +7078,669 @@ exports['default'] = function (target) {
   _AspectCollection2['default'].aspects.forEach(function (a) {
     if (a.classPattern.test(target.name)) {
       _meld2['default'][a.when](target.prototype, a.methodPattern, a.advice);
+    }
+  });
+};
+
+module.exports = exports['default'];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Aspect = require('./core/Aspect');
+
+var _Aspect2 = _interopRequireWildcard(_Aspect);
+
+var _AspectCollection = require('./core/AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var before = function before(classPattern, methodPattern) {
+  'use strict';
+  return function (target, key, descriptor) {
+    var advice = descriptor.value;
+    var when = 'before';
+    _AspectCollection2['default'].register(new _Aspect2['default']({
+      classPattern: classPattern,
+      methodPattern: methodPattern,
+      advice: advice,
+      when: when
+    }));
+  };
+};
+
+exports['default'] = before;
+module.exports = exports['default'];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect(config) {
+  _classCallCheck(this, Aspect);
+
+  Object.assign(this, config);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AspectCollection = (function () {
+  function AspectCollection() {
+    _classCallCheck(this, AspectCollection);
+
+    this.aspects = [];
+  }
+
+  _createClass(AspectCollection, [{
+    key: "register",
+    value: function register(config) {
+      this.aspects.push(config);
+    }
+  }]);
+
+  return AspectCollection;
+})();
+
+exports["default"] = new AspectCollection();
+module.exports = exports["default"];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+/* global meld */
+
+var _AspectCollection = require('./AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var _meld = require('meld');
+
+var _meld2 = _interopRequireWildcard(_meld);
+
+exports['default'] = function (target) {
+  'use strict';
+  _AspectCollection2['default'].aspects.forEach(function (a) {
+    if (a.classPattern.test(target.name)) {
+      var matches = findMatches(Object.getOwnPropertyNames(target));
+      _meld2['default'][a.when](target.prototype, a.methodPattern, a.advice);
+    }
+  });
+};
+
+module.exports = exports['default'];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Aspect = require('./core/Aspect');
+
+var _Aspect2 = _interopRequireWildcard(_Aspect);
+
+var _AspectCollection = require('./core/AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var before = function before(classPattern, methodPattern) {
+  'use strict';
+  return function (target, key, descriptor) {
+    var advice = descriptor.value;
+    var when = 'before';
+    _AspectCollection2['default'].register(new _Aspect2['default']({
+      classPattern: classPattern,
+      methodPattern: methodPattern,
+      advice: advice,
+      when: when
+    }));
+  };
+};
+
+exports['default'] = before;
+module.exports = exports['default'];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect(config) {
+  _classCallCheck(this, Aspect);
+
+  Object.assign(this, config);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AspectCollection = (function () {
+  function AspectCollection() {
+    _classCallCheck(this, AspectCollection);
+
+    this.aspects = [];
+  }
+
+  _createClass(AspectCollection, [{
+    key: "register",
+    value: function register(config) {
+      this.aspects.push(config);
+    }
+  }]);
+
+  return AspectCollection;
+})();
+
+exports["default"] = new AspectCollection();
+module.exports = exports["default"];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+/* global meld */
+
+var _AspectCollection = require('./AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var _meld = require('meld');
+
+var _meld2 = _interopRequireWildcard(_meld);
+
+exports['default'] = function (target) {
+  'use strict';
+  _AspectCollection2['default'].aspects.forEach(function (a) {
+    if (a.classPattern.test(target.name)) {
+      var matches = findMatches(Object.getOwnPropertyNames(target), a.methodPattern);
+      _meld2['default'][a.when](target.prototype, a.methodPattern, a.advice);
+    }
+  });
+};
+
+module.exports = exports['default'];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Aspect = require('./core/Aspect');
+
+var _Aspect2 = _interopRequireWildcard(_Aspect);
+
+var _AspectCollection = require('./core/AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var before = function before(classPattern, methodPattern) {
+  'use strict';
+  return function (target, key, descriptor) {
+    var advice = descriptor.value;
+    var when = 'before';
+    _AspectCollection2['default'].register(new _Aspect2['default']({
+      classPattern: classPattern,
+      methodPattern: methodPattern,
+      advice: advice,
+      when: when
+    }));
+  };
+};
+
+exports['default'] = before;
+module.exports = exports['default'];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect(config) {
+  _classCallCheck(this, Aspect);
+
+  Object.assign(this, config);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AspectCollection = (function () {
+  function AspectCollection() {
+    _classCallCheck(this, AspectCollection);
+
+    this.aspects = [];
+  }
+
+  _createClass(AspectCollection, [{
+    key: "register",
+    value: function register(config) {
+      this.aspects.push(config);
+    }
+  }]);
+
+  return AspectCollection;
+})();
+
+exports["default"] = new AspectCollection();
+module.exports = exports["default"];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+/* global meld */
+
+var _AspectCollection = require('./AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var _meld = require('meld');
+
+var _meld2 = _interopRequireWildcard(_meld);
+
+var findMatches = function findMatches(arr, pattern) {
+  'use strict';
+  return arr.filter(function (p) {
+    return pattern.test(p);
+  });
+};
+
+exports['default'] = function (target) {
+  'use strict';
+  _AspectCollection2['default'].aspects.forEach(function (a) {
+    if (a.classPattern.test(target.name)) {
+      var matches = findMatches(Object.getOwnPropertyNames(target), a.methodPattern);
+      _meld2['default'][a.when](target.prototype, a.methodPattern, a.advice);
+    }
+  });
+};
+
+module.exports = exports['default'];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Aspect = require('./core/Aspect');
+
+var _Aspect2 = _interopRequireWildcard(_Aspect);
+
+var _AspectCollection = require('./core/AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var before = function before(classPattern, methodPattern) {
+  'use strict';
+  return function (target, key, descriptor) {
+    var advice = descriptor.value;
+    var when = 'before';
+    _AspectCollection2['default'].register(new _Aspect2['default']({
+      classPattern: classPattern,
+      methodPattern: methodPattern,
+      advice: advice,
+      when: when
+    }));
+  };
+};
+
+exports['default'] = before;
+module.exports = exports['default'];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect(config) {
+  _classCallCheck(this, Aspect);
+
+  Object.assign(this, config);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AspectCollection = (function () {
+  function AspectCollection() {
+    _classCallCheck(this, AspectCollection);
+
+    this.aspects = [];
+  }
+
+  _createClass(AspectCollection, [{
+    key: "register",
+    value: function register(config) {
+      this.aspects.push(config);
+    }
+  }]);
+
+  return AspectCollection;
+})();
+
+exports["default"] = new AspectCollection();
+module.exports = exports["default"];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+/* global meld */
+
+var _AspectCollection = require('./AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var _meld = require('meld');
+
+var _meld2 = _interopRequireWildcard(_meld);
+
+var findMatches = function findMatches(arr, pattern) {
+  'use strict';
+  return arr.filter(function (p) {
+    return pattern.test(p);
+  });
+};
+
+exports['default'] = function (target) {
+  'use strict';
+  _AspectCollection2['default'].aspects.forEach(function (a) {
+    if (a.classPattern.test(target.name)) {
+      findMatches(Object.getOwnPropertyNames(target), a.methodPattern).forEach(function (p) {
+        _meld2['default'][a.when](target.prototype, p, a.advice);
+      });
+    }
+  });
+};
+
+module.exports = exports['default'];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Aspect = require('./core/Aspect');
+
+var _Aspect2 = _interopRequireWildcard(_Aspect);
+
+var _AspectCollection = require('./core/AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var before = function before(classPattern, methodPattern) {
+  'use strict';
+  return function (target, key, descriptor) {
+    var advice = descriptor.value;
+    var when = 'before';
+    _AspectCollection2['default'].register(new _Aspect2['default']({
+      classPattern: classPattern,
+      methodPattern: methodPattern,
+      advice: advice,
+      when: when
+    }));
+  };
+};
+
+exports['default'] = before;
+module.exports = exports['default'];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect(config) {
+  _classCallCheck(this, Aspect);
+
+  Object.assign(this, config);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AspectCollection = (function () {
+  function AspectCollection() {
+    _classCallCheck(this, AspectCollection);
+
+    this.aspects = [];
+  }
+
+  _createClass(AspectCollection, [{
+    key: "register",
+    value: function register(config) {
+      this.aspects.push(config);
+    }
+  }]);
+
+  return AspectCollection;
+})();
+
+exports["default"] = new AspectCollection();
+module.exports = exports["default"];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+/* global meld */
+
+var _AspectCollection = require('./AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var _meld = require('meld');
+
+var _meld2 = _interopRequireWildcard(_meld);
+
+var findMatches = function findMatches(arr, pattern) {
+  'use strict';
+  return arr.filter(function (p) {
+    return pattern.test(p);
+  });
+};
+
+exports['default'] = function (target) {
+  'use strict';
+  _AspectCollection2['default'].aspects.forEach(function (a) {
+    if (a.classPattern.test(target.name)) {
+      findMatches(Object.getOwnPropertyNames(target), a.methodPattern).forEach(function (p) {
+        console.log(p);
+        _meld2['default'][a.when](target.prototype, p, a.advice);
+      });
+    }
+  });
+};
+
+module.exports = exports['default'];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _Aspect = require('./core/Aspect');
+
+var _Aspect2 = _interopRequireWildcard(_Aspect);
+
+var _AspectCollection = require('./core/AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var before = function before(classPattern, methodPattern) {
+  'use strict';
+  return function (target, key, descriptor) {
+    var advice = descriptor.value;
+    var when = 'before';
+    _AspectCollection2['default'].register(new _Aspect2['default']({
+      classPattern: classPattern,
+      methodPattern: methodPattern,
+      advice: advice,
+      when: when
+    }));
+  };
+};
+
+exports['default'] = before;
+module.exports = exports['default'];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Aspect = function Aspect(config) {
+  _classCallCheck(this, Aspect);
+
+  Object.assign(this, config);
+};
+
+exports["default"] = Aspect;
+module.exports = exports["default"];
+"use strict";
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AspectCollection = (function () {
+  function AspectCollection() {
+    _classCallCheck(this, AspectCollection);
+
+    this.aspects = [];
+  }
+
+  _createClass(AspectCollection, [{
+    key: "register",
+    value: function register(config) {
+      this.aspects.push(config);
+    }
+  }]);
+
+  return AspectCollection;
+})();
+
+exports["default"] = new AspectCollection();
+module.exports = exports["default"];
+'use strict';
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+/* global meld */
+
+var _AspectCollection = require('./AspectCollection');
+
+var _AspectCollection2 = _interopRequireWildcard(_AspectCollection);
+
+var _meld = require('meld');
+
+var _meld2 = _interopRequireWildcard(_meld);
+
+var findMatches = function findMatches(arr, pattern) {
+  'use strict';
+  return arr.filter(function (p) {
+    return pattern.test(p);
+  });
+};
+
+exports['default'] = function (target) {
+  'use strict';
+  _AspectCollection2['default'].aspects.forEach(function (a) {
+    if (a.classPattern.test(target.name)) {
+      target = target.prototype;
+      findMatches(Object.getOwnPropertyNames(target), a.methodPattern).forEach(function (p) {
+        _meld2['default'][a.when](target, p, a.advice);
+      });
     }
   });
 };
