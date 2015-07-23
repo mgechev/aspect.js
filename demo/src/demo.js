@@ -1,7 +1,13 @@
 import {
-  before, after, Wove, Aspect
-} from '../dist/aop.js';
+  before, Wove, Aspect
+} from '../../dist/all.js';
 
+class Logger {
+  @before(/.*/, /^get/)
+  logBefore() {
+    console.log('Before advice');
+  }
+}
 
 @Wove
 class ArticleCollection {
@@ -16,14 +22,4 @@ class ArticleCollection {
   }
 }
 
-@Aspect
-class Logger {
-  @before(/.*/, /^get/)
-  logBefore() {
-    console.log('Before advice');
-  }
-  @after(/.*/, /^get/)
-  logBefore() {
-    console.log('Before advice');
-  }
-}
+
