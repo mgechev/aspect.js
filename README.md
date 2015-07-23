@@ -1,8 +1,10 @@
 # Introduction
 
-Framework for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 7 decorators syntax.
+Library for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 7 decorators syntax.
 
 For further reading on decorators, take a look at [the spec](https://github.com/wycats/javascript-decorators).
+
+The library is based on [meld](https://github.com/cujojs/meld).
 
 # Roadmap
 
