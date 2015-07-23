@@ -6,6 +6,14 @@ For further reading on decorators, take a look at [the spec](https://github.com/
 
 The library is based on [meld](https://github.com/cujojs/meld).
 
+# Demo
+
+```
+git clone https://github.com/mgechev/aop.js --depth 1
+npm install -g babel-node
+babel-node --optional es7.decorators demo/index.js
+```
+
 # Roadmap
 
 - [ ] Implement the following joint points:
