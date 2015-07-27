@@ -1,9 +1,9 @@
-import {Wove, advices} from '../lib/aop';
+import {Wove, around, before, after} from '../lib/aop';
 
 // the advice
 class Logger {
-  @advices.before(/.*/, /^get/)
-  logBefore() {
+  @before(/.*/, /^get/)
+  logBefore(data) {
     console.log('Before advice');
   }
 }
