@@ -1,9 +1,8 @@
-import before from '../lib/before';
-import Wove from '../lib/core/Wove';
+import {Wove, advices} from '../lib/aop';
 
 // the advice
 class Logger {
-  @before(/.*/, /^get/)
+  @advices.before(/.*/, /^get/)
   logBefore() {
     console.log('Before advice');
   }
