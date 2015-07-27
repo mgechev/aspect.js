@@ -3,8 +3,9 @@ import {Wove, around, before, after} from '../lib/aop';
 // the advice
 class Logger {
   @before(/.*/, /^get/)
+  @after(/.*/, /^get/)
   logBefore(data) {
-    console.log('Before advice');
+    console.log('Around');
   }
 }
 
@@ -17,6 +18,7 @@ class ArticleCollection {
     }];
   }
   getArticleById(id) {
+    console.log('Inside');
     return this.articles.filter(a => a.id === id).pop();
   }
 }
