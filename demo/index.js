@@ -1,10 +1,10 @@
 import {Wove} from '../lib/aop';
-import {afterThrowing, afterResolve} from '../lib/aop/advices';
+import {after, afterResolve} from '../lib/aop/advices';
 
 // the advice
 class Logger {
   @afterResolve(/.*/, /^async/)
-  @afterThrowing(/.*/, /^get/)
+  @after(/.*/, /^get/)
   logBefore(data) {
     console.log('Around', data);
   }
@@ -20,7 +20,6 @@ class ArticleCollection {
   }
   getArticleById(id) {
     console.log('Inside');
-    throw 'Error';
     return this.articles.filter(a => a.id === id).pop();
   }
   asyncMethod(arg) {
@@ -31,4 +30,5 @@ class ArticleCollection {
 }
 
 let collection = new ArticleCollection();
+console.log(collection.getArticleById(42));
 console.log(collection.asyncMethod(42));
