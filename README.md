@@ -17,19 +17,21 @@ babel-node --optional es7.decorators demo/index.js
 # Roadmap
 
 - [ ] Implement the following joint points:
-  - [ ] Method execution
+  - [x] Method execution
   - [ ] Constructor call
   - [ ] Constructor execution
   - [ ] Filed get
   - [ ] Field set
-  - [ ] Resolved
-  - [ ] Rejected
 - [ ] Static crosscutting
-- [ ] Implement the following aspects:
-  - [ ] Before
-  - [ ] After
-    - [ ] Throwing
-    - [ ] Returning
+- [ ] Implement the following advices:
+  - [x] Before
+    - [ ] Resolve
+    - [ ] Reject
+  - [x] After
+    - [x] Throwing
+    - [x] Returning
+    - [x] Resolve
+    - [ ] Reject
 
 # License
 
