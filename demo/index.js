@@ -4,9 +4,10 @@ import {after, afterResolve, afterReject} from '../lib/aop/advices';
 // the advice
 class Logger {
   @afterReject(/.*/, /^async/)
+  @afterResolve(/.*/, /^async/)
   @after(/.*/, /^get/)
   logBefore(data) {
-    console.log('Around', data);
+    return Promise.resolve(console.log('Around', data));
   }
 }
 
@@ -30,5 +31,5 @@ class ArticleCollection {
 }
 
 let collection = new ArticleCollection();
-console.log(collection.getArticleById(42));
-console.log(collection.asyncMethod(42));
+collection.getArticleById(42);
+collection.asyncMethod(42);
