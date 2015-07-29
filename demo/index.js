@@ -1,9 +1,9 @@
 import {Wove} from '../lib/aop';
-import {after, afterResolve} from '../lib/aop/advices';
+import {after, afterResolve, afterReject} from '../lib/aop/advices';
 
 // the advice
 class Logger {
-  @afterResolve(/.*/, /^async/)
+  @afterReject(/.*/, /^async/)
   @after(/.*/, /^get/)
   logBefore(data) {
     console.log('Around', data);
@@ -23,8 +23,8 @@ class ArticleCollection {
     return this.articles.filter(a => a.id === id).pop();
   }
   asyncMethod(arg) {
-    return new Promise(resolve => {
-      setTimeout(() => resolve(arg), 1000);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => reject(arg), 1000);
     });
   }
 }
