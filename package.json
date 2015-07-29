@@ -1,5 +1,5 @@
 {
-  "name": "aop.js",
+  "name": "aspect.js",
   "version": "0.0.0",
   "description": "Framework for aspect-oriented programming with JavaScript",
   "main": "index.js",

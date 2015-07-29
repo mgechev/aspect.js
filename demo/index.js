@@ -1,5 +1,5 @@
-import {Wove} from '../lib/aop';
-import {after, afterResolve, afterReject} from '../lib/aop/advices';
+import {Wove} from '../lib/aspect';
+import {after, afterResolve, afterReject} from '../lib/aspect/advices';
 
 // the advice
 class Logger {
