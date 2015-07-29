@@ -1,8 +1,12 @@
 import {Wove} from '../lib/aspect';
-import {after, afterResolve, afterReject} from '../lib/aspect/advices';
+import {before, after, afterResolve, afterReject} from '../lib/aspect/advices';
 
 // the advice
 class Logger {
+  @before(/.*/, /^get/)
+  logBefore(data, returnRes) {
+    console.log('After', data, returnRes);
+  }
   @after(/.*/, /^get/)
   logAfter(data, returnRes) {
     console.log('After', data, returnRes);
