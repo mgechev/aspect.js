@@ -31,7 +31,7 @@ babel-node --optional es7.decorators demo/index.js
     - [x] Throwing
     - [x] Returning
     - [x] Resolve
-    - [ ] Reject
+    - [x] Reject
 
 # License
 
