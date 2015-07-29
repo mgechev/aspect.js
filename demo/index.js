@@ -4,8 +4,8 @@ import {before, after, afterResolve, afterReject} from '../lib/aspect/advices';
 // the advice
 class Logger {
   @before(/.*/, /^get/)
-  logBefore(data, returnRes) {
-    console.log('After', data, returnRes);
+  logBefore(meta, ...args) {
+    console.log(`Invoked ${meta.name} with arguments: ${args.join(', ')}`);
   }
   @after(/.*/, /^get/)
   logAfter(data, returnRes) {
@@ -46,6 +46,6 @@ class ArticleCollection {
 }
 
 let collection = new ArticleCollection();
-collection.getArticleById(42);
+collection.getArticleById(42, 1.618);
 collection.asyncMethod1(42);
 collection.asyncMethod2(42);
