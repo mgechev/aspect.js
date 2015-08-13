@@ -18,6 +18,7 @@ babel-node --optional es7.decorators demo/index.js
 
 # Roadmap
 
+- [ ] Type annotations and DTS generation
 - [ ] Implement the following joint points:
   - [x] Method execution
   - [ ] Constructor call
