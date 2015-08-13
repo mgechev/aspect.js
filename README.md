@@ -6,6 +6,8 @@ For further reading on decorators, take a look at [the spec](https://github.com/
 
 The library is based on [meld](https://github.com/cujojs/meld).
 
+Blog post, introduction to the AOP and the library could be found [here](http://blog.mgechev.com/2015/07/29/aspect-oriented-programming-javascript-aop-js/).
+
 # Demo
 
 ```
