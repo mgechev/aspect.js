@@ -7,7 +7,8 @@ import concat from 'gulp-concat';
 var tsProject = ts.createProject({
   declarationFiles: true,
   noExternalResolve: true,
-  module: 'amd'
+  module: 'systemjs',
+  target: 'es6'
 });
 
 gulp.task('transform', () => {

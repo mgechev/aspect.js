@@ -1,10 +1,14 @@
 import {Aspect} from './Aspect';
 
 class AspectCollection {
-  private static INSTANCE:AspectCollection = new AspectCollection();
+  private static INSTANCE:AspectCollection = null;
   private aspects:Aspect[] = new Array<Aspect>();
   constructor() {
-    throw new Error('AspectCollection is a Singleton');
+    if (AspectCollection.INSTANCE === null) {
+      AspectCollection.INSTANCE = new AspectCollection();
+    } else {
+      throw new Error('AspectCollection is a Singleton');
+    }
   }
   static getInstance():AspectCollection {
     return AspectCollection.INSTANCE;
