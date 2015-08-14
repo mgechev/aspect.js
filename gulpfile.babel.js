@@ -1,32 +1,34 @@
 import gulp from 'gulp';
-import babel from 'gulp-babel';
+import ts from 'gulp-typescript';
+import merge from 'merge2';
 import watch from 'gulp-watch';
 import concat from 'gulp-concat';
 
+var tsProject = ts.createProject({
+  declarationFiles: true,
+  noExternalResolve: true
+});
+
 gulp.task('transform', () => {
   'use strict';
-  return gulp
-    .src(['./lib/**/*.js'])
-    .pipe(babel({
-      optional: [
-        'es7.decorators'
-      ],
-      stage: 2
-    }))
-    .pipe(gulp.dest('./dist/'));
+  let tsResult = gulp
+      .src(['./lib/**/*.ts'])
+      .pipe(ts(tsProject));
+  return merge([
+    tsResult.dts.pipe(gulp.dest('./dist/definitions')),
+    tsResult.js.pipe(gulp.dest('./dist/js'))
+  ]);
 });
 
 gulp.task('transform:lib', () => {
   'use strict';
-  return gulp
-    .src(['./lib/**/*.js'])
-    .pipe(babel({
-      optional: [
-        'es7.decorators'
-      ],
-      stage: 2
-    }))
-    .pipe(gulp.dest('./dist/'));
+  let tsResult = gulp
+    .src(['./lib/**/*.ts'])
+    .pipe(ts(tsProject));
+  return merge([
+    tsResult.dts.pipe(gulp.dest('./dist/definitions')),
+    tsResult.js.pipe(gulp.dest('./dist/js'))
+  ]);
 });
 
 gulp.task('build:dev', ['transform:lib'], () => {
@@ -38,21 +40,19 @@ gulp.task('build:dev', ['transform:lib'], () => {
 
 gulp.task('watch:lib', () => {
   'use strict';
-  watch('./lib/**/*.js', () => {
+  watch('./lib/**/*.ts', () => {
     gulp.start('build:dev');
   });
 });
 
 gulp.task('transform:demo', () => {
   'use strict';
-  return gulp
+  let tsResult = gulp
     .src(['./demo/src/**/*.js'])
-    .pipe(babel({
-      optional: [
-        'es7.decorators'
-      ],
-      stage: 2
-    }))
-    .pipe(gulp.dest('./demo/dist/'));
+    .pipe(ts(tsProject));
+  return merge([
+    tsResult.dts.pipe(gulp.dest('./dist/definitions')),
+    tsResult.js.pipe(gulp.dest('./dist/js'))
+  ]);
 });
 

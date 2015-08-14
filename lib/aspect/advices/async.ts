@@ -1,7 +1,14 @@
-import { aspectFactory } from '../../core/Aspect';
+/// <reference path="../typings/tsd.d.ts" />
 
-let advices = {};
-advices.afterResolve = aspectFactory('afterResolve', function (o, p, className) {
+import { aspectFactory, Aspect } from '../../core/Aspect';
+
+class AsyncAdvices {
+  static INSTANCE = new AsyncAdvices();
+  afterReject:{(classPattern:RegExp, methodPattern:RegExp):void};
+  afterResolve:{(classPattern:RegExp, methodPattern:RegExp):void};
+}
+
+AsyncAdvices.INSTANCE.afterResolve = aspectFactory('afterResolve', function (o, p, className) {
   let bak = o[p];
   let advice = this;
   o[p] = function () {
@@ -16,7 +23,7 @@ advices.afterResolve = aspectFactory('afterResolve', function (o, p, className) 
   };
 });
 
-advices.afterReject = aspectFactory('afterReject', function (o, p, className) {
+AsyncAdvices.INSTANCE.afterReject = aspectFactory('afterReject', function (o, p, className) {
   let bak = o[p];
   let advice = this;
   o[p] = function () {
@@ -32,4 +39,4 @@ advices.afterReject = aspectFactory('afterReject', function (o, p, className) {
 });
 
 
-export default advices;
+export default AsyncAdvices;
