@@ -6,7 +6,8 @@ import concat from 'gulp-concat';
 
 var tsProject = ts.createProject({
   declarationFiles: true,
-  noExternalResolve: true
+  noExternalResolve: true,
+  module: 'amd'
 });
 
 gulp.task('transform', () => {
