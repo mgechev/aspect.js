@@ -28,8 +28,8 @@ babel-node --optional es7.decorators demo/index.js
 - [ ] Static crosscutting
 - [ ] Implement the following advices:
   - [x] Before
-    - [ ] Resolve
-    - [ ] Reject
+    - [x] Resolve
+    - [x] Reject
   - [x] After
     - [x] Throwing
     - [x] Returning
