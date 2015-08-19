@@ -26,7 +26,7 @@ babel-node --optional es7.decorators demo/index.js
   - [ ] Filed get
   - [ ] Field set
 - [ ] Static crosscutting
-- [ ] Implement the following advices:
+- [x] Implement the following advices:
   - [x] Before
     - [x] Resolve
     - [x] Reject
