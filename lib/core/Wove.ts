@@ -15,6 +15,7 @@ let Wove = (target:{name:string, prototype:Object}) => {
       let proto = target.prototype;
       findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
         .forEach(p => {
+          console.log(p);
           a.apply.call(a.advice, proto, p, target.name);
         });
     }

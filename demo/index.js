@@ -46,6 +46,12 @@ class ArticleCollection {
 }
 
 let collection = new ArticleCollection();
-collection.getArticleById(42, 1.618);
-collection.asyncMethod1(42);
-collection.asyncMethod2(42);
+//collection.asyncMethod1(42)
+//  .catch(() => {
+//    console.log('Handling');
+//  });
+
+collection.asyncMethod2(42)
+  .then(() => {
+    console.log('Handling');
+  });
