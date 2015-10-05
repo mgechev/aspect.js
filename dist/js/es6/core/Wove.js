@@ -11,7 +11,6 @@ var Wove = function (target) {
             var proto = target.prototype;
             findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
                 .forEach(function (p) {
-                console.log(p);
                 a.apply.call(a.advice, proto, p, target.name);
             });
         }

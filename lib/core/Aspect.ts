@@ -20,6 +20,7 @@ function aspectFactory(when:string, apply:{(proto:any, p:any, name:string):void}
   return (classPattern, methodPattern) => {
     return (target, key, descriptor) => {
       let advice = new Advice(
+        target,
         descriptor.value,
         when
       );

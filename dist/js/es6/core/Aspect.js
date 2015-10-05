@@ -20,7 +20,7 @@ exports.Pointcut = Pointcut;
 function aspectFactory(when, apply) {
     return function (classPattern, methodPattern) {
         return function (target, key, descriptor) {
-            var advice = new Advice_1["default"](descriptor.value, when);
+            var advice = new Advice_1["default"](target, descriptor.value, when);
             var pointcut = new Pointcut(classPattern, methodPattern);
             AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
         };

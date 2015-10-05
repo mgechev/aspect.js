@@ -1,5 +1,6 @@
 var Advice = (function () {
-    function Advice(exec, when) {
+    function Advice(context, exec, when) {
+        this.context = context;
         this.exec = exec;
         this.when = when;
     }

@@ -26957,3 +26957,2233 @@ var afterReturning = registerAspect('afterReturning');
 exports.afterReturning = afterReturning;
 var afterThrowing = registerAspect('afterThrowing');
 exports.afterThrowing = afterThrowing;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(exec, when) {
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(exec, when) {
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var invocation = { proceed: true };
+    o[p] = function () {
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation
+        };
+        this.exec.bind(this, params).apply(arguments);
+        if (invocation.proceed) {
+            bak.apply(this, arguments);
+        }
+    }.bind(o);
+});
+exports.before = before;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var after = registerAspect('after');
+exports.after = after;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var invocation = { proceed: true };
+    o[p] = function () {
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation
+        };
+        this.exec.bind(this, params).apply(arguments);
+        if (invocation.proceed) {
+            bak.apply(this, arguments);
+        }
+    }.bind(o);
+});
+exports.before = before;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var after = registerAspect('after');
+exports.after = after;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var invocation = { proceed: true, result: undefined };
+    var self = this;
+    o[p] = function () {
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this
+        };
+        self.exec.bind(this, params).apply(null, arguments);
+        if (invocation.proceed) {
+            return bak.apply(this, arguments);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var result = bak.apply(this, arguments);
+        var params = {
+            name: p,
+            className: className,
+            result: result,
+            context: this
+        };
+        return self.exec.bind(this, params).apply(null, arguments);
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var invocation = { proceed: true, result: undefined };
+    var self = this;
+    o[p] = function () {
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this
+        };
+        self.exec.bind(this, params).apply(null, arguments);
+        if (invocation.proceed) {
+            return bak.apply(this, arguments);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var result = bak.apply(this, arguments);
+        var params = {
+            name: p,
+            className: className,
+            result: result,
+            context: this
+        };
+        return self.exec.bind(this, params).apply(null, arguments);
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var invocation = { proceed: true, result: undefined };
+    var self = this;
+    o[p] = function () {
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this
+        };
+        self.exec.bind(self.context, params).apply(null, arguments);
+        if (invocation.proceed) {
+            return bak.apply(this, arguments);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var result = bak.apply(this, arguments);
+        var params = {
+            name: p,
+            className: className,
+            result: result,
+            context: this
+        };
+        return self.exec.bind(self.context, params).apply(null, arguments);
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var invocation = { proceed: true, result: undefined };
+    var self = this;
+    o[p] = function () {
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this
+        };
+        self.exec.bind(self.context, params).apply(null, arguments);
+        if (invocation.proceed) {
+            return bak.apply(this, arguments);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var result = bak.apply(this, arguments);
+        var params = {
+            name: p,
+            className: className,
+            result: result,
+            context: this
+        };
+        return self.exec.bind(self.context, params).apply(null, arguments);
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+function extend(target) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    args.forEach(function (obj) {
+        for (var prop in obj) {
+            target[prop] = obj[prop];
+        }
+    });
+    return target;
+}
+exports.extend = extend;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                console.log(p);
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+function extend(target) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    args.forEach(function (obj) {
+        for (var prop in obj) {
+            target[prop] = obj[prop];
+        }
+    });
+    return target;
+}
+exports.extend = extend;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var util_1 = require('../../util/util');
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var invocation = { proceed: true, result: undefined };
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this,
+            __aop_metadata__: true
+        };
+        var args = arguments;
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        self.exec.bind(self.context, params).apply(null, args);
+        if (invocation.proceed && !bak.__advice__) {
+            return bak.apply(this, args);
+        }
+        else if (bak.__advice__) {
+            return bak.bind(this, params).apply(null, args);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var args = arguments;
+        var params = {
+            name: p,
+            className: className,
+            context: this,
+            result: undefined,
+            __aop_metadata__: true
+        };
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        var result = bak.apply(this, arguments);
+        params.result = result;
+        return self.exec.bind(this, params).apply(null, args) || result;
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var util_1 = require('../../util/util');
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var invocation = { proceed: true, result: undefined };
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this,
+            __aop_metadata__: true
+        };
+        var args = arguments;
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        self.exec.bind(self.context, params).apply(null, args);
+        if (invocation.proceed && !bak.__advice__) {
+            return bak.apply(this, args);
+        }
+        else if (bak.__advice__) {
+            return bak.bind(this, params).apply(null, args);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var args = arguments;
+        var params = {
+            name: p,
+            className: className,
+            context: this,
+            result: undefined,
+            __aop_metadata__: true
+        };
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        var result = bak.apply(this, arguments);
+        params.result = result;
+        return self.exec.bind(this, params).apply(null, args) || result;
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./core/Wove'));
+__export(require('./aspect/advices'));
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+function extend(target) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    args.forEach(function (obj) {
+        for (var prop in obj) {
+            target[prop] = obj[prop];
+        }
+    });
+    return target;
+}
+exports.extend = extend;
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./advices/async'));
+__export(require('./advices/primitive'));
+
+var Advice = (function () {
+    function Advice(context, exec, when) {
+        this.context = context;
+        this.exec = exec;
+        this.when = when;
+    }
+    return Advice;
+})();
+exports["default"] = Advice;
+
+var Advice_1 = require('./Advice');
+var AspectCollection_1 = require('./AspectCollection');
+var Aspect = (function () {
+    function Aspect(advice, apply, pointcut) {
+        this.advice = advice;
+        this.apply = apply;
+        this.pointcut = pointcut;
+    }
+    return Aspect;
+})();
+exports.Aspect = Aspect;
+var Pointcut = (function () {
+    function Pointcut(classPattern, methodPattern) {
+        this.classPattern = classPattern;
+        this.methodPattern = methodPattern;
+    }
+    return Pointcut;
+})();
+exports.Pointcut = Pointcut;
+function aspectFactory(when, apply) {
+    return function (classPattern, methodPattern) {
+        return function (target, key, descriptor) {
+            var advice = new Advice_1["default"](target, descriptor.value, when);
+            var pointcut = new Pointcut(classPattern, methodPattern);
+            AspectCollection_1["default"].getInstance().register(new Aspect(advice, apply, pointcut));
+        };
+    };
+}
+exports.aspectFactory = aspectFactory;
+
+var AspectCollection = (function () {
+    function AspectCollection() {
+        this.aspects = new Array();
+        if (AspectCollection.INSTANCE) {
+            throw new Error('AspectCollection is a Singleton');
+        }
+        else {
+            AspectCollection.INSTANCE = this;
+        }
+    }
+    AspectCollection.getInstance = function () {
+        return AspectCollection.INSTANCE;
+    };
+    AspectCollection.prototype.register = function (config) {
+        this.aspects.push(config);
+    };
+    AspectCollection.prototype.getAspects = function () {
+        return this.aspects;
+    };
+    AspectCollection.INSTANCE = new AspectCollection();
+    return AspectCollection;
+})();
+exports["default"] = AspectCollection;
+
+/* global meld */
+var AspectCollection_1 = require('./AspectCollection');
+var findMatches = function (arr, pattern) {
+    'use strict';
+    return arr.filter(function (p) { return pattern.test(p); });
+};
+var Wove = function (target) {
+    'use strict';
+    AspectCollection_1["default"].getInstance().getAspects().forEach(function (a) {
+        if (a.pointcut.classPattern.test(target.name)) {
+            var proto = target.prototype;
+            findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
+                .forEach(function (p) {
+                a.apply.call(a.advice, proto, p, target.name);
+            });
+        }
+    });
+    return target;
+};
+exports.Wove = Wove;
+
+function extend(target) {
+    var args = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        args[_i - 1] = arguments[_i];
+    }
+    args.forEach(function (obj) {
+        for (var prop in obj) {
+            target[prop] = obj[prop];
+        }
+    });
+    return target;
+}
+exports.extend = extend;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var util_1 = require('../../util/util');
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var invocation = { proceed: true, result: undefined };
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this,
+            __aop_metadata__: true
+        };
+        var args = arguments;
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        self.exec.bind(self.context, params).apply(null, args);
+        if (invocation.proceed && !bak.__advice__) {
+            return bak.apply(this, args);
+        }
+        else if (bak.__advice__) {
+            return bak.bind(this, params).apply(null, args);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var args = arguments;
+        var params = {
+            name: p,
+            className: className,
+            context: this,
+            result: undefined,
+            __aop_metadata__: true
+        };
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        var result = bak.apply(this, arguments);
+        params.result = result;
+        return self.exec.bind(this, params).apply(null, args) || result;
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var Aspect_1 = require('../../core/Aspect');
+var beforeResolve = Aspect_1.aspectFactory('beforeResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.then(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeResolve = beforeResolve;
+var beforeReject = Aspect_1.aspectFactory('beforeReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var promise = bak.apply(this, arguments);
+        return promise.catch(advice.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    };
+});
+exports.beforeReject = beforeReject;
+var afterResolve = Aspect_1.aspectFactory('afterResolve', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve) {
+            promise.then(resolve)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterResolve = afterResolve;
+var afterReject = Aspect_1.aspectFactory('afterReject', function (o, p, className) {
+    var bak = o[p];
+    var advice = this;
+    o[p] = function () {
+        var _this = this;
+        var promise = bak.apply(this, arguments);
+        return new Promise(function (resolve, reject) {
+            promise.catch(reject)
+                .then(advice.exec.bind(_this, {
+                name: p,
+                className: className
+            }));
+        });
+    };
+});
+exports.afterReject = afterReject;
+
+/// <reference path="../../typing/tsd.d.ts"/>
+var util_1 = require('../../util/util');
+var Aspect_1 = require('../../core/Aspect');
+var meld = require('meld');
+function registerAspect(a) {
+    return Aspect_1.aspectFactory(a, function (o, p, className) {
+        meld[a].call(meld, o, p, this.exec.bind(this, {
+            name: p,
+            className: className
+        }));
+    });
+}
+var before = Aspect_1.aspectFactory('before', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var invocation = { proceed: true, result: undefined };
+        var params = {
+            name: p,
+            className: className,
+            invocation: invocation,
+            context: this,
+            __aop_metadata__: true
+        };
+        var args = arguments;
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        self.exec.bind(self.context, params).apply(null, args);
+        if (invocation.proceed && !bak.__advice__) {
+            return bak.apply(this, args);
+        }
+        else if (bak.__advice__) {
+            return bak.bind(this, params).apply(null, args);
+        }
+        else {
+            return invocation.result;
+        }
+    };
+    return o;
+});
+exports.before = before;
+var after = Aspect_1.aspectFactory('after', function (o, p, className) {
+    var bak = o[p];
+    var self = this;
+    o[p] = function () {
+        var args = arguments;
+        var params = {
+            name: p,
+            className: className,
+            context: this,
+            result: undefined,
+            __aop_metadata__: true
+        };
+        if (args[0].__aop_metadata__) {
+            util_1.extend(params, args[0]);
+            args = [].slice.call(args, 1, args.length);
+        }
+        var result = bak.apply(this, arguments);
+        params.result = result;
+        return self.exec.bind(this, params).apply(null, args) || result;
+    };
+    return o;
+});
+exports.after = after;
+var around = registerAspect('around');
+exports.around = around;
+var on = registerAspect('on');
+exports.on = on;
+var afterReturning = registerAspect('afterReturning');
+exports.afterReturning = afterReturning;
+var afterThrowing = registerAspect('afterThrowing');
+exports.afterThrowing = afterThrowing;

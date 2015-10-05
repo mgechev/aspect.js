@@ -1,6 +1,6 @@
 {
   "name": "aspect.js",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Framework for aspect-oriented programming with JavaScript",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/mgechev/aop.js",
   "devDependencies": {
     "babel-core": "^5.8.3",
+    "dts-bundle": "^0.3.0",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.6.0",
     "gulp-typescript": "^2.8.0",
