@@ -12,7 +12,22 @@ function registerAspect(a) {
   });
 }
 
-let before = registerAspect('before');
+let before = aspectFactory('before', function (o, p, className) {
+  let bak = o[p];
+  let invocation = { proceed: true };
+  o[p] = function () {
+    let params = {
+      name: p,
+      className: className,
+      invocation: invocation
+    };
+    this.exec.bind(this, params).apply(arguments);
+    if (invocation.proceed) {
+      bak.apply(this, arguments);
+    }
+  }.bind(o);
+});
+
 let around = registerAspect('around');
 let on = registerAspect('on');
 let after = registerAspect('after');
