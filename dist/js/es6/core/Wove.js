@@ -12,6 +12,7 @@ var Wove = function (target) {
             findMatches(Object.getOwnPropertyNames(proto), a.pointcut.methodPattern)
                 .forEach(function (p) {
                 a.apply.call(a.advice, proto, p, target.name);
+                proto[p].__advice__ = true;
             });
         }
     });
