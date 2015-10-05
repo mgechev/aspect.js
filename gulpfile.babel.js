@@ -4,14 +4,16 @@ import merge from 'merge2';
 import watch from 'gulp-watch';
 import concat from 'gulp-concat';
 import typescript from 'typescript';
+import dtsBundle from 'dts-bundle';
 
-function tsProjectFactory(version, module) {
+function tsProjectFactory(target, module) {
   var tsProject = ts.createProject({
     typescript: typescript,
     declarationFiles: true,
+    declaration: true,
     noExternalResolve: true,
-    module: module || 'systemjs',
-    target: version
+    module: module || 'system',
+    target: target
   });
 }
 
@@ -19,13 +21,10 @@ function registerTransformLibTask(version) {
   let name = `transform:lib:${version}`;
   gulp.task(name, () => {
     'use strict';
-    let tsResult = gulp
+    let tsresult = gulp
       .src(['./lib/**/*.ts'])
       .pipe(ts(tsProjectFactory(version)));
-    return merge([
-      tsResult.dts.pipe(gulp.dest('./dist/definitions')),
-      tsResult.js.pipe(gulp.dest(`./dist/js/${version}`))
-    ]);
+    return tsresult.js.pipe(gulp.dest(`./dist/js/${version}`))
   });
   return name;
 }
@@ -34,6 +33,23 @@ let transforms = [
   registerTransformLibTask('es5', 'umd'),
   registerTransformLibTask('es6')
 ];
+
+gulp.task('generate:dts', () => {
+  'use strict';
+  gulp.src('./lib/**/*.ts')
+    .pipe(gulp.dest('temp'));
+  let tsresult = gulp.src('./temp/**/*.ts')
+    .pipe(ts(tsProjectFactory('es5', 'commonjs')));
+
+  return tsresult.dts.pipe(gulp.dest('./temp'))
+});
+
+gulp.task('bundle:dts', () => {
+  dtsBundle.bundle({
+    name: 'aspect.js',
+    main: './temp/aspect.d.ts'
+  });
+});
 
 gulp.task('build:dev', transforms, () => {
   'use strict';
