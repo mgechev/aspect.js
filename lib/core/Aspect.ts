@@ -16,7 +16,7 @@ class Pointcut {
   ) {}
 }
 
-let aspectFactory = (when:string, apply:{(proto:any, p:any, name:string):void}) => {
+function aspectFactory(when:string, apply:{(proto:any, p:any, name:string):void}):any {
   return (classPattern, methodPattern) => {
     return (target, key, descriptor) => {
       let advice = new Advice(
@@ -34,6 +34,7 @@ let aspectFactory = (when:string, apply:{(proto:any, p:any, name:string):void}) 
       ));
     };
   };
-};
+}
 
 export { aspectFactory, Pointcut, Aspect };
+

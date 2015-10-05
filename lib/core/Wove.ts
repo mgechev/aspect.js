@@ -24,3 +24,4 @@ let Wove = (target:{name:string, prototype:Object}) => {
 };
 
 export { Wove };
+

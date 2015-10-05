@@ -3,37 +3,39 @@ import ts from 'gulp-typescript';
 import merge from 'merge2';
 import watch from 'gulp-watch';
 import concat from 'gulp-concat';
+import typescript from 'typescript';
 
-var tsProject = ts.createProject({
-  declarationFiles: true,
-  noExternalResolve: true,
-  module: 'systemjs',
-  target: 'es6'
-});
+function tsProjectFactory(version, module) {
+  var tsProject = ts.createProject({
+    typescript: typescript,
+    declarationFiles: true,
+    noExternalResolve: true,
+    module: module || 'systemjs',
+    target: version
+  });
+}
 
-gulp.task('transform', () => {
-  'use strict';
-  let tsResult = gulp
+function registerTransformLibTask(version) {
+  let name = `transform:lib:${version}`;
+  gulp.task(name, () => {
+    'use strict';
+    let tsResult = gulp
       .src(['./lib/**/*.ts'])
-      .pipe(ts(tsProject));
-  return merge([
-    tsResult.dts.pipe(gulp.dest('./dist/definitions')),
-    tsResult.js.pipe(gulp.dest('./dist/js'))
-  ]);
-});
+      .pipe(ts(tsProjectFactory(version)));
+    return merge([
+      tsResult.dts.pipe(gulp.dest('./dist/definitions')),
+      tsResult.js.pipe(gulp.dest(`./dist/js/${version}`))
+    ]);
+  });
+  return name;
+}
 
-gulp.task('transform:lib', () => {
-  'use strict';
-  let tsResult = gulp
-    .src(['./lib/**/*.ts'])
-    .pipe(ts(tsProject));
-  return merge([
-    tsResult.dts.pipe(gulp.dest('./dist/definitions')),
-    tsResult.js.pipe(gulp.dest('./dist/js'))
-  ]);
-});
+let transforms = [
+  registerTransformLibTask('es5', 'umd'),
+  registerTransformLibTask('es6')
+];
 
-gulp.task('build:dev', ['transform:lib'], () => {
+gulp.task('build:dev', transforms, () => {
   'use strict';
   return gulp.src(['./dist/**/*.js'])
     .pipe(concat('all.js'))
@@ -51,10 +53,12 @@ gulp.task('transform:demo', () => {
   'use strict';
   let tsResult = gulp
     .src(['./demo/src/**/*.js'])
-    .pipe(ts(tsProject));
+    .pipe(ts(tsProjectFactory('es6')));
   return merge([
     tsResult.dts.pipe(gulp.dest('./dist/definitions')),
     tsResult.js.pipe(gulp.dest('./dist/js'))
   ]);
 });
+
+gulp.task('build', ['build:dev']);
 

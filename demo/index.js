@@ -1,5 +1,4 @@
-import {Wove} from '../dist/js/aspect';
-import {before, after, afterResolve, afterReject} from '../dist/js/aspect/advices';
+import {Wove, before, after, afterResolve, afterReject} from '../dist/js/es6/aspect';
 
 // the advice
 class Logger {

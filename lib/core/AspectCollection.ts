@@ -22,3 +22,4 @@ class AspectCollection {
 }
 
 export default AspectCollection;
+

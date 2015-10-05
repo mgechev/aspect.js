@@ -4,7 +4,8 @@
   "description": "Framework for aspect-oriented programming with JavaScript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "./node_modules/.bin/gulp build"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,8 @@
     "gulp-concat": "^2.6.0",
     "gulp-typescript": "^2.8.0",
     "gulp-watch": "^4.3.3",
-    "merge2": "^0.3.6"
+    "merge2": "^0.3.6",
+    "typescript": "^1.6.2"
   },
   "dependencies": {
     "meld": "^1.3.2"
