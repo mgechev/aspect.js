@@ -1,8 +1,11 @@
 {
     "compilerOptions": {
-        "module": "commonjs"
+        "target": "ES6", //The key, of course.
+        "module": "commonjs",
+        "sourceMap": true
     },
-    "files": [
-      "./lib/aspects.ts"
+    "exclude": [
+        "node_modules",
+        ".vscode"
     ]
 }

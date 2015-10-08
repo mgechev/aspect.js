@@ -1,4 +1,4 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "typescript.tsdk": "/Users/mgechev/.node/bin/"
+  "typescript.tsdk": "/Users/mgechev/.node/lib/node_modules/typescript/lib"
 }

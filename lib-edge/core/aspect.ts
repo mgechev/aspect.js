@@ -12,7 +12,7 @@ export class Metadata {
   private __advice_metadata__ = true;
 }
 
-let AspectRegistry = new Map<string, Aspect>();
+let AspectRegistry: { [name: string]: Aspect; } = {};
 
 export class Aspect {
   public pointcuts: Pointcut[];
@@ -61,11 +61,9 @@ interface MethodTarget extends Target {
   proto: Object;
 }
 
-export class Advice {
+export abstract class Advice {
   constructor(public context: Object, public advice: Function) {}
-  wove() {
-    throw new Error('Not implemented');
-  }
+  abstract wove(target: Target);
 }
 
 export class BeforeAdvice extends Advice {
@@ -95,8 +93,8 @@ export class MethodCallJointPoint extends JointPoint {
   wove({proto: Object, prop: string}, advice: Advice): void {
 
   }
-  match(descriptor: any) {
-    return true;
+  match(target: MethodTarget): boolean {
+    return this.precondition.assert(target);
   }
 }
 
@@ -113,7 +111,7 @@ function makeMethodDecorator(constr) {
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, target[name]);
       pointcut.jointPoints = jointpoints;
-      let aspect = AspectRegistry.get(target.constructor.name) || new Aspect();
+      let aspect = AspectRegistry[target.constructor.name] || new Aspect();
       aspect.pointcuts.push(pointcut);
     }
   }
