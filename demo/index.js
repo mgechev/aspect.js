@@ -3,21 +3,22 @@ import {Wove, before, after, afterResolve, afterReject} from '../dist/js/es6/asp
 // the advice
 class Logger {
   @before(/.*/, /^get/)
-  logBefore(meta, ...args) {
-    console.log(`Invoked ${meta.name} with arguments: ${args.join(', ')}`);
-  }
   @after(/.*/, /^get/)
-  logAfter(data, returnRes) {
-    console.log('After', data, returnRes);
+  logBefore(meta, ...args) {
+    console.log(`Invoked ${meta.method.name} with arguments: ${args.join(', ')}`);
   }
-  @afterReject(/.*/, /^asyncMethod1/)
-  logAfterReject(data, returnRes) {
-    console.log('After reject', data, returnRes);
-  }
-  @afterResolve(/.*/, /^asyncMethod2/)
-  logAfterResolve(data, returnRes) {
-    console.log('After resolve', data, returnRes);
-  }
+  // @after(/.*/, /^get/)
+  // logAfter(data, returnRes) {
+  //   console.log('After', data, returnRes);
+  // }
+  // @afterReject(/.*/, /^asyncMethod1/)
+  // logAfterReject(data, returnRes) {
+  //   console.log('After reject', data, returnRes);
+  // }
+  // @afterResolve(/.*/, /^asyncMethod2/)
+  // logAfterResolve(data, returnRes) {
+  //   console.log('After resolve', data, returnRes);
+  // }
 }
 
 @Wove
@@ -50,7 +51,9 @@ let collection = new ArticleCollection();
 //    console.log('Handling');
 //  });
 
-collection.asyncMethod2(42)
-  .then(() => {
-    console.log('Handling');
-  });
+collection.getArticleById(1);
+
+// collection.asyncMethod2(42)
+//   .then(() => {
+//     console.log('Handling');
+//   });

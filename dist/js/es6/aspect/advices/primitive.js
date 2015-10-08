@@ -1,5 +1,4 @@
 /// <reference path="../../typing/tsd.d.ts"/>
-var util_1 = require('../../util/util');
 var Aspect_1 = require('../../core/Aspect');
 var meld = require('meld');
 function registerAspect(a) {
@@ -10,58 +9,34 @@ function registerAspect(a) {
         }));
     });
 }
-var before = Aspect_1.aspectFactory('before', function (o, p, className) {
-    var bak = o[p];
-    var self = this;
-    o[p] = function () {
-        var invocation = { proceed: true, result: undefined };
-        var params = {
-            name: p,
-            className: className,
-            invocation: invocation,
-            context: this,
-            __aop_metadata__: true
-        };
-        var args = arguments;
-        if (args[0].__aop_metadata__) {
-            util_1.extend(params, args[0]);
-            args = [].slice.call(args, 1, args.length);
+var before = Aspect_1.aspectFactory('before', function () {
+    return function (bak, self, metadata) {
+        self.exec.bind(self.context, metadata).apply(null, metadata.method.args);
+        if (bak.__advice__) {
+            return bak.bind(self.context, metadata).apply(null, metadata.method.args);
         }
-        self.exec.bind(self.context, params).apply(null, args);
-        if (invocation.proceed && !bak.__advice__) {
-            return bak.apply(this, args);
-        }
-        else if (bak.__advice__) {
-            return bak.bind(this, params).apply(null, args);
-        }
-        else {
-            return invocation.result;
+        else if (!bak.__advice__) {
+            if (metadata.method.proceed) {
+                return bak.apply(metadata.method.context, metadata.method.args);
+            }
+            else {
+                return metadata.method.result;
+            }
         }
     };
-    return o;
 });
 exports.before = before;
-var after = Aspect_1.aspectFactory('after', function (o, p, className) {
-    var bak = o[p];
-    var self = this;
-    o[p] = function () {
-        var args = arguments;
-        var params = {
-            name: p,
-            className: className,
-            context: this,
-            result: undefined,
-            __aop_metadata__: true
-        };
-        if (args[0].__aop_metadata__) {
-            util_1.extend(params, args[0]);
-            args = [].slice.call(args, 1, args.length);
+var after = Aspect_1.aspectFactory('after', function () {
+    return function (bak, self, metadata) {
+        var result = undefined;
+        if (bak.__advice__) {
+            result = bak.bind(self.context, metadata).apply(null, metadata.method.args);
         }
-        var result = bak.apply(this, arguments);
-        params.result = result;
-        return self.exec.bind(this, params).apply(null, args) || result;
+        else {
+            result = bak.apply(metadata.method.context, metadata.method.args);
+        }
+        return self.exec.bind(self.context, metadata).apply(null, metadata.method.args) || result;
     };
-    return o;
 });
 exports.after = after;
 var around = registerAspect('around');

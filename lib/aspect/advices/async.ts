@@ -62,4 +62,3 @@ export {
   afterResolve,
   afterReject
 };
-
