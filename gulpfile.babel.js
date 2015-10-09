@@ -5,37 +5,36 @@ import watch from 'gulp-watch';
 import concat from 'gulp-concat';
 import typescript from 'typescript';
 import dtsBundle from 'dts-bundle';
+import mocha from 'gulp-mocha';
+import runSequence from 'run-sequence';
 
 function tsProjectFactory(target, module) {
   var tsProject = ts.createProject({
     typescript: typescript,
-    declarationFiles: true,
-    declaration: true,
-    noExternalResolve: true,
-    module: module || 'system',
-    target: target
+    module: module || 'commonjs',
+    target: 'es5'
   });
+  return tsProject;
 }
 
-function registerTransformLibTask(version, type, module) {
-  let name = `transform:${type}:${version}`;
+function registerTransformLibTask(type, module) {
+  let name = `transform:${type}`;
   gulp.task(name, () => {
     'use strict';
     let tsresult = gulp
       .src([`./${type}/**/*.ts`])
-      .pipe(ts(tsProjectFactory(version, module)));
-    return tsresult.js.pipe(gulp.dest(`./dist/${type}/${version}`))
+      .pipe(ts(tsProjectFactory(module)));
+    return tsresult.js.pipe(gulp.dest(`./dist/${type}/`))
   });
   return name;
 }
 
 let transforms = [
-  registerTransformLibTask('es5', 'lib', 'umd'),
-  registerTransformLibTask('es6', 'lib')
+  registerTransformLibTask('lib', 'umd')
 ];
 
 let testTransform = [
-  registerTransformLibTask('es5', 'test')
+  registerTransformLibTask('test')
 ];
 
 gulp.task('generate:dts', () => {
@@ -43,7 +42,7 @@ gulp.task('generate:dts', () => {
   gulp.src('./lib/**/*.ts')
     .pipe(gulp.dest('temp'));
   let tsresult = gulp.src('./temp/**/*.ts')
-    .pipe(ts(tsProjectFactory('es5', 'commonjs')));
+    .pipe(ts(tsProjectFactory('commonjs')));
 
   return tsresult.dts.pipe(gulp.dest('./temp'))
 });
@@ -77,12 +76,22 @@ gulp.task('transform:demo', () => {
   'use strict';
   let tsResult = gulp
     .src(['./demo/src/**/*.js'])
-    .pipe(ts(tsProjectFactory('es6')));
+    .pipe(ts(tsProjectFactory()));
   return merge([
     tsResult.dts.pipe(gulp.dest('./dist/definitions')),
     tsResult.js.pipe(gulp.dest('./dist/js'))
   ]);
 });
 
-gulp.task('build', ['build:dev']);
+gulp.task('test', ['transform:test'], () => {
+  return gulp.src(['./dist/test/**/*.spec.js'])
+    .pipe(mocha({reporter: 'nyan'}));
+});
 
+gulp.task('build', ['build:dev', 'transform:test']);
+
+gulp.task('watch', () => {
+  watch(['./lib/**/*.ts', './test/**/*.ts'], () => {
+    runSequence('test');
+  });
+});
