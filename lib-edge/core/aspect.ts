@@ -67,12 +67,13 @@ export class MemberPrecondition implements Precondition {
 
 export abstract class Advice {
   constructor(public context: Object, public advice: Function) {}
-  abstract wove(target);
+  abstract wove(target: Function);
 }
 
 export class BeforeAdvice extends Advice {
-  wove(target) {
-    console.log('Woving the target in the advice!');
+  wove(target: Function) {
+    target();
+    this.advice();
   }
 }
 
@@ -86,6 +87,28 @@ export abstract class JointPoint {
   constructor(public precondition: Precondition) {}
   abstract wove(descriptor: any, advice: Advice): void;
   abstract match(descriptor: any): any[];
+  _getMetadata(className: string, key: string, args: IArguments): Metadata {
+    var invocation: MethodMetadata = {
+      name: key,
+      args: undefined,
+      proceed: true,
+      context: this,
+      result: undefined
+    };
+    var metadata: Metadata = new Metadata();
+    metadata.method = invocation;
+    metadata.className = className;
+    if (args[0] && args[0].__advice_metadata__) {
+      let previousMetadata = <Metadata>args[0];
+      metadata.method.result = previousMetadata.method.result;
+      metadata.method.proceed = previousMetadata.method.proceed;
+      metadata.method.args = previousMetadata.method.args;
+      metadata.method.context = previousMetadata.method.context;
+    } else {
+      metadata.method.args = Array.prototype.slice.call(args);
+    }
+    return metadata;
+  }
 }
 
 export class MethodCallJointPoint extends JointPoint {
@@ -95,9 +118,15 @@ export class MethodCallJointPoint extends JointPoint {
       this.woveMethod(proto, match, advice);
     });
   }
-  private woveMethod(proto: Object, key:string, advice: Advice) {
+  private woveMethod(proto: any, key:string, advice: Advice) {
     console.log('Woving', key);
-    advice.wove(proto);
+    let className = proto.constructor.name;
+    let bak = proto[key];
+    let self = this;
+    proto[key] = function () {
+      let metadata = self._getMetadata(className, key, arguments);
+      advice.wove(bak);
+    };
   }
   match(target): any[] {
     let name = target.name;
