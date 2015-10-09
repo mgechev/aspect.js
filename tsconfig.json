@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
-        "target": "ES6", //The key, of course.
+        "target": "es5",
         "module": "commonjs",
-        "sourceMap": true
+        "sourceMap": true,
+        "experimentalDecorators": true
     },
     "exclude": [
         "node_modules",

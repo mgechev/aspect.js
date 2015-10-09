@@ -16,6 +16,9 @@ let AspectRegistry: { [name: string]: Aspect; } = {};
 
 export class Aspect {
   public pointcuts: Pointcut[];
+  constructor() {
+    this.pointcuts = [];
+  }
   wove(target: Function) {
     this.pointcuts.forEach(p => {
       p.apply(target);
@@ -104,15 +107,16 @@ function makeClassDecorator() {
 
 function makeMethodDecorator(constr) {
   return function (...selectors: MemberSelector[]) {
-    return function (target, name, descriptor) {
+    return function (target, prop, descriptor) {
       let jointpoints = selectors.map(selector => {
         return new MethodCallJointPoint(new MemberPrecondition(selector));
       });
       let pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, target[name]);
+      pointcut.advice = <Advice>new constr(target, target[prop]);
       pointcut.jointPoints = jointpoints;
-      let aspect = AspectRegistry[target.constructor.name] || new Aspect();
+      let aspect = AspectRegistry[target.constructor.prop] || new Aspect();
       aspect.pointcuts.push(pointcut);
+      return target;
     }
   }
 }
@@ -120,3 +124,20 @@ function makeMethodDecorator(constr) {
 function makePropertyDecorator() {
   throw new Error('Not implemented');
 }
+
+let before = makeMethodDecorator(BeforeAdvice);
+let after = makeMethodDecorator(AfterAdvice);
+
+class LoggerAspect {
+  @before({ classNamePattern: /^Article/, methodNamePattern: /^get/ })
+  logBefore() {
+    console.log('Invoke logBefore with', arguments);
+  }
+}
+
+class Article {
+  getArticle() {
+    console.log('Inside getArticle');
+  }
+}
+
