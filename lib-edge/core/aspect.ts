@@ -42,10 +42,8 @@ export class Pointcut {
   public advice: Advice;
   apply(fn) {
     this.jointPoints.forEach(jp => {
-      let keys = jp.match(fn);
-      keys.forEach(key => {
-        jp.wove({fn, key}, this.advice);
-      });
+      let matches = jp.match(fn);
+      jp.wove({fn, matches}, this.advice);
     });
   }
 }
@@ -74,7 +72,7 @@ export abstract class Advice {
 
 export class BeforeAdvice extends Advice {
   wove(target) {
-
+    console.log('Woving the target in the advice!');
   }
 }
 
@@ -91,8 +89,15 @@ export abstract class JointPoint {
 }
 
 export class MethodCallJointPoint extends JointPoint {
-  wove({fn, key}, advice: Advice): void {
+  wove({fn, matches}, advice: Advice): void {
+    let proto = fn.prototype;
+    matches.forEach(match => {
+      this.woveMethod(proto, match, advice);
+    });
+  }
+  private woveMethod(proto: Object, key:string, advice: Advice) {
     console.log('Woving', key);
+    advice.wove(proto);
   }
   match(target): any[] {
     let name = target.name;
