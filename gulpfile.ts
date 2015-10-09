@@ -1,14 +1,15 @@
-import gulp from 'gulp';
-import ts from 'gulp-typescript';
-import merge from 'merge2';
-import watch from 'gulp-watch';
-import concat from 'gulp-concat';
-import typescript from 'typescript';
-import dtsBundle from 'dts-bundle';
-import mocha from 'gulp-mocha';
-import runSequence from 'run-sequence';
+/// <reference path="./typings/tsd.d.ts"/>
 
-function tsProjectFactory(target, module) {
+import * as gulp from 'gulp';
+import * as ts from 'gulp-typescript';
+import * as concat from 'gulp-concat';
+import * as typescript from 'typescript';
+import * as runSequence from 'run-sequence';
+
+import mocha = require('gulp-mocha');
+import watch = require('gulp-watch');
+
+function tsProjectFactory(target, module?):ts.Project {
   var tsProject = ts.createProject({
     typescript: typescript,
     module: module || 'commonjs',
@@ -17,7 +18,7 @@ function tsProjectFactory(target, module) {
   return tsProject;
 }
 
-function registerTransformLibTask(type, module) {
+function registerTransformLibTask(type, module?) {
   let name = `transform:${type}`;
   gulp.task(name, () => {
     'use strict';
@@ -33,7 +34,7 @@ let transforms = [
   registerTransformLibTask('lib', 'umd')
 ];
 
-let testTransform = [
+let testTransform:string[] = [
   registerTransformLibTask('test')
 ];
 
@@ -45,13 +46,6 @@ gulp.task('generate:dts', () => {
     .pipe(ts(tsProjectFactory('commonjs')));
 
   return tsresult.dts.pipe(gulp.dest('./temp'))
-});
-
-gulp.task('bundle:dts', () => {
-  dtsBundle.bundle({
-    name: 'aspect.js',
-    main: './temp/aspect.d.ts'
-  });
 });
 
 gulp.task('build:dev', transforms, () => {
@@ -70,17 +64,6 @@ gulp.task('watch:lib', () => {
   watch('./lib/**/*.ts', () => {
     gulp.start('build:dev');
   });
-});
-
-gulp.task('transform:demo', () => {
-  'use strict';
-  let tsResult = gulp
-    .src(['./demo/src/**/*.js'])
-    .pipe(ts(tsProjectFactory()));
-  return merge([
-    tsResult.dts.pipe(gulp.dest('./dist/definitions')),
-    tsResult.js.pipe(gulp.dest('./dist/js'))
-  ]);
 });
 
 gulp.task('test', ['transform:test'], () => {

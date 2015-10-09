@@ -16,6 +16,33 @@
     },
     "chai/chai.d.ts": {
       "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "gulp/gulp.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "node/node.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "orchestrator/orchestrator.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "q/Q.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "gulp-typescript/gulp-typescript.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "gulp-watch/gulp-watch.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "gulp-concat/gulp-concat.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "gulp-mocha/gulp-mocha.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
+    },
+    "run-sequence/run-sequence.d.ts": {
+      "commit": "3fc1377ce29dd9670975cb68615edf1b819fc4a5"
     }
   }
 }
