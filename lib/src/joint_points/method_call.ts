@@ -51,7 +51,7 @@ export class MethodCallJointPoint extends JointPoint {
   }
 }
 
-function makeMethodCallAdviceDecorator(constr) {
+export function makeMethodCallAdviceDecorator(constr) {
   return function (...selectors: MemberSelector[]) {
     return function (target, prop, descriptor) {
       let jointpoints = selectors.map(selector => {
