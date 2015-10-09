@@ -14,6 +14,17 @@ export class Metadata {
 
 let AspectRegistry: { [name: string]: Aspect; } = {};
 
+export function Wove() {
+  return function (target) {
+    let keys = Object.getOwnPropertyNames(AspectRegistry);
+    console.log('Registered aspects', keys);
+    keys.forEach(key => {
+      console.log('Trying to wove', key);
+      AspectRegistry[key].wove(target);
+    });
+  };
+}
+
 export class Aspect {
   public pointcuts: Pointcut[];
   constructor() {
@@ -29,11 +40,12 @@ export class Aspect {
 export class Pointcut {
   public jointPoints: JointPoint[];
   public advice: Advice;
-  apply(descriptor) {
+  apply(fn) {
     this.jointPoints.forEach(jp => {
-      if (jp.match(descriptor)) {
-        jp.wove(descriptor, this.advice);
-      }
+      let keys = jp.match(fn);
+      keys.forEach(key => {
+        jp.wove({fn, key}, this.advice);
+      });
     });
   }
 }
@@ -55,18 +67,9 @@ export class MemberPrecondition implements Precondition {
   }
 }
 
-interface Target {
-
-}
-
-interface MethodTarget extends Target {
-  methodName: string;
-  proto: Object;
-}
-
 export abstract class Advice {
   constructor(public context: Object, public advice: Function) {}
-  abstract wove(target: Target);
+  abstract wove(target);
 }
 
 export class BeforeAdvice extends Advice {
@@ -81,23 +84,30 @@ export class AfterAdvice extends Advice {
   }
 }
 
-export class JointPoint {
+export abstract class JointPoint {
   constructor(public precondition: Precondition) {}
-  wove(descriptor: any, advice: Advice): void {
-    throw new Error('Not implemented');
-  }
-  match(descriptor: any): boolean {
-    throw new Error('Not implemented');
-  }
+  abstract wove(descriptor: any, advice: Advice): void;
+  abstract match(descriptor: any): any[];
 }
 
 export class MethodCallJointPoint extends JointPoint {
-
-  wove({proto: Object, prop: string}, advice: Advice): void {
-
+  wove({fn, key}, advice: Advice): void {
+    console.log('Woving', key);
   }
-  match(target: MethodTarget): boolean {
-    return this.precondition.assert(target);
+  match(target): any[] {
+    let name = target.name;
+    let keys = Object.getOwnPropertyNames(target.prototype);
+    console.log('Trying to match', name, 'against MethodCallJointPoint with precondition');
+    let res = keys.map(key => {
+      if (this.precondition.assert({ className: name, methodName: key })) {
+        return key;
+      }
+      return false;
+    }).filter(val => !!val);
+    if (res) {
+      console.log('Matched!', res);
+    }
+    return res;
   }
 }
 
@@ -114,8 +124,10 @@ function makeMethodDecorator(constr) {
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, target[prop]);
       pointcut.jointPoints = jointpoints;
-      let aspect = AspectRegistry[target.constructor.prop] || new Aspect();
+      let aspectName = target.constructor.name;
+      let aspect = AspectRegistry[aspectName] || new Aspect();
       aspect.pointcuts.push(pointcut);
+      AspectRegistry[aspectName] = aspect;
       return target;
     }
   }
@@ -135,9 +147,12 @@ class LoggerAspect {
   }
 }
 
+@Wove()
 class Article {
   getArticle() {
     console.log('Inside getArticle');
   }
 }
 
+let article = new Article();
+article.getArticle();
