@@ -17,21 +17,25 @@ function tsProjectFactory(target, module) {
   });
 }
 
-function registerTransformLibTask(version) {
-  let name = `transform:lib:${version}`;
+function registerTransformLibTask(version, type, module) {
+  let name = `transform:${type}:${version}`;
   gulp.task(name, () => {
     'use strict';
     let tsresult = gulp
-      .src(['./lib/**/*.ts'])
-      .pipe(ts(tsProjectFactory(version)));
-    return tsresult.js.pipe(gulp.dest(`./dist/js/${version}`))
+      .src([`./${type}/**/*.ts`])
+      .pipe(ts(tsProjectFactory(version, module)));
+    return tsresult.js.pipe(gulp.dest(`./dist/${type}/${version}`))
   });
   return name;
 }
 
 let transforms = [
-  registerTransformLibTask('es5', 'umd'),
-  registerTransformLibTask('es6')
+  registerTransformLibTask('es5', 'lib', 'umd'),
+  registerTransformLibTask('es6', 'lib')
+];
+
+let testTransform = [
+  registerTransformLibTask('es5', 'test')
 ];
 
 gulp.task('generate:dts', () => {
@@ -56,6 +60,10 @@ gulp.task('build:dev', transforms, () => {
   return gulp.src(['./dist/**/*.js'])
     .pipe(concat('all.js'))
     .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('build:test', () => {
+
 });
 
 gulp.task('watch:lib', () => {

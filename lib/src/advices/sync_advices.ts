@@ -23,3 +23,14 @@ export class AroundAdvice extends Advice {
     return this.advice.bind(this.context, metadata).apply(null, metadata.method.args) || metadata.method.result;
   }
 }
+
+export class OnThrowAdvice extends Advice {
+  wove(target: any, metadata: Metadata) {
+    try {
+      this.invoke(target, metadata);
+    } catch (e) {
+      return this.advice.bind(this.context, metadata).apply(null, metadata.method.args) || metadata.method.result;
+    }
+    return metadata.method.result;
+  }
+}

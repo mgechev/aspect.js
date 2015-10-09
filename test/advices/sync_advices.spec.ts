@@ -24,7 +24,6 @@ describe('sync advices', () => {
         expect(this).toBe(proto);
       };
       advice = new SyncAdvices.BeforeAdvice(proto, func);
-      advice.invoke({}, {}, metadata);
     });
   });
 });
