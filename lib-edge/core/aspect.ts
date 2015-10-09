@@ -67,13 +67,22 @@ export class MemberPrecondition implements Precondition {
 
 export abstract class Advice {
   constructor(public context: Object, public advice: Function) {}
-  abstract wove(target: Function);
+  abstract wove(context: any, target: Function, metadata: Metadata);
 }
 
 export class BeforeAdvice extends Advice {
-  wove(target: Function) {
-    target();
-    this.advice();
+  wove(context: any, target: any, metadata: Metadata) {
+    this.advice.bind(context, metadata).apply(null, metadata.method.args);
+    if (target.__woven__) {
+      if (metadata.method.proceed) {
+        target.bind(context, metadata).apply(null, metadata.method.args);
+      } else {
+        return metadata.method.result;
+      }
+    } else {
+      metadata.method.result = target.apply(metadata.method.context, metadata.method.args);
+    }
+    return metadata.method.result;
   }
 }
 
@@ -125,8 +134,9 @@ export class MethodCallJointPoint extends JointPoint {
     let self = this;
     proto[key] = function () {
       let metadata = self._getMetadata(className, key, arguments);
-      advice.wove(bak);
+      return advice.wove(self, bak, metadata);
     };
+    proto[key].__woven__ = true;
   }
   match(target): any[] {
     let name = target.name;
@@ -176,8 +186,15 @@ let after = makeMethodDecorator(AfterAdvice);
 
 class LoggerAspect {
   @before({ classNamePattern: /^Article/, methodNamePattern: /^get/ })
-  logBefore() {
-    console.log('Invoke logBefore with', arguments);
+  logBefore1(arg:Metadata) {
+    console.log('Invoke logBefore1 with', arguments);
+    return 42;
+  }
+  @before({ classNamePattern: /^Article/, methodNamePattern: /^get/ })
+  logBefore2(arg:Metadata) {
+    arg.method.proceed = false;
+    console.log('Invoke logBefore2 with', arguments);
+    return 42;
   }
 }
 
@@ -185,8 +202,9 @@ class LoggerAspect {
 class Article {
   getArticle() {
     console.log('Inside getArticle');
+    return 1.618;
   }
 }
 
 let article = new Article();
-article.getArticle();
+console.log(article.getArticle());
