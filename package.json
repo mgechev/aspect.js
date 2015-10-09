@@ -33,6 +33,9 @@
     "gulp-concat": "^2.6.0",
     "gulp-typescript": "^2.8.0",
     "gulp-watch": "^4.3.3",
+    "jasmine": "^2.3.2",
+    "karma": "^0.13.10",
+    "karma-jasmine": "^0.3.6",
     "merge2": "^0.3.6",
     "typescript": "^1.6.2"
   },
