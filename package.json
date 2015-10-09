@@ -28,17 +28,14 @@
   "homepage": "https://github.com/mgechev/aop.js",
   "devDependencies": {
     "babel-core": "^5.8.3",
+    "chai": "^3.3.0",
     "dts-bundle": "^0.3.0",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.6.0",
     "gulp-typescript": "^2.8.0",
     "gulp-watch": "^4.3.3",
-    "jasmine-core": "^2.3.4",
-    "karma": "^0.13.10",
-    "karma-chrome-launcher": "^0.2.1",
-    "karma-jasmine": "^0.3.6",
-    "karma-typescript-preprocessor": "0.0.20",
     "merge2": "^0.3.6",
+    "mocha": "^2.3.3",
     "typescript": "^1.6.2"
   },
   "dependencies": {
