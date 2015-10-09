@@ -19,24 +19,24 @@ babel-node --optional es7.decorators demo/index.js
 # Roadmap
 
 - [ ] **Tests**
-- [x] Type annotations and DTS generation
+- [] Type annotations and DTS generation
 - [ ] Implement the following joint points:
   - [x] Method execution
   - [ ] Constructor call
   - [ ] Constructor execution
   - [ ] Filed get
   - [ ] Field set
-- [ ] Aspect factories
-  - [ ] Generic aspects
+- [x] Aspect factories
+  - [x] Generic aspects
 - [x] Implement the following advices:
   - [x] Before
-    - [x] Resolve
-    - [x] Reject
+    - [ ] Resolve
+    - [ ] Reject
   - [x] After
     - [x] Throwing
     - [x] Returning
-    - [x] Resolve
-    - [x] Reject
+    - [ ] Resolve
+    - [ ] Reject
 
 # License
 
