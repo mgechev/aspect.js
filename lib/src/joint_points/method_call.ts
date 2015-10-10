@@ -16,6 +16,10 @@ export class MemberPrecondition implements Precondition {
   }
 }
 
+const BLACK_LIST = [
+  'constructor'
+];
+
 export class MethodCallJointPoint extends JointPoint {
   wove({fn, matches}, advice: Advice): void {
     let proto = fn.prototype;
@@ -36,6 +40,9 @@ export class MethodCallJointPoint extends JointPoint {
   match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
+    keys = keys.filter(key => {
+      return BLACK_LIST.indexOf(key) < 0;
+    });
     let res = keys.map(key => {
       if (this.precondition.assert({ className: name, methodName: key })) {
         return key;
