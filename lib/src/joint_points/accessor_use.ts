@@ -44,8 +44,9 @@ export class AccessorJointPoint extends JointPoint {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
     let res = keys.map(key => {
+      let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
       if (this.precondition.assert({ className: name, fieldName: key }) &&
-          typeof target.prototype[key] !== 'function') {
+          typeof descriptor[this.type] === 'function') {
         return key;
       }
       return false;

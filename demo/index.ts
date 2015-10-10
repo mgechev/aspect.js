@@ -49,5 +49,3 @@ class UserMapper {
 let mapper = new UserMapper(new Http());
 // console.log(mapper.get(42));
 console.log(mapper.getfield);
-
-// mapper.getfield = 42;

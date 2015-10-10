@@ -23,8 +23,8 @@ ts-node demo/index.ts
 - [ ] Implement the following joint points:
   - [x] Method execution
   - [ ] Constructor execution
-  - [ ] Filed get
-  - [ ] Field set
+  - [x] Filed get
+  - [x] Field set
 - [x] Aspect factories
   - [x] Generic aspects
 - [x] Implement the following advices:
