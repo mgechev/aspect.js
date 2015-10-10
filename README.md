@@ -12,8 +12,8 @@ Blog post, introduction to the AOP and the library could be found [here](http://
 
 ```
 git clone https://github.com/mgechev/aop.js --depth 1
-npm install -g babel
-babel-node --optional es7.decorators demo/index.js
+npm install -g typescript-node
+ts-node demo/index.ts
 ```
 
 # Roadmap
