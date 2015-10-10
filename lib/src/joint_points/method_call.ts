@@ -24,13 +24,11 @@ export class MethodCallJointPoint extends JointPoint {
     });
   }
   private woveMethod(proto: any, key:string, advice: Advice) {
-    console.log('Woving', key);
     let className = proto.constructor.name;
     let bak = proto[key];
     let self = this;
     proto[key] = function () {
-      let metadata = self._getMetadata(className, key, arguments);
-      metadata.method.context = this;
+      let metadata = self._getMetadata(className, key, arguments, this);
       return advice.wove(bak, metadata);
     };
     proto[key].__woven__ = true;
@@ -38,16 +36,12 @@ export class MethodCallJointPoint extends JointPoint {
   match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
-    console.log('Trying to match', name, 'against MethodCallJointPoint with precondition');
     let res = keys.map(key => {
       if (this.precondition.assert({ className: name, methodName: key })) {
         return key;
       }
       return false;
     }).filter(val => !!val);
-    if (res) {
-      console.log('Matched!', res);
-    }
     return res;
   }
 }

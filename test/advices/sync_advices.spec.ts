@@ -1,6 +1,6 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
-import {Metadata, MethodMetadata} from '../../lib/src/core';
+import {Metadata, MethodMetadata, Wove} from '../../lib/src/core';
 import {Advice} from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';
 
@@ -24,9 +24,10 @@ describe('sync advices', () => {
     it('should invoke the advice with the appropriate context', (done) => {
       var func = function () {
         expect(this).to.equal(proto);
+        done();
       };
       advice = new SyncAdvices.BeforeAdvice(proto, func);
-      expect(3).to.equal(3)
+      advice.invoke(func, metadata);
       done();
     });
   });

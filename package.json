@@ -28,6 +28,7 @@
   "homepage": "https://github.com/mgechev/aop.js",
   "devDependencies": {
     "chai": "^3.3.0",
+    "chai-spies": "^0.7.1",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.6.0",
     "gulp-mocha": "^2.1.3",
