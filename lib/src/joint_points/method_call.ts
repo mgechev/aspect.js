@@ -44,7 +44,9 @@ export class MethodCallJointPoint extends JointPoint {
       return BLACK_LIST.indexOf(key) < 0;
     });
     let res = keys.map(key => {
-      if (this.precondition.assert({ className: name, methodName: key })) {
+      if (this.precondition.assert({ className: name, methodName: key }) &&
+          typeof target.prototype[key] === 'function') {
+        console.log(key);
         return key;
       }
       return false;
