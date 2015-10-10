@@ -22,7 +22,6 @@ ts-node demo/index.ts
 - [ ] Type annotations and DTS generation
 - [ ] Implement the following joint points:
   - [x] Method execution
-  - [ ] Constructor call
   - [ ] Constructor execution
   - [ ] Filed get
   - [ ] Field set
@@ -37,6 +36,7 @@ ts-node demo/index.ts
     - [x] Returning
     - [ ] Resolve
     - [ ] Reject
+  - [x] Around
 
 # License
 
