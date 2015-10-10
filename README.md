@@ -22,6 +22,7 @@ ts-node demo/index.ts
 - [ ] Type annotations and DTS generation
 - [ ] Implement the following joint points:
   - [x] Method execution
+  - [ ] Static method execution
   - [ ] Constructor execution
   - [x] Filed get
   - [x] Field set
