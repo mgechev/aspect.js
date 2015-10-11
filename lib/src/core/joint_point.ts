@@ -9,7 +9,7 @@ export abstract class JointPoint {
   constructor(public precondition: Precondition) {}
   abstract wove(descriptor: any, advice: Advice): void;
   abstract match(descriptor: any): any[];
-  _getMetadata(className: string, key: string, args: IArguments, context: any): Metadata {
+  protected getMetadata(className: string, key: string, args: IArguments, context: any): Metadata {
     var invocation: MethodMetadata = {
       name: key,
       args: undefined,

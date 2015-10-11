@@ -32,7 +32,7 @@ export class MethodCallJointPoint extends JointPoint {
     let bak = proto[key];
     let self = this;
     proto[key] = function () {
-      let metadata = self._getMetadata(className, key, arguments, this);
+      let metadata = self.getMetadata(className, key, arguments, this);
       return advice.wove(bak, metadata);
     };
     proto[key].__woven__ = true;

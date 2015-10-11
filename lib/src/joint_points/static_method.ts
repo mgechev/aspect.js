@@ -30,7 +30,7 @@ export class StaticMethodJointPoint extends JointPoint {
     let bak = fn[key];
     let self = this;
     fn[key] = function () {
-      let metadata = self._getMetadata(className, key, arguments, this);
+      let metadata = self.getMetadata(className, key, arguments, this);
       return advice.wove(bak, metadata);
     };
     fn[key].__woven__ = true;
