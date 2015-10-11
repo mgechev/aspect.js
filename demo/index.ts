@@ -1,7 +1,8 @@
-import {Wove, Metadata, MethodMetadata, beforeMethod, afterMethod, beforeGetter, afterSetter, afterGetter} from '../lib/aspect';
+import {Wove, Metadata, MethodMetadata, beforeMethod, afterMethod, beforeGetter, afterSetter, afterGetter, beforeStaticMethod} from '../lib/aspect';
 
 class CacheAspect {
   @beforeMethod({ classNamePattern: /^(\w+Mapper|Http)$/, methodNamePattern: /^get/})
+  @beforeStaticMethod({ classNamePattern: /^(\w+Mapper|Http)$/, methodNamePattern: /^get/ })
   before(meta: Metadata) {
     console.log(`Inside CacheAspect.before for ${meta.className}.${meta.method.name} with args ${meta.method.args.join(', ')}`);
   }
@@ -44,8 +45,13 @@ class UserMapper {
   get getfield() {
     return 42;
   }
+  static getUserMapper() {
+    console.log('Inside getUserMapper');
+    return 42;
+  }
 }
 
 let mapper = new UserMapper(new Http());
 // console.log(mapper.get(42));
-console.log(mapper.getfield);
+// console.log(mapper.getfield);
+console.log(UserMapper.getUserMapper())

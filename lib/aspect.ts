@@ -2,7 +2,7 @@ export {Wove, Metadata, MethodMetadata} from './src/core';
 export {MemberPrecondition} from './src/joint_points';
 
 import {BeforeAdvice, AroundAdvice, AfterAdvice, OnThrowAdvice} from './src/advices';
-import {makeMethodCallAdviceDecorator} from './src/joint_points';
+import {makeMethodCallAdviceDecorator, makeStaticMethodAdviceDecorator} from './src/joint_points';
 import {makeFieldGetAdviceDecorator, makeFieldSetAdviceDecorator} from './src/joint_points';
 
 export let beforeMethod = makeMethodCallAdviceDecorator(BeforeAdvice);
@@ -19,3 +19,8 @@ export let beforeGetter = makeFieldGetAdviceDecorator(BeforeAdvice);
 export let afterGetter = makeFieldGetAdviceDecorator(AfterAdvice);
 export let aroundGetter = makeFieldGetAdviceDecorator(AroundAdvice);
 export let onThrowOfGetter = makeFieldGetAdviceDecorator(OnThrowAdvice);
+
+export let beforeStaticMethod = makeStaticMethodAdviceDecorator(BeforeAdvice);
+export let afterStaticMethod = makeStaticMethodAdviceDecorator(AfterAdvice);
+export let aroundStaticMethod = makeStaticMethodAdviceDecorator(AroundAdvice);
+export let onThrowOfStaticMethod = makeStaticMethodAdviceDecorator(OnThrowAdvice);
