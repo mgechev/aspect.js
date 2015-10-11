@@ -1,12 +1,14 @@
 # Introduction
 
-Library for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 7 decorators syntax.
+Library for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 2016 decorators syntax.
 
 For further reading on decorators, take a look at [the spec](https://github.com/wycats/javascript-decorators).
 
-The library is based on [meld](https://github.com/cujojs/meld).
-
 Blog post, introduction to the AOP and the library could be found [here](http://blog.mgechev.com/2015/07/29/aspect-oriented-programming-javascript-aop-js/).
+
+# Declaimer
+
+The library is in early stage of development. It's API most likely will change.
 
 # Demo
 
