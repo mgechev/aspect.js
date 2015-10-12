@@ -2,19 +2,8 @@ import {Precondition, JointPoint} from '../core/joint_point';
 import {Advice} from '../core/advice';
 import {Pointcut} from '../core/pointcut';
 import {AspectRegistry, Aspect} from '../core/aspect';
-
-export interface StaticMethodSelector {
-  classNamePattern: RegExp;
-  methodNamePattern: RegExp;
-}
-
-export class StaticMethodPrecondition implements Precondition {
-  constructor(private selector: StaticMethodSelector) {}
-  assert({className, methodName}): boolean {
-    return this.selector.classNamePattern.test(className) &&
-      this.selector.methodNamePattern.test(methodName);
-  }
-}
+import {MethodSelector} from './selectors';
+import {MethodPrecondition} from './preconditions';
 
 export class StaticMethodJointPoint extends JointPoint {
   constructor(precondition: Precondition) {
@@ -51,10 +40,10 @@ export class StaticMethodJointPoint extends JointPoint {
 }
 
 export function makeStaticMethodAdviceDecorator(constr) {
-  return function (...selectors: StaticMethodSelector[]) {
+  return function (...selectors: MethodSelector[]) {
     return function (target, prop, descriptor) {
       let jointpoints = selectors.map(selector => {
-        return new StaticMethodJointPoint(new StaticMethodPrecondition(selector));
+        return new StaticMethodJointPoint(new MethodPrecondition(selector));
       });
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);

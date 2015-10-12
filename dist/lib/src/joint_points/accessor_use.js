@@ -10,22 +10,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     else if (typeof define === 'function' && define.amd) {
         define(deps, factory);
     }
-})(["require", "exports", '../core/joint_point', '../core/pointcut', '../core/aspect'], function (require, exports) {
+})(["require", "exports", '../core/joint_point', '../core/pointcut', '../core/aspect', './preconditions'], function (require, exports) {
     var joint_point_1 = require('../core/joint_point');
     var pointcut_1 = require('../core/pointcut');
     var aspect_1 = require('../core/aspect');
-    var MemberPrecondition = (function () {
-        function MemberPrecondition(selector) {
-            this.selector = selector;
-        }
-        MemberPrecondition.prototype.assert = function (_a) {
-            var className = _a.className, fieldName = _a.fieldName;
-            return this.selector.classNamePattern.test(className) &&
-                this.selector.fieldNamePattern.test(fieldName);
-        };
-        return MemberPrecondition;
-    })();
-    exports.MemberPrecondition = MemberPrecondition;
+    var preconditions_1 = require('./preconditions');
     var AccessorJointPoint = (function (_super) {
         __extends(AccessorJointPoint, _super);
         function AccessorJointPoint(precondition, type) {
@@ -79,7 +68,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             return function (target, prop, descriptor) {
                 var jointpoints = selectors.map(function (selector) {
-                    return new AccessorJointPoint(new MemberPrecondition(selector), 'get');
+                    return new AccessorJointPoint(new preconditions_1.MemberPrecondition(selector), 'get');
                 });
                 var pointcut = new pointcut_1.Pointcut();
                 pointcut.advice = new constr(target, descriptor.value);
@@ -101,7 +90,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             return function (target, prop, descriptor) {
                 var jointpoints = selectors.map(function (selector) {
-                    return new AccessorJointPoint(new MemberPrecondition(selector), 'set');
+                    return new AccessorJointPoint(new preconditions_1.MemberPrecondition(selector), 'set');
                 });
                 var pointcut = new pointcut_1.Pointcut();
                 pointcut.advice = new constr(target, descriptor.value);

@@ -10,22 +10,11 @@ var __extends = (this && this.__extends) || function (d, b) {
     else if (typeof define === 'function' && define.amd) {
         define(deps, factory);
     }
-})(["require", "exports", '../core/joint_point', '../core/pointcut', '../core/aspect'], function (require, exports) {
+})(["require", "exports", '../core/joint_point', '../core/pointcut', '../core/aspect', './preconditions'], function (require, exports) {
     var joint_point_1 = require('../core/joint_point');
     var pointcut_1 = require('../core/pointcut');
     var aspect_1 = require('../core/aspect');
-    var StaticMethodPrecondition = (function () {
-        function StaticMethodPrecondition(selector) {
-            this.selector = selector;
-        }
-        StaticMethodPrecondition.prototype.assert = function (_a) {
-            var className = _a.className, methodName = _a.methodName;
-            return this.selector.classNamePattern.test(className) &&
-                this.selector.methodNamePattern.test(methodName);
-        };
-        return StaticMethodPrecondition;
-    })();
-    exports.StaticMethodPrecondition = StaticMethodPrecondition;
+    var preconditions_1 = require('./preconditions');
     var StaticMethodJointPoint = (function (_super) {
         __extends(StaticMethodJointPoint, _super);
         function StaticMethodJointPoint(precondition) {
@@ -73,7 +62,7 @@ var __extends = (this && this.__extends) || function (d, b) {
             }
             return function (target, prop, descriptor) {
                 var jointpoints = selectors.map(function (selector) {
-                    return new StaticMethodJointPoint(new StaticMethodPrecondition(selector));
+                    return new StaticMethodJointPoint(new preconditions_1.MethodPrecondition(selector));
                 });
                 var pointcut = new pointcut_1.Pointcut();
                 pointcut.advice = new constr(target, descriptor.value);

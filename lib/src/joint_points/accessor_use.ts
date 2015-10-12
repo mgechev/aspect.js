@@ -1,20 +1,9 @@
-import {Precondition, JointPoint} from '../core/joint_point';
+import {JointPoint, Precondition} from '../core/joint_point';
 import {Advice} from '../core/advice';
 import {Pointcut} from '../core/pointcut';
 import {AspectRegistry, Aspect} from '../core/aspect';
-
-export interface MemberSelector {
-  classNamePattern: RegExp;
-  fieldNamePattern: RegExp;
-}
-
-export class MemberPrecondition implements Precondition {
-  constructor(private selector: MemberSelector) {}
-  assert({className, fieldName}): boolean {
-    return this.selector.classNamePattern.test(className) &&
-      this.selector.fieldNamePattern.test(fieldName);
-  }
-}
+import {MemberSelector} from './selectors';
+import {MemberPrecondition} from './preconditions';
 
 export class AccessorJointPoint extends JointPoint {
   constructor(precondition: Precondition, private type: string) {

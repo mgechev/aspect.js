@@ -6,6 +6,98 @@ For further reading on decorators, take a look at [the spec](https://github.com/
 
 Blog post, introduction to the AOP and the library could be found [here](http://blog.mgechev.com/2015/07/29/aspect-oriented-programming-javascript-aop-js/).
 
+# API
+
+The library offers the following combinations of advices and joint points:
+
+## Method calls
+
+- `beforeMethod(MethodSelector)` - invoked before method call
+- `afterMethod(MethodSelector)` - invoked after method call
+- `aroundMethod(MethodSelector)` - invoked around method call
+- `onThrowOfMethod(MethodSelector)` - invoked on throw of method call
+
+## Static method calls
+
+- `beforeStaticMethod(MethodSelector)` - invoked before static method call
+- `afterStaticMethod(MethodSelector)` - invoked after static method call
+- `aroundStaticMethod(MethodSelector)` - invoked around static method call
+- `onThrowOfStaticMethod(MethodSelector)` - invoked on throw of static method call
+
+## Accessors
+
+- `beforeSetter(MemberSelector)` - invoked before setter call
+- `afterSetter(MemberSelector)` - invoked after setter call
+- `aroundSetter(MemberSelector)` - invoked around setter call
+- `onThrowOfSetter(MemberSelector)` - invoked on throw of setter call
+- `beforeGetter(MemberSelector)` - invoked before getter call
+- `afterGetter(MemberSelector)` - invoked after getter call
+- `aroundGetter(MemberSelector)` - invoked around getter call
+- `onThrowOfGetter(MemberSelector)` - invoked on throw of getter call
+
+## `MethodSelector`
+
+```typescript
+export interface MethodSelector {
+  classNamePattern: RegExp;
+  methodNamePattern: RegExp;
+}
+```
+
+## `MemberSelector`
+
+```typescript
+export interface MemberSelector {
+  classNamePattern: RegExp;
+  fieldNamePattern: RegExp;
+}
+```
+
+# Sample usage
+
+```typescript
+
+import {beforeMethod, Wove, Metadata} from 'aspect.js';
+
+class LoggerAspect {
+  @beforeMethod({
+    classNamePattern: /^Article/,
+    methodNamePattern: /^(get|set)/
+  })
+  invokeBeforeMethod(meta: Metadata) {
+    console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
+  }
+}
+
+class Article {
+  id: number;
+  title: string;
+  content: string;
+}
+
+@Wove()
+class ArticleCollection {
+  articles: Article[] = [];
+  getArticle(id: number) {
+    console.log(`Setting article with id: ${id}.`);
+    return this.articles.filter(a => {
+      return a.id === id;
+    }).pop();
+  }
+  setArticle(article: Article) {
+    console.log(`Setting article with id: ${article.id}.`);
+    this.articles.push(article);
+  }
+}
+
+new ArticleCollection().getArticle(1);
+
+// Result:
+// Inside of the logger. Called ArticleCollection.getArticle with args: 1.
+// Setting article with id: 1.
+
+```
+
 # Declaimer
 
 The library is in early stage of development. It's API most likely will change.
@@ -14,7 +106,7 @@ The library is in early stage of development. It's API most likely will change.
 
 ```
 git clone https://github.com/mgechev/aop.js --depth 1
-npm install -g typescript-node
+npm install -g ts-node
 ts-node demo/index.ts
 ```
 

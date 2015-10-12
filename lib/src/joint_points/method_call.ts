@@ -2,19 +2,8 @@ import {Precondition, JointPoint} from '../core/joint_point';
 import {Advice} from '../core/advice';
 import {Pointcut} from '../core/pointcut';
 import {AspectRegistry, Aspect} from '../core/aspect';
-
-export interface MemberSelector {
-  classNamePattern: RegExp;
-  methodNamePattern: RegExp;
-}
-
-export class MemberPrecondition implements Precondition {
-  constructor(private selector: MemberSelector) {}
-  assert({className, methodName}): boolean {
-    return this.selector.classNamePattern.test(className) &&
-      this.selector.methodNamePattern.test(methodName);
-  }
-}
+import {MethodSelector} from './selectors';
+import {MethodPrecondition} from './preconditions';
 
 const BLACK_LIST = [
   'constructor'
@@ -56,10 +45,10 @@ export class MethodCallJointPoint extends JointPoint {
 }
 
 export function makeMethodCallAdviceDecorator(constr) {
-  return function (...selectors: MemberSelector[]) {
+  return function (...selectors: MethodSelector[]) {
     return function (target, prop, descriptor) {
       let jointpoints = selectors.map(selector => {
-        return new MethodCallJointPoint(new MemberPrecondition(selector));
+        return new MethodCallJointPoint(new MethodPrecondition(selector));
       });
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
