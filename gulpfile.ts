@@ -28,13 +28,8 @@ function registerTransformLibTask(type, module?) {
   return name;
 }
 
-let transforms = [
-  registerTransformLibTask('lib', 'umd')
-];
-
-let testTransform:string[] = [
-  registerTransformLibTask('test')
-];
+registerTransformLibTask('lib', 'umd');
+registerTransformLibTask('test');
 
 gulp.task('generate:dts', () => {
   'use strict';
@@ -46,26 +41,12 @@ gulp.task('generate:dts', () => {
   return tsresult.dts.pipe(gulp.dest('./temp'))
 });
 
-gulp.task('build:dev', transforms, () => {
-  'use strict';
-  return gulp.src(['./dist/**/*.js'])
-    .pipe(concat('all.js'))
-    .pipe(gulp.dest('./dist/'));
-});
-
-gulp.task('watch:lib', () => {
-  'use strict';
-  watch('./lib/**/*.ts', () => {
-    gulp.start('build:dev');
-  });
-});
-
 gulp.task('test', ['transform:test'], () => {
   return gulp.src(['./dist/test/**/*.spec.js'])
     .pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.task('build', ['build:dev', 'transform:test']);
+gulp.task('build', ['transform:lib', 'transform:test']);
 
 gulp.task('watch', () => {
   watch(['./lib/**/*.ts', './test/**/*.ts'], () => {

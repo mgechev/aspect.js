@@ -4,7 +4,7 @@
   "description": "Library for aspect-oriented programming with JavaScript",
   "main": "index.js",
   "scripts": {
-    "postinstall": "./node_modules/.bin/tsd install && ./node_modules/.bin/gulp build",
+    "postinstall": "./node_modules/.bin/tsd install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
