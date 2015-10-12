@@ -57,7 +57,7 @@ export function makeStaticMethodAdviceDecorator(constr) {
         return new StaticMethodJointPoint(new StaticMethodPrecondition(selector));
       });
       let pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, target[prop]);
+      pointcut.advice = <Advice>new constr(target, descriptor.value);
       pointcut.jointPoints = jointpoints;
       let aspectName = target.constructor.name;
       let aspect = AspectRegistry[aspectName] || new Aspect();

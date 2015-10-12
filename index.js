@@ -1,2 +1,2 @@
-module.exports = require('./dist/js/aspect.js');
+module.exports = require('./dist/lib/aspect.js');
 

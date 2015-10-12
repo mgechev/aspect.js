@@ -53,10 +53,6 @@ gulp.task('build:dev', transforms, () => {
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('build:test', () => {
-
-});
-
 gulp.task('watch:lib', () => {
   'use strict';
   watch('./lib/**/*.ts', () => {

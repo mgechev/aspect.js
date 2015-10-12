@@ -62,7 +62,7 @@ export function makeFieldGetAdviceDecorator(constr) {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'get');
       });
       let pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, target[prop]);
+      pointcut.advice = <Advice>new constr(target, descriptor.value);
       pointcut.jointPoints = jointpoints;
       let aspectName = target.constructor.name;
       let aspect = AspectRegistry[aspectName] || new Aspect();
@@ -80,7 +80,7 @@ export function makeFieldSetAdviceDecorator(constr) {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'set');
       });
       let pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, target[prop]);
+      pointcut.advice = <Advice>new constr(target, descriptor.value);
       pointcut.jointPoints = jointpoints;
       let aspectName = target.constructor.name;
       let aspect = AspectRegistry[aspectName] || new Aspect();
