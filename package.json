@@ -1,6 +1,6 @@
 {
   "name": "aspect.js",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Library for aspect-oriented programming with JavaScript",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mgechev/aop.js.git"
+    "url": "git://github.com/mgechev/aspect.js.git"
   },
   "keywords": [
     "aop",
@@ -24,9 +24,9 @@
   "author": "Minko Gechev <mgechev@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mgechev/aop.js/issues"
+    "url": "https://github.com/mgechev/aspect.js/issues"
   },
-  "homepage": "https://github.com/mgechev/aop.js",
+  "homepage": "https://github.com/mgechev/aspect.js",
   "devDependencies": {
     "chai": "^3.3.0",
     "gulp": "^3.9.0",
