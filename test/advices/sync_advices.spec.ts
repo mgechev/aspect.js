@@ -4,7 +4,7 @@ import {Metadata, MethodMetadata, Wove, resetRegistry} from '../../lib/src/core'
 import {Advice} from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';
 
-import {before, after, around, onThrow} from '../../lib/aspect';
+import {beforeMethod, afterMethod} from '../../lib/aspect';
 
 import {expect} from 'chai';
 
@@ -20,7 +20,7 @@ describe('sync advices', () => {
     it('should invoke the advice with the appropriate metadata', (done) => {
       let demo;
       class Aspect {
-        @before({ classNamePattern: /.*/, methodNamePattern: /.*/ })
+        @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           expect(this).to.deep.equal(Aspect.prototype);
           expect(metadata.method.context).to.eq(demo);
@@ -43,7 +43,7 @@ describe('sync advices', () => {
       let adviceCalled = false;
       let methodCalled = false;
       class Aspect {
-        @before({ classNamePattern: /.*/, methodNamePattern: /.*/ })
+        @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           adviceCalled = true;
           expect(methodCalled).to.equal(false);
@@ -66,7 +66,7 @@ describe('sync advices', () => {
     it('should invoke the advice with the appropriate metadata', (done) => {
       let demo;
       class Aspect {
-        @after({ classNamePattern: /.*/, methodNamePattern: /.*/ })
+        @afterMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           expect(this).to.deep.equal(Aspect.prototype);
           expect(metadata.method.context).to.eq(demo);
@@ -89,7 +89,7 @@ describe('sync advices', () => {
       let adviceCalled = false;
       let methodCalled = false;
       class Aspect {
-        @after({ classNamePattern: /.*/, methodNamePattern: /.*/ })
+        @afterMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           adviceCalled = true;
           expect(methodCalled).to.equal(true);

@@ -3,18 +3,16 @@
 import * as gulp from 'gulp';
 import * as ts from 'gulp-typescript';
 import * as concat from 'gulp-concat';
-import * as typescript from 'typescript';
 import * as runSequence from 'run-sequence';
 
 import mocha = require('gulp-mocha');
 import watch = require('gulp-watch');
 
-function tsProjectFactory(target, module?):ts.Project {
-  var tsProject = ts.createProject({
-    typescript: typescript,
-    module: module || 'commonjs',
-    target: 'es5'
-  });
+function tsProjectFactory(module, target?):ts.Project {
+  var config = require('./tsconfig.json').compilerOptions;
+  config.module = module || config.module;
+  config.target = target || config.target;
+  var tsProject = ts.createProject(config);
   return tsProject;
 }
 

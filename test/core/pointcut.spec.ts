@@ -1,6 +1,6 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
-import {Pointcut, Precondition} from '../../lib/src/core';
+import {Pointcut, Precondition, JointPoint} from '../../lib/src/core';
 
 import {expect} from 'chai';
 
