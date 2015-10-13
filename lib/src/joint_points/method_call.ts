@@ -10,13 +10,10 @@ const BLACK_LIST = [
 ];
 
 export class MethodCallJointPoint extends JointPoint {
-  wove({fn, matches}, advice: Advice): void {
-    let proto = fn.prototype;
-    matches.forEach(match => {
-      this.woveMethod(proto, match, advice);
-    });
+  getTarget(fn):any {
+    return fn.prototype;
   }
-  private woveMethod(proto: any, key:string, advice: Advice) {
+  protected woveTarget(proto: any, key:string, advice: Advice) {
     let className = proto.constructor.name;
     let bak = proto[key];
     let self = this;

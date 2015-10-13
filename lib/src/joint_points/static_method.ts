@@ -9,12 +9,10 @@ export class StaticMethodJointPoint extends JointPoint {
   constructor(precondition: Precondition) {
     super(precondition);
   }
-  wove({fn, matches}, advice: Advice): void {
-    matches.forEach(match => {
-      this.woveMethods(fn, match, advice);
-    });
+  getTarget(fn):void {
+    return fn;
   }
-  private woveMethods(fn: any, key:string, advice: Advice) {
+  protected woveTarget(fn: any, key:string, advice: Advice) {
     let className = fn.name;
     let bak = fn[key];
     let self = this;

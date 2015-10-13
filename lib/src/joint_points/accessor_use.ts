@@ -9,13 +9,10 @@ export class AccessorJointPoint extends JointPoint {
   constructor(precondition: Precondition, private type: string) {
     super(precondition);
   }
-  wove({fn, matches}, advice: Advice): void {
-    let proto = fn.prototype;
-    matches.forEach(match => {
-      this.woveAccessors(proto, match, advice);
-    });
+  getTarget(fn): any {
+    return fn.prototype;
   }
-  private woveAccessors(proto: any, key:string, advice: Advice) {
+  protected woveTarget(proto: any, key:string, advice: Advice) {
     let className = proto.constructor.name;
     let self = this;
     let descriptor = Object.getOwnPropertyDescriptor(proto, key);

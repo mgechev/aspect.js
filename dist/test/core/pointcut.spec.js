@@ -17,6 +17,11 @@ var SimpleJP = (function (_super) {
         }
         return [];
     };
+    SimpleJP.prototype.getTarget = function (fn) {
+        return '42';
+    };
+    SimpleJP.prototype.woveTarget = function (fn, match, advice) {
+    };
     SimpleJP.prototype.wove = function () { };
     return SimpleJP;
 })(core_1.JointPoint);

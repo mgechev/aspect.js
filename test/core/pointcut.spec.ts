@@ -1,6 +1,6 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
-import {Pointcut, Precondition, JointPoint} from '../../lib/src/core';
+import {Pointcut, Precondition, JointPoint, Advice} from '../../lib/src/core';
 
 import {expect} from 'chai';
 
@@ -10,6 +10,12 @@ class SimpleJP extends JointPoint {
       return [1];
     }
     return [];
+  }
+  getTarget(fn: any): any {
+    return '42';
+  }
+  woveTarget(fn: any, match: any, advice: Advice): void {
+
   }
   wove() {}
 }
