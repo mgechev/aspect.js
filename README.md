@@ -124,13 +124,9 @@ ts-node demo/index.ts
   - [x] Generic aspects
 - [x] Implement the following advices:
   - [x] Before
-    - [ ] Resolve
-    - [ ] Reject
   - [x] After
     - [x] Throwing
     - [x] Returning
-    - [ ] Resolve
-    - [ ] Reject
   - [x] Around
 
 # License
