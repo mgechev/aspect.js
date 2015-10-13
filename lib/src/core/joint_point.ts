@@ -7,10 +7,10 @@ export interface Precondition {
 
 export abstract class JointPoint {
   constructor(public precondition: Precondition) {}
-  abstract match(descriptor: any): any[];
+  public abstract match(descriptor: any): any[];
   protected abstract getTarget(fn: any): any;
   protected abstract woveTarget(fn: any, match: any, advice: Advice): any;
-  wove({fn, matches}, advice: Advice): void {
+  public wove({fn, matches}, advice: Advice): void {
     let target = this.getTarget(fn);
     matches.forEach(match => {
       this.woveTarget(target, match, advice);

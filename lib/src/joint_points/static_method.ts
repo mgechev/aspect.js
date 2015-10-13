@@ -9,20 +9,10 @@ export class StaticMethodJointPoint extends JointPoint {
   constructor(precondition: Precondition) {
     super(precondition);
   }
-  getTarget(fn):void {
+  public getTarget(fn):void {
     return fn;
   }
-  protected woveTarget(fn: any, key:string, advice: Advice) {
-    let className = fn.name;
-    let bak = fn[key];
-    let self = this;
-    fn[key] = function () {
-      let metadata = self.getMetadata(className, key, arguments, this);
-      return advice.wove(bak, metadata);
-    };
-    fn[key].__woven__ = true;
-  }
-  match(target): any[] {
+  public match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target);
     let res = keys.map(key => {
@@ -34,6 +24,16 @@ export class StaticMethodJointPoint extends JointPoint {
       return false;
     }).filter(val => !!val);
     return res;
+  }
+  protected woveTarget(fn: any, key:string, advice: Advice) {
+    let className = fn.name;
+    let bak = fn[key];
+    let self = this;
+    fn[key] = function () {
+      let metadata = self.getMetadata(className, key, arguments, this);
+      return advice.wove(bak, metadata);
+    };
+    fn[key].__woven__ = true;
   }
 }
 

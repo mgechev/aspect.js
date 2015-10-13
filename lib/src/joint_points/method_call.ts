@@ -10,20 +10,10 @@ const BLACK_LIST = [
 ];
 
 export class MethodCallJointPoint extends JointPoint {
-  getTarget(fn):any {
+  public getTarget(fn):any {
     return fn.prototype;
   }
-  protected woveTarget(proto: any, key:string, advice: Advice) {
-    let className = proto.constructor.name;
-    let bak = proto[key];
-    let self = this;
-    proto[key] = function () {
-      let metadata = self.getMetadata(className, key, arguments, this);
-      return advice.wove(bak, metadata);
-    };
-    proto[key].__woven__ = true;
-  }
-  match(target): any[] {
+  public match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
     keys = keys.filter(key => {
@@ -38,6 +28,16 @@ export class MethodCallJointPoint extends JointPoint {
       return false;
     }).filter(val => !!val);
     return res;
+  }
+  protected woveTarget(proto: any, key:string, advice: Advice) {
+    let className = proto.constructor.name;
+    let bak = proto[key];
+    let self = this;
+    proto[key] = function () {
+      let metadata = self.getMetadata(className, key, arguments, this);
+      return advice.wove(bak, metadata);
+    };
+    proto[key].__woven__ = true;
   }
 }
 

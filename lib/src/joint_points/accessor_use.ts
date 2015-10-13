@@ -9,7 +9,7 @@ export class AccessorJointPoint extends JointPoint {
   constructor(precondition: Precondition, private type: string) {
     super(precondition);
   }
-  getTarget(fn): any {
+  public getTarget(fn): any {
     return fn.prototype;
   }
   protected woveTarget(proto: any, key:string, advice: Advice) {
@@ -26,7 +26,7 @@ export class AccessorJointPoint extends JointPoint {
       Object.defineProperty(proto, key, descriptor);
     }
   }
-  match(target): any[] {
+  public match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
     let res = keys.map(key => {

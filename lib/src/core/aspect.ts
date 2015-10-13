@@ -11,7 +11,7 @@ export class Aspect {
   constructor() {
     this.pointcuts = [];
   }
-  wove(target: Function) {
+  public wove(target: Function) {
     this.pointcuts.forEach(p => {
       p.apply(target);
     });
