@@ -4,6 +4,7 @@ export class MethodMetadata {
   public args: any[];
   public context: any;
   public result: any;
+  public exception: any;
 }
 
 export class Metadata {
