@@ -53,6 +53,28 @@ export interface MemberSelector {
 }
 ```
 
+## `Metadata`
+
+```ts
+export class Metadata {
+  public method: MethodMetadata;
+  public className: string;
+}
+```
+
+## `MethodMetadata`
+
+```ts
+export class MethodMetadata {
+  public proceed: boolean;
+  public name: string;
+  public args: any[];
+  public context: any;
+  public result: any;
+  public exception: any;
+}
+```
+
 # Sample usage
 
 ```ts
@@ -96,28 +118,6 @@ new ArticleCollection().getArticle(1);
 // Inside of the logger. Called ArticleCollection.getArticle with args: 1.
 // Setting article with id: 1.
 
-```
-
-## `Metadata`
-
-```ts
-export class Metadata {
-  public method: MethodMetadata;
-  public className: string;
-}
-```
-
-## `MethodMetadata`
-
-```ts
-export class MethodMetadata {
-  public proceed: boolean;
-  public name: string;
-  public args: any[];
-  public context: any;
-  public result: any;
-  public exception: any;
-}
 ```
 
 # Declaimer
