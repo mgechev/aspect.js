@@ -19,10 +19,11 @@ export abstract class JointPoint {
   protected getMetadata(className: string, key: string, args: IArguments, context: any): Metadata {
     var invocation: MethodMetadata = {
       name: key,
-      args: undefined,
       proceed: true,
       context: context,
-      result: undefined
+      result: undefined,
+      exception: undefined,
+      args: undefined
     };
     var metadata: Metadata = new Metadata();
     metadata.method = invocation;
