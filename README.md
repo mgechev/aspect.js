@@ -37,7 +37,7 @@ The library offers the following combinations of advices and joint points:
 
 ## `MethodSelector`
 
-```typescript
+```ts
 export interface MethodSelector {
   classNamePattern: RegExp;
   methodNamePattern: RegExp;
@@ -46,16 +46,38 @@ export interface MethodSelector {
 
 ## `MemberSelector`
 
-```typescript
+```ts
 export interface MemberSelector {
   classNamePattern: RegExp;
   fieldNamePattern: RegExp;
 }
 ```
 
+## `Metadata`
+
+```ts
+export class Metadata {
+  public method: MethodMetadata;
+  public className: string;
+}
+```
+
+## `MethodMetadata`
+
+```ts
+export class MethodMetadata {
+  public proceed: boolean;
+  public name: string;
+  public args: any[];
+  public context: any;
+  public result: any;
+  public exception: any;
+}
+```
+
 # Sample usage
 
-```typescript
+```ts
 
 import {beforeMethod, Wove, Metadata} from 'aspect.js';
 

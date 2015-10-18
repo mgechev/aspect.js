@@ -27,3 +27,5 @@ build/Release
 node_modules
 
 typings
+dist
+.vscode

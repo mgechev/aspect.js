@@ -42,7 +42,11 @@ class UserMapper {
     this.http.get('http://foo.bar');
     return 'result';
   }
+  foo() {
+    console.log('bar');
+  }
   get getfield() {
+    this.foo();
     return 42;
   }
   static getUserMapper() {
@@ -53,5 +57,5 @@ class UserMapper {
 
 let mapper = new UserMapper(new Http());
 // console.log(mapper.get(42));
-// console.log(mapper.getfield);
-console.log(UserMapper.getUserMapper())
+console.log(mapper.getfield);
+// console.log(UserMapper.getUserMapper())

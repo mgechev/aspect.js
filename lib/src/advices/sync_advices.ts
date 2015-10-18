@@ -31,6 +31,7 @@ export class OnThrowAdvice extends Advice {
     try {
       this.invoke(target, metadata);
     } catch (e) {
+      metadata.method.exception = e;
       this.advice.bind(this.context, metadata).apply(null, metadata.method.args);
     }
     return metadata.method.result;
