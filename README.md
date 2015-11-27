@@ -120,7 +120,7 @@ new ArticleCollection().getArticle(1);
 
 ```
 
-# Declaimer
+# Disclaimer
 
 The library is in early stage of development. It's API most likely will change.
 
