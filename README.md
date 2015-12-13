@@ -101,7 +101,7 @@ class Article {
 class ArticleCollection {
   articles: Article[] = [];
   getArticle(id: number) {
-    console.log(`Setting article with id: ${id}.`);
+    console.log(`Getting article with id: ${id}.`);
     return this.articles.filter(a => {
       return a.id === id;
     }).pop();
@@ -116,7 +116,7 @@ new ArticleCollection().getArticle(1);
 
 // Result:
 // Inside of the logger. Called ArticleCollection.getArticle with args: 1.
-// Setting article with id: 1.
+// Getting article with id: 1.
 
 ```
 
