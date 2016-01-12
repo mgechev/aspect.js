@@ -6,6 +6,54 @@ For further reading on decorators, take a look at [the spec](https://github.com/
 
 Blog post, introduction to the AOP and the library could be found [here](http://blog.mgechev.com/2015/07/29/aspect-oriented-programming-javascript-aop-js/).
 
+Talk from [AngularConnect](https://www.youtube.com/watch?v=C6e6-31HD5A).
+
+# Sample usage
+
+```ts
+
+import {beforeMethod, Wove, Metadata} from 'aspect.js';
+
+class LoggerAspect {
+  @beforeMethod({
+    classNamePattern: /^Article/,
+    methodNamePattern: /^(get|set)/
+  })
+  invokeBeforeMethod(meta: Metadata) {
+    console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
+  }
+}
+
+class Article {
+  id: number;
+  title: string;
+  content: string;
+}
+
+@Wove()
+class ArticleCollection {
+  articles: Article[] = [];
+  getArticle(id: number) {
+    console.log(`Setting article with id: ${id}.`);
+    return this.articles.filter(a => {
+      return a.id === id;
+    }).pop();
+  }
+  setArticle(article: Article) {
+    console.log(`Setting article with id: ${article.id}.`);
+    this.articles.push(article);
+  }
+}
+
+new ArticleCollection().getArticle(1);
+
+// Result:
+// Inside of the logger. Called ArticleCollection.getArticle with args: 1.
+// Setting article with id: 1.
+
+```
+
+
 # API
 
 The library offers the following combinations of advices and joint points:
@@ -73,51 +121,6 @@ export class MethodMetadata {
   public result: any;
   public exception: any;
 }
-```
-
-# Sample usage
-
-```ts
-
-import {beforeMethod, Wove, Metadata} from 'aspect.js';
-
-class LoggerAspect {
-  @beforeMethod({
-    classNamePattern: /^Article/,
-    methodNamePattern: /^(get|set)/
-  })
-  invokeBeforeMethod(meta: Metadata) {
-    console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
-  }
-}
-
-class Article {
-  id: number;
-  title: string;
-  content: string;
-}
-
-@Wove()
-class ArticleCollection {
-  articles: Article[] = [];
-  getArticle(id: number) {
-    console.log(`Setting article with id: ${id}.`);
-    return this.articles.filter(a => {
-      return a.id === id;
-    }).pop();
-  }
-  setArticle(article: Article) {
-    console.log(`Setting article with id: ${article.id}.`);
-    this.articles.push(article);
-  }
-}
-
-new ArticleCollection().getArticle(1);
-
-// Result:
-// Inside of the logger. Called ArticleCollection.getArticle with args: 1.
-// Setting article with id: 1.
-
 ```
 
 # Disclaimer
