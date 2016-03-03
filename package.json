@@ -22,6 +22,7 @@
     "pointcut",
     "joint point"
   ],
+  "typings": "./dist/lib/aspect.d.ts",
   "author": "Minko Gechev <mgechev@gmail.com>",
   "license": "MIT",
   "bugs": {
