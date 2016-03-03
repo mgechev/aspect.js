@@ -1,5 +1,3 @@
-/// <reference path="../../typings/tsd.d.ts"/>
-
 import {Metadata, MethodMetadata, Wove, resetRegistry} from '../../lib/src/core';
 import {Advice} from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';

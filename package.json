@@ -4,7 +4,7 @@
   "description": "Library for aspect-oriented programming with JavaScript",
   "main": "index.js",
   "scripts": {
-    "postinstall": "./node_modules/.bin/tsd install",
+    "postinstall": "typings install",
     "tsc": "tsc --declaration",
     "test": "tsc && mocha ./dist/test/**/*.spec.js"
   },
@@ -30,6 +30,7 @@
   "homepage": "https://github.com/mgechev/aspect.js",
   "devDependencies": {
     "chai": "^3.3.0",
-    "typescript": "^1.8.0"
+    "typescript": "^1.8.0",
+    "typings": "^0.6.9"
   }
 }
