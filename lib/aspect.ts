@@ -1,9 +1,10 @@
-export {Wove, Metadata, MethodMetadata} from './src/core';
-export {MemberPrecondition} from './src/joint_points';
-
+import {MethodSelector, MemberSelector} from './src/joint_points/selectors';
 import {BeforeAdvice, AroundAdvice, AfterAdvice, OnThrowAdvice} from './src/advices';
 import {makeMethodCallAdviceDecorator, makeStaticMethodAdviceDecorator} from './src/joint_points';
 import {makeFieldGetAdviceDecorator, makeFieldSetAdviceDecorator} from './src/joint_points';
+
+export {Wove, Metadata, MethodMetadata} from './src/core';
+export {MemberPrecondition} from './src/joint_points';
 
 export let beforeMethod = makeMethodCallAdviceDecorator(BeforeAdvice);
 export let afterMethod = makeMethodCallAdviceDecorator(AfterAdvice);

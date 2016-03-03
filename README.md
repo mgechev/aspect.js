@@ -139,12 +139,6 @@ ts-node demo/index.ts
 
 - [x] Tests
 - [x] Type annotations and DTS generation
-- [ ] Implement the following joint points:
-  - [x] Method execution
-  - [x] Static method execution
-  - [ ] Constructor execution
-  - [x] Filed get
-  - [x] Field set
 - [x] Aspect factories
   - [x] Generic aspects
 - [x] Implement the following advices:
@@ -153,6 +147,12 @@ ts-node demo/index.ts
     - [x] Throwing
     - [x] Returning
   - [x] Around
+- [ ] Implement the following joint points:
+  - [x] Method execution
+  - [x] Static method execution
+  - [ ] Constructor execution
+  - [x] Filed get
+  - [x] Field set
 
 # License
 

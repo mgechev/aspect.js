@@ -1,11 +1,11 @@
 {
   "name": "aspect.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Library for aspect-oriented programming with JavaScript",
   "main": "index.js",
   "scripts": {
     "postinstall": "./node_modules/.bin/tsd install",
-    "tsc": "tsc",
+    "tsc": "tsc --declaration",
     "test": "tsc && mocha ./dist/test/**/*.spec.js"
   },
   "repository": {
