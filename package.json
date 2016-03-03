@@ -1,11 +1,13 @@
 {
   "name": "aspect.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Library for aspect-oriented programming with JavaScript",
-  "main": "index.js",
+  "main": "./dist/lib/aspect.js",
+  "typings": "./dist/lib/aspect.d.ts",
   "scripts": {
     "postinstall": "typings install",
     "tsc": "tsc --declaration",
+    "prepublish": "npm run tsc",
     "test": "tsc && mocha ./dist/test/**/*.spec.js"
   },
   "repository": {
@@ -22,7 +24,6 @@
     "pointcut",
     "joint point"
   ],
-  "typings": "./dist/lib/aspect.d.ts",
   "author": "Minko Gechev <mgechev@gmail.com>",
   "license": "MIT",
   "bugs": {
