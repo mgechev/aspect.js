@@ -137,8 +137,8 @@ ts-node demo/index.ts
 
 # Roadmap
 
-- [ ] **Tests**
-- [ ] Type annotations and DTS generation
+- [x] Tests
+- [x] Type annotations and DTS generation
 - [ ] Implement the following joint points:
   - [x] Method execution
   - [x] Static method execution
