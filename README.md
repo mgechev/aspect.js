@@ -4,7 +4,7 @@ Library for aspect-oriented programming with JavaScript, which takes advantage o
 
 For further reading on decorators, take a look at [the spec](https://github.com/wycats/javascript-decorators).
 
-Blog post, introduction to the AOP and the library could be found [here](http://blog.mgechev.com/2015/07/29/aspect-oriented-programming-javascript-aop-js/).
+Blog post, introduction to the AOP and the library could be found [here](http://blog.mgechev.com/2015/07/29/aspect-oriented-programming-javascript-aop-js).
 
 Talk from [AngularConnect](https://www.youtube.com/watch?v=C6e6-31HD5A).
 
