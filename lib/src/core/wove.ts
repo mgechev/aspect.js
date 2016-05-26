@@ -6,5 +6,6 @@ export function Wove() {
     keys.forEach(key => {
       AspectRegistry[key].wove(target);
     });
+    return target;
   };
 }
