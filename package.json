@@ -1,13 +1,13 @@
 {
   "name": "aspect.js",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Library for aspect-oriented programming with JavaScript",
-  "main": "./dist/lib/aspect.js",
-  "typings": "./dist/lib/aspect.d.ts",
+  "main": "./aspect.js",
+  "typings": "./aspect.d.ts",
   "scripts": {
     "postinstall": "typings install",
+    "build_publish": "rm -rf dist && npm run tsc && cp ./package.json dist/lib",
     "tsc": "tsc --declaration",
-    "prepublish": "npm run tsc",
     "test": "tsc && mocha ./dist/test/**/*.spec.js"
   },
   "repository": {
