@@ -53,7 +53,7 @@ describe('Pointcut', () => {
       called2 = true;
       return [];
     };
-    pc.apply({});
+    pc.apply(function () {}, null);
     expect(called1).to.equal(true);
     expect(called2).to.equal(true);
     done();

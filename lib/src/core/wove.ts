@@ -1,6 +1,6 @@
 import {AspectRegistry} from './aspect';
 
-export function Wove(config) {
+export function Wove(config?: any) {
   return function (target) {
     let keys = Object.getOwnPropertyNames(AspectRegistry);
     keys.forEach(key => {
