@@ -11,7 +11,6 @@ Talk from [AngularConnect](https://www.youtube.com/watch?v=C6e6-31HD5A).
 # Sample usage
 
 ```ts
-
 import {beforeMethod, Wove, Metadata} from 'aspect.js';
 
 class LoggerAspect {
@@ -51,7 +50,6 @@ new ArticleCollection().getArticle(1);
 // Result:
 // Inside of the logger. Called ArticleCollection.getArticle with args: 1.
 // Setting article with id: 1.
-
 ```
 
 
