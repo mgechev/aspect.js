@@ -20,6 +20,7 @@ class LoggerAspect {
     methodNamePattern: /^(get|set)/
   })
   invokeBeforeMethod(meta: Metadata) {
+    // meta.woveMetadata == { bar: 42 }
     console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
   }
 }
@@ -30,7 +31,7 @@ class Article {
   content: string;
 }
 
-@Wove()
+@Wove({ bar: 42 })
 class ArticleCollection {
   articles: Article[] = [];
   getArticle(id: number) {
