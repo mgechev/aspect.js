@@ -29,12 +29,12 @@ export class MethodCallJointPoint extends JointPoint {
     }).filter(val => !!val);
     return res;
   }
-  protected woveTarget(proto: any, key:string, advice: Advice) {
+  protected woveTarget(proto: any, key:string, advice: Advice, woveMetadata: any) {
     let className = proto.constructor.name;
     let bak = proto[key];
     let self = this;
     proto[key] = function () {
-      let metadata = self.getMetadata(className, key, arguments, this);
+      let metadata = self.getMetadata(className, key, arguments, this, woveMetadata);
       return advice.wove(bak, metadata);
     };
     proto[key].__woven__ = true;

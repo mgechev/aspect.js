@@ -107,6 +107,7 @@ export interface MemberSelector {
 export class Metadata {
   public method: MethodMetadata;
   public className: string;
+  public woveMetadata: any;
 }
 ```
 

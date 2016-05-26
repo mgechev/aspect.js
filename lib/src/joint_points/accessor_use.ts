@@ -12,14 +12,14 @@ export class AccessorJointPoint extends JointPoint {
   public getTarget(fn): any {
     return fn.prototype;
   }
-  protected woveTarget(proto: any, key:string, advice: Advice) {
+  protected woveTarget(proto: any, key: string, advice: Advice, woveMetadata: any) {
     let className = proto.constructor.name;
     let self = this;
     let descriptor = Object.getOwnPropertyDescriptor(proto, key);
     if (typeof descriptor[this.type] === 'function') {
       let bak = descriptor[this.type];
       descriptor[this.type] = function () {
-        let metadata = self.getMetadata(className, key, arguments, this);
+        let metadata = self.getMetadata(className, key, arguments, this, woveMetadata);
         return advice.wove(bak, metadata);
       };
       descriptor[this.type]['__woven__'] = true;
