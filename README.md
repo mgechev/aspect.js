@@ -8,6 +8,8 @@ Blog post, introduction to the AOP and the library could be found [here](http://
 
 Talk from [AngularConnect](https://www.youtube.com/watch?v=C6e6-31HD5A).
 
+[![Cutting Angular's Crosscuts](https://s18.postimg.org/9mtkq13vt/ng_connect_aspectjs.png)](https://www.youtube.com/watch?v=C6e6-31HD5A).
+
 # Sample usage
 
 ```ts
@@ -122,10 +124,6 @@ export class MethodMetadata {
   public exception: any;
 }
 ```
-
-# Disclaimer
-
-The library is in early stage of development. It's API most likely will change.
 
 # Demo
 
