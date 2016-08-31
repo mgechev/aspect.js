@@ -8,7 +8,7 @@ Blog post, introduction to the AOP and the library could be found [here](http://
 
 Talk from [AngularConnect](https://www.youtube.com/watch?v=C6e6-31HD5A).
 
-[![Cutting Angular's Crosscuts](https://s18.postimg.org/9mtkq13vt/ng_connect_aspectjs.png)](https://www.youtube.com/watch?v=C6e6-31HD5A).
+[![Cutting Angular's Crosscuts](https://s10.postimg.org/qohcv9rvd/aspectjs_angular_connect.png)](https://www.youtube.com/watch?v=C6e6-31HD5A)
 
 # Sample usage
 
