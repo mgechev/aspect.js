@@ -6,8 +6,7 @@ export interface MethodSelector {
 }
 
 export interface MemberSelector {
-  classNamePattern?: RegExp;
-  fieldNamePattern?: RegExp;
-  classes?: any[];
-  fields?: any[];
+  classNamePattern: RegExp;
+  fieldNamePattern: RegExp;
 }
+

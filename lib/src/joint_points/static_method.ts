@@ -15,11 +15,10 @@ export class StaticMethodJointPoint extends JointPoint {
   }
 
   public match(target): any[] {
-    let name = target.name;
     let keys = Object.getOwnPropertyNames(target);
     let res = keys.map(key => {
       let descriptor = Object.getOwnPropertyDescriptor(target, key);
-      if (this.precondition.assert({ className: name, methodName: key }) &&
+      if (this.precondition.assert({ classInstance: target, methodName: key }) &&
           typeof descriptor.value === 'function') {
         return key;
       }

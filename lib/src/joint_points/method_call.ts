@@ -15,14 +15,13 @@ export class MethodCallJointPoint extends JointPoint {
   }
 
   public match(target): any[] {
-    let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
     keys = keys.filter(key => {
       return BLACK_LIST.indexOf(key) < 0;
     });
     let res = keys.map(key => {
       let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
-      if (this.precondition.assert({ className: name, methodName: key }) &&
+      if (this.precondition.assert({ classInstance: target, methodName: key }) &&
           typeof descriptor.value === 'function') {
         return key;
       }

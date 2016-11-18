@@ -9,9 +9,7 @@ export abstract class JointPoint {
   constructor(public precondition: Precondition) {}
 
   public abstract match(descriptor: any): any[];
-
   protected abstract getTarget(fn: any): any;
-
   protected abstract woveTarget(fn: any, match: any, advice: Advice, woveMetadata: any): any;
 
   public wove({ fn, matches, woveMetadata }, advice: Advice): void {
@@ -46,3 +44,4 @@ export abstract class JointPoint {
     return metadata;
   }
 }
+
