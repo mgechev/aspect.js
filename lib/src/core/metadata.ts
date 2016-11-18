@@ -13,3 +13,4 @@ export class Metadata {
   public className: string;
   private __advice_metadata__ = true;
 }
+

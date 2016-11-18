@@ -25,3 +25,4 @@ export let beforeStaticMethod = makeStaticMethodAdviceDecorator(BeforeAdvice);
 export let afterStaticMethod = makeStaticMethodAdviceDecorator(AfterAdvice);
 export let aroundStaticMethod = makeStaticMethodAdviceDecorator(AroundAdvice);
 export let onThrowOfStaticMethod = makeStaticMethodAdviceDecorator(OnThrowAdvice);
+

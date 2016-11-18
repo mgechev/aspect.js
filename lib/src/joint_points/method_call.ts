@@ -13,6 +13,7 @@ export class MethodCallJointPoint extends JointPoint {
   public getTarget(fn):any {
     return fn.prototype;
   }
+
   public match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
@@ -29,6 +30,7 @@ export class MethodCallJointPoint extends JointPoint {
     }).filter(val => !!val);
     return res;
   }
+
   protected woveTarget(proto: any, key:string, advice: Advice, woveMetadata: any) {
     let className = proto.constructor.name;
     let bak = proto[key];
@@ -58,3 +60,4 @@ export function makeMethodCallAdviceDecorator(constr) {
     }
   }
 }
+

@@ -9,9 +9,11 @@ export class StaticMethodJointPoint extends JointPoint {
   constructor(precondition: Precondition) {
     super(precondition);
   }
+
   public getTarget(fn):void {
     return fn;
   }
+
   public match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target);
@@ -25,6 +27,7 @@ export class StaticMethodJointPoint extends JointPoint {
     }).filter(val => !!val);
     return res;
   }
+
   protected woveTarget(fn: any, key: string, advice: Advice, woveMetadata: any) {
     let className = fn.name;
     let bak = fn[key];
@@ -54,3 +57,4 @@ export function makeStaticMethodAdviceDecorator(constr) {
     }
   }
 }
+

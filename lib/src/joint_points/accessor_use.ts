@@ -9,9 +9,11 @@ export class AccessorJointPoint extends JointPoint {
   constructor(precondition: Precondition, private type: string) {
     super(precondition);
   }
+
   public getTarget(fn): any {
     return fn.prototype;
   }
+
   protected woveTarget(proto: any, key: string, advice: Advice, woveMetadata: any) {
     let className = proto.constructor.name;
     let self = this;
@@ -26,6 +28,7 @@ export class AccessorJointPoint extends JointPoint {
       Object.defineProperty(proto, key, descriptor);
     }
   }
+
   public match(target): any[] {
     let name = target.name;
     let keys = Object.getOwnPropertyNames(target.prototype);
@@ -76,3 +79,4 @@ export function makeFieldSetAdviceDecorator(constr) {
     }
   }
 }
+
