@@ -1,7 +1,7 @@
 import {Precondition, JointPoint} from '../core/joint_point';
 import {Advice} from '../core/advice';
 import {Pointcut} from '../core/pointcut';
-import {AspectRegistry, Aspect} from '../core/aspect';
+import {AspectRegistry, Targets, Aspect} from '../core/aspect';
 import {MethodSelector} from './selectors';
 import {MethodPrecondition} from './preconditions';
 
@@ -52,6 +52,7 @@ export function makeStaticMethodAdviceDecorator(constr) {
       let aspect = AspectRegistry[aspectName] || new Aspect();
       aspect.pointcuts.push(pointcut);
       AspectRegistry[aspectName] = aspect;
+      Targets.forEach(({ target, config}) => aspect.wove(target, config));
       return target;
     }
   }

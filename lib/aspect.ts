@@ -3,7 +3,7 @@ import {BeforeAdvice, AroundAdvice, AfterAdvice, OnThrowAdvice} from './src/advi
 import {makeMethodCallAdviceDecorator, makeStaticMethodAdviceDecorator} from './src/joint_points';
 import {makeFieldGetAdviceDecorator, makeFieldSetAdviceDecorator} from './src/joint_points';
 
-export {Wove, Metadata, MethodMetadata, AspectRegistry as _AspectRegistry} from './src/core';
+export {Wove, Metadata, MethodMetadata, AspectRegistry as _AspectRegistry, Targets as _Targets} from './src/core';
 export {MemberPrecondition} from './src/joint_points';
 
 export let beforeMethod = makeMethodCallAdviceDecorator(BeforeAdvice);

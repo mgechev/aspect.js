@@ -5,9 +5,8 @@
   "main": "./aspect.js",
   "typings": "./aspect.d.ts",
   "scripts": {
-    "build_publish": "rm -rf dist && npm run tsc && cp ./package.json README.md dist/lib",
-    "tsc": "tsc --declaration",
-    "test": "tsc && mocha ./dist/test/**/*.spec.js"
+    "build_publish": "rm -rf dist && tsc && cp ./package.json README.md dist/lib",
+    "test": "mocha ./dist/test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -30,8 +29,10 @@
   },
   "homepage": "https://github.com/mgechev/aspect.js",
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.33",
+    "@types/node": "^6.0.48",
     "chai": "^3.3.0",
-    "typescript": "^1.8.0",
-    "typings": "^0.6.9"
+    "typescript": "^2.0.6"
   }
 }

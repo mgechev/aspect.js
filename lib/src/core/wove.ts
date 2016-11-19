@@ -1,4 +1,4 @@
-import {AspectRegistry} from './aspect';
+import {AspectRegistry, Targets} from './aspect';
 
 export function Wove(config?: any) {
   return function (target) {
@@ -9,6 +9,7 @@ export function Wove(config?: any) {
     keys.forEach(key => {
       AspectRegistry[key].wove(target, config);
     });
+    Targets.add({ target, config });
     target.__woven__ = true;
     return target;
   };

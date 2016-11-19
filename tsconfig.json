@@ -4,7 +4,8 @@
     "module": "commonjs",
     "sourceMap": true,
     "experimentalDecorators": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "lib": ["es2015"]
   },
   "exclude": [
     "typings/browser.d.ts",
