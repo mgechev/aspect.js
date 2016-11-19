@@ -1,11 +1,11 @@
 {
   "name": "aspect.js",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Library for aspect-oriented programming with JavaScript",
   "main": "./aspect.js",
   "typings": "./aspect.d.ts",
   "scripts": {
-    "build_publish": "rm -rf dist && tsc && cp ./package.json README.md dist/lib",
+    "build_publish": "rm -rf dist && tsc --declaration && cp ./package.json README.md dist/lib",
     "test": "mocha ./dist/test/**/*.spec.js"
   },
   "repository": {
