@@ -19,14 +19,15 @@ export abstract class JointPoint {
     });
   }
 
-  protected getMetadata(className: string, key: string, args: IArguments, context: any, woveMetadata: any): Metadata {
+  protected getMetadata(className: string, key: string, fn: any, args: IArguments, context: any, woveMetadata: any): Metadata {
     var invocation: MethodMetadata = {
       name: key,
       proceed: true,
       context: context,
       result: undefined,
       exception: undefined,
-      args: undefined
+      args: undefined,
+      invoke: () => fn.apply(context, args)
     };
     var metadata: Metadata = new Metadata();
     metadata.method = invocation;

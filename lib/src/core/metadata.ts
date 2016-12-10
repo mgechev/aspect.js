@@ -5,6 +5,7 @@ export class MethodMetadata {
   public context: any;
   public result: any;
   public exception: any;
+  public invoke: () => any;
 }
 
 export class Metadata {
