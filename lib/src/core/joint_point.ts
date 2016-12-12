@@ -27,7 +27,7 @@ export abstract class JointPoint {
       result: undefined,
       exception: undefined,
       args: undefined,
-      invoke: () => fn.apply(context, args)
+      invoke: fn.bind(context)
     };
     var metadata: Metadata = new Metadata();
     metadata.method = invocation;

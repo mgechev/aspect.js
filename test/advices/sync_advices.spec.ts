@@ -66,12 +66,12 @@ describe('sync advices', () => {
         @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke();
+          metadata.method.result = metadata.method.invoke(...metadata.method.args);
           expect(metadata.method.result).to.be.equal(6);
         }
       }
       @Wove()
-      class Demo {    
+      class Demo {
         multiplier = 2;
         get(foo, bar) {
           called++;
@@ -91,19 +91,42 @@ describe('sync advices', () => {
         @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke();
+          metadata.method.result = metadata.method.invoke(...metadata.method.args);
           expect(metadata.method.result).to.be.equal(3);
         }
       }
       @Wove()
-      class Demo {    
+      class Demo {
+        static get(foo, bar) {
+          called++;
+          return foo + bar;
+        }
+      }
+
+      expect(Demo.get(1, 2)).to.be.equal(3);
+      expect(called).to.be.equal(1);
+      done();
+    });
+
+    it('should be able to invoke the static method manually with custom arguments', (done) => {
+      let called = 0;
+      class Aspect {
+        @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
+        before(metadata: Metadata) {
+          metadata.method.proceed = false;
+          metadata.method.result = metadata.method.invoke(2, 3);
+          expect(metadata.method.result).to.be.equal(5);
+        }
+      }
+      @Wove()
+      class Demo {
         static get(foo, bar) {
           called++;
           return foo + bar ;
         }
       }
 
-      expect(Demo.get(1, 2)).to.be.equal(3);
+      expect(Demo.get(1, 2)).to.be.equal(5);
       expect(called).to.be.equal(1);
       done();
     });
@@ -115,13 +138,13 @@ describe('sync advices', () => {
         @beforeGetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          const result = metadata.method.invoke();
+          const result = metadata.method.invoke(metadata.method.args);
           metadata.method.result = result * 2;
           expect(result).to.be.equal(5);
         }
       }
       @Wove()
-      class Demo {    
+      class Demo {
         get foo() {
           called++;
           return 5;
