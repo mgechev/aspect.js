@@ -5,7 +5,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
-    "lib": ["es2015"]
+    "lib": ["es2015", "dom"]
   },
   "exclude": [
     "typings/browser.d.ts",

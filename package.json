@@ -6,7 +6,7 @@
   "typings": "./aspect.d.ts",
   "scripts": {
     "build_publish": "rm -rf dist && tsc --declaration && cp ./package.json README.md dist/lib",
-    "test": "mocha ./dist/test/**/*.spec.js"
+    "test": "tsc && mocha ./dist/test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,6 @@
     "@types/mocha": "^2.2.33",
     "@types/node": "^6.0.48",
     "chai": "^3.3.0",
-    "typescript": "^2.0.6"
+    "typescript": "^2.1.4"
   }
 }
