@@ -124,6 +124,7 @@ export class MethodMetadata {
   public context: any;
   public result: any;
   public exception: any;
+  public invoke: (...args: any[]) => any;
 }
 ```
 

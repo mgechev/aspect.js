@@ -21,7 +21,7 @@ export class AccessorJointPoint extends JointPoint {
     if (typeof descriptor[this.type] === 'function') {
       let bak = descriptor[this.type];
       descriptor[this.type] = function () {
-        let metadata = self.getMetadata(className, key, arguments, this, woveMetadata);
+        let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
         return advice.wove(bak, metadata);
       };
       descriptor[this.type]['__woven__'] = true;
