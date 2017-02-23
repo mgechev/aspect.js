@@ -3,15 +3,17 @@
     "target": "es5",
     "module": "commonjs",
     "sourceMap": true,
+    "declaration": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
     "lib": ["es2015", "dom"]
   },
-  "exclude": [
-    "typings/browser.d.ts",
-    "typings/browser",
-    "dist",
-    "node_modules",
-    ".vscode"
-  ]
+  "files": [
+    "lib/index.ts",
+    "test/advices/sync_advices.spec.ts",
+    "test/core/pointcut.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true
+  }
 }
