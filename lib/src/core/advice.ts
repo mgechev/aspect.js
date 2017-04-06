@@ -8,13 +8,13 @@ export abstract class Advice {
   public invoke(target: any, metadata: Metadata) {
     if (target.__woven__) {
       return (metadata.method.result = target.bind(this.context, metadata).apply(null, metadata.method.args));
-    } else {
-      if (metadata.method.proceed) {
-        return (metadata.method.result = target.apply(metadata.method.context, metadata.method.args));
-      } else {
-        return metadata.method.result;
-      }
-    }
+    } else 
+      
+    if (metadata.method.proceed) {
+      return (metadata.method.result = target.apply(metadata.method.context, metadata.method.args));
+    } 
+        
+    return metadata.method.result;
   }
 }
 
