@@ -204,5 +204,27 @@ describe('sync advices', () => {
       new Demo().get();
     });
 
+    it('should not invoke the same advice twice', () => {
+      let adviceCalls = 0;
+      let methodCalled = false;
+
+      @Wove()
+      class Demo {
+        get() {}
+        set() {}
+      }
+
+      class Aspect {
+        @beforeMethod({ classNamePattern: /Demo/, methodNamePattern: /get/ })
+        before(metadata: Metadata) {
+          adviceCalls += 1;
+        }
+        @afterMethod({ classNamePattern: /Demo/, methodNamePattern: /set/ })
+        after(metadata: Metadata) {}
+      }
+      new Demo().get();
+      expect(adviceCalls).to.eq(1);
+    });
+
   });
 });
