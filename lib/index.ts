@@ -1,28 +1,44 @@
 import {MethodSelector, MemberSelector} from './src/joint_points/selectors';
-import {BeforeAdvice, AroundAdvice, AfterAdvice, OnThrowAdvice} from './src/advices';
+import {
+  BeforeAdvice,
+  AroundAdvice,
+  AfterAdvice,
+  OnThrowAdvice,
+
+  AsyncOnThrowAdvice,
+} from './src/advices';
 import {makeMethodCallAdviceDecorator, makeStaticMethodAdviceDecorator} from './src/joint_points';
 import {makeFieldGetAdviceDecorator, makeFieldSetAdviceDecorator} from './src/joint_points';
 
 export {Wove, Metadata, MethodMetadata, AspectRegistry as _AspectRegistry, Targets as _Targets} from './src/core';
 export {MemberPrecondition} from './src/joint_points';
 
-export let beforeMethod = makeMethodCallAdviceDecorator(BeforeAdvice);
-export let afterMethod = makeMethodCallAdviceDecorator(AfterAdvice);
-export let aroundMethod = makeMethodCallAdviceDecorator(AroundAdvice);
-export let onThrowOfMethod = makeMethodCallAdviceDecorator(OnThrowAdvice);
+export const beforeMethod = makeMethodCallAdviceDecorator(BeforeAdvice);
+export const afterMethod = makeMethodCallAdviceDecorator(AfterAdvice);
+export const aroundMethod = makeMethodCallAdviceDecorator(AroundAdvice);
+export const onThrowOfMethod = makeMethodCallAdviceDecorator(OnThrowAdvice);
 
-export let beforeSetter = makeFieldSetAdviceDecorator(BeforeAdvice);
-export let afterSetter = makeFieldSetAdviceDecorator(AfterAdvice);
-export let aroundSetter = makeFieldSetAdviceDecorator(AroundAdvice);
-export let onThrowOfSetter = makeFieldSetAdviceDecorator(OnThrowAdvice);
+export const beforeSetter = makeFieldSetAdviceDecorator(BeforeAdvice);
+export const afterSetter = makeFieldSetAdviceDecorator(AfterAdvice);
+export const aroundSetter = makeFieldSetAdviceDecorator(AroundAdvice);
+export const onThrowOfSetter = makeFieldSetAdviceDecorator(OnThrowAdvice);
 
-export let beforeGetter = makeFieldGetAdviceDecorator(BeforeAdvice);
-export let afterGetter = makeFieldGetAdviceDecorator(AfterAdvice);
-export let aroundGetter = makeFieldGetAdviceDecorator(AroundAdvice);
-export let onThrowOfGetter = makeFieldGetAdviceDecorator(OnThrowAdvice);
+export const beforeGetter = makeFieldGetAdviceDecorator(BeforeAdvice);
+export const afterGetter = makeFieldGetAdviceDecorator(AfterAdvice);
+export const aroundGetter = makeFieldGetAdviceDecorator(AroundAdvice);
+export const onThrowOfGetter = makeFieldGetAdviceDecorator(OnThrowAdvice);
 
-export let beforeStaticMethod = makeStaticMethodAdviceDecorator(BeforeAdvice);
-export let afterStaticMethod = makeStaticMethodAdviceDecorator(AfterAdvice);
-export let aroundStaticMethod = makeStaticMethodAdviceDecorator(AroundAdvice);
-export let onThrowOfStaticMethod = makeStaticMethodAdviceDecorator(OnThrowAdvice);
+export const beforeStaticMethod = makeStaticMethodAdviceDecorator(BeforeAdvice);
+export const afterStaticMethod = makeStaticMethodAdviceDecorator(AfterAdvice);
+export const aroundStaticMethod = makeStaticMethodAdviceDecorator(AroundAdvice);
+export const onThrowOfStaticMethod = makeStaticMethodAdviceDecorator(OnThrowAdvice);
 
+// Async
+
+export const asyncOnThrowOfMethod = makeMethodCallAdviceDecorator(AsyncOnThrowAdvice);
+
+export const asyncOnThrowOfSetter = makeFieldSetAdviceDecorator(AsyncOnThrowAdvice);
+
+export const asyncOnThrowOfGetter = makeFieldGetAdviceDecorator(AsyncOnThrowAdvice);
+
+export const asyncOnThrowOfStaticMethod = makeStaticMethodAdviceDecorator(AsyncOnThrowAdvice);
