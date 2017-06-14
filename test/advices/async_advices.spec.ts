@@ -2,7 +2,7 @@ import {Metadata, MethodMetadata, Wove, resetRegistry} from '../../lib/src/core'
 import {Advice} from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';
 
-import { afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod } from '../../lib/index';
+import {afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod} from '../../lib/index';
 
 import {expect} from 'chai';
 
