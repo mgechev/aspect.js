@@ -11,6 +11,7 @@
   "files": [
     "lib/index.ts",
     "test/advices/sync_advices.spec.ts",
+    "test/advices/async_advices.spec.ts",
     "test/core/pointcut.spec.ts"
   ],
   "angularCompilerOptions": {
