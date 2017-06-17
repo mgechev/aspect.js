@@ -67,6 +67,7 @@ The library offers the following combinations of advices and joint points:
 - `afterMethod(MethodSelector)` - invoked after method call
 - `aroundMethod(MethodSelector)` - invoked around method call
 - `onThrowOfMethod(MethodSelector)` - invoked on throw of method call
+- `asyncOnThrowOfMethod(MethodSelector)` - invoked on throw of async method call
 
 ## Static method calls
 
@@ -74,6 +75,7 @@ The library offers the following combinations of advices and joint points:
 - `afterStaticMethod(MethodSelector)` - invoked after static method call
 - `aroundStaticMethod(MethodSelector)` - invoked around static method call
 - `onThrowOfStaticMethod(MethodSelector)` - invoked on throw of static method call
+- `asyncOnThrowOfStaticMethod(MethodSelector)` - invoked on throw of async static method call
 
 ## Accessors
 
@@ -81,10 +83,12 @@ The library offers the following combinations of advices and joint points:
 - `afterSetter(MemberSelector)` - invoked after setter call
 - `aroundSetter(MemberSelector)` - invoked around setter call
 - `onThrowOfSetter(MemberSelector)` - invoked on throw of setter call
+- `asyncOnThrowOfSetter(MemberSelector)` - invoked on throw of async setter call
 - `beforeGetter(MemberSelector)` - invoked before getter call
 - `afterGetter(MemberSelector)` - invoked after getter call
 - `aroundGetter(MemberSelector)` - invoked around getter call
 - `onThrowOfGetter(MemberSelector)` - invoked on throw of getter call
+- `asyncOnThrowOfGetter(MemberSelector)` - invoked on throw of async getter call
 
 ## `MethodSelector`
 
