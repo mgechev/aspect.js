@@ -1,6 +1,6 @@
 {
   "name": "aspect.js",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Library for aspect-oriented programming with JavaScript",
   "main": "index.js",
   "typings": "index.d.ts",
