@@ -6,13 +6,17 @@
     "declaration": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
-    "lib": ["es2015", "dom"]
+    "lib": [
+      "es2015",
+      "dom"
+    ]
   },
   "files": [
     "lib/index.ts",
     "test/advices/sync_advices.spec.ts",
     "test/advices/async_advices.spec.ts",
-    "test/core/pointcut.spec.ts"
+    "test/core/pointcut.spec.ts",
+    "demo/index.ts"
   ],
   "angularCompilerOptions": {
     "skipTemplateCodegen": true
