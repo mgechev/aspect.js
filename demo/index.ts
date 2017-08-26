@@ -1,13 +1,13 @@
-import {Wove, Metadata, MethodMetadata, beforeMethod, afterMethod, beforeGetter, afterSetter, afterGetter, beforeStaticMethod} from '../lib/aspect';
+import { Wove, Metadata, MethodMetadata, beforeMethod, afterMethod, beforeGetter, afterSetter, afterGetter, beforeStaticMethod } from '../lib';
 
 class CacheAspect {
-  @beforeMethod({ classNamePattern: /^(\w+Mapper|Http)$/, methodNamePattern: /^get/})
+  @beforeMethod({ classNamePattern: /^(\w+Mapper|Http)$/, methodNamePattern: /^get/ })
   @beforeStaticMethod({ classNamePattern: /^(\w+Mapper|Http)$/, methodNamePattern: /^get/ })
   before(meta: Metadata) {
     console.log(`Inside CacheAspect.before for ${meta.className}.${meta.method.name} with args ${meta.method.args.join(', ')}`);
   }
-  @afterMethod({ classNamePattern: /^(\w+Mapper|Http)$/, methodNamePattern: /^get/})
-  @afterGetter({ classNamePattern: /^(\w+Mapper|Http)$/, fieldNamePattern: /^get/})
+  @afterMethod({ classNamePattern: /^(\w+Mapper|Http)$/, methodNamePattern: /^get/ })
+  @afterGetter({ classNamePattern: /^(\w+Mapper|Http)$/, fieldNamePattern: /^get/ })
   after(meta: Metadata) {
     console.log(`Inside CacheAspect.after for ${meta.className}.${meta.method.name} with args ${meta.method.args.join(', ')}`);
   }
@@ -36,7 +36,7 @@ class Http {
 
 @Wove()
 class UserMapper {
-  constructor(private http:Http) {}
+  constructor(private http: Http) { }
   get(id: number) {
     console.log(`Called UserMapper.get with id = ${id}`);
     this.http.get('http://foo.bar');
