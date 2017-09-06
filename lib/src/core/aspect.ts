@@ -1,11 +1,11 @@
 import {Pointcut} from './pointcut';
 
-export let AspectRegistry: { [name: string]: Aspect; } = {};
+export let AspectRegistry = new Map<string, Aspect>();
 
-export let Targets: Set<any> = new Set<any>();
+export let Targets = new Set<any>();
 
 export function resetRegistry() {
-  AspectRegistry = {};
+  AspectRegistry = new Map<string, Aspect>();
   Targets = new Set<any>();
 }
 

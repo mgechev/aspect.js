@@ -54,9 +54,9 @@ export function makeFieldGetAdviceDecorator(constr) {
       pointcut.advice = <Advice>new constr(target, descriptor.value);
       pointcut.jointPoints = jointpoints;
       let aspectName = target.constructor.name;
-      let aspect = AspectRegistry[aspectName] || new Aspect();
+      let aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
-      AspectRegistry[aspectName] = aspect;
+      AspectRegistry.set(aspectName, aspect);
       return target;
     }
   }
