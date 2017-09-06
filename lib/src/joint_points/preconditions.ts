@@ -1,8 +1,15 @@
 import {Precondition} from '../core/joint_point';
 import {MethodSelector, MemberSelector} from './selectors';
+import {weave} from '../core/wove';
 
 export class MethodPrecondition implements Precondition {
-  constructor(private selector: MethodSelector) {}
+  constructor(private selector: MethodSelector) {
+    // Automatically weave classes
+    const classes = selector.classes || [];
+    for (const c of classes) {
+      weave(c);
+    }
+  }
 
   assert({classInstance, methodName}): boolean {
     const s = this.selector;

@@ -227,4 +227,53 @@ describe('sync advices', () => {
     });
 
   });
+
+  describe('Wove', () => {
+    it('should pass the Wove config as `woveMetadata`', () => {
+      let adviceCalls = 0;
+
+      @Wove({foo: 'bar'})
+      class Demo {
+        get() {}
+        set() {}
+      }
+
+      class Aspect {
+        @beforeMethod({ classes: [Demo], methodNamePattern: /get/ })
+        before(metadata: Metadata) {
+          expect(metadata.woveMetadata).to.deep.equal({foo: 'bar'});
+          adviceCalls += 1;
+        }
+      }
+      const demo = new Demo();
+      demo.get();
+      expect(adviceCalls).to.eq(1);
+    });
+
+    it('should weave automatically when using classes', () => {
+      let adviceCalls = 0;
+
+      class Demo {
+        get() {}
+        set() {}
+      }
+
+      class Aspect {
+        @beforeMethod({ classes: [Demo], methodNamePattern: /get/ })
+        before(metadata: Metadata) {
+          adviceCalls += 1;
+        }
+        @afterMethod({ classes: [Demo], methodNamePattern: /set/ })
+        after(metadata: Metadata) {
+          adviceCalls += 1;
+        }
+      }
+      const demo = new Demo();
+      demo.get();
+      expect(adviceCalls).to.eq(1);
+      demo.set();
+      expect(adviceCalls).to.eq(2);
+    });
+
+  });
 });
