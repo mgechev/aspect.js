@@ -2,7 +2,7 @@ import {Metadata, MethodMetadata, Wove, resetRegistry} from '../../lib/src/core'
 import {Advice} from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';
 
-import {beforeMethod, beforeStaticMethod, beforeGetter, afterMethod} from '../../lib/index';
+import {beforeMethod, beforeStaticMethod, beforeGetter, beforeSetter, afterMethod} from '../../lib/index';
 
 import {expect} from 'chai';
 
@@ -154,6 +154,38 @@ describe('sync advices', () => {
       demo = new Demo();
 
       expect(demo.foo).to.be.equal(10);
+      expect(called).to.be.equal(1);
+      done();
+    });
+
+    it('should be able to invoke the setter manually', (done) => {
+      let demo;
+      let called = 0;
+      class Aspect {
+        @beforeSetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
+        before(metadata: Metadata) {
+          metadata.method.proceed = false;
+          metadata.method.invoke('rainbow');
+        }
+      }
+      @Wove()
+      class Demo {
+        private fooValue;
+
+        set foo(value) {
+          called++;
+          this.fooValue = value;
+        }
+
+        get foo() {
+          return this.fooValue;
+        }
+      }
+
+      demo = new Demo();
+      demo.foo = 'bar';
+
+      expect(demo.foo).to.be.equal('rainbow');
       expect(called).to.be.equal(1);
       done();
     });
