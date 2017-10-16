@@ -1,7 +1,10 @@
-import {AspectRegistry, Targets} from './aspect';
+import { AspectRegistry, Targets } from './aspect';
 
-export function weave(target, config?: any) {
-  if (target.__woven__) {
+export function weave<TFunction extends Function>(
+  target: TFunction,
+  config?: any
+): TFunction {
+  if ((target as any).__woven__) {
     return;
   }
 
@@ -10,12 +13,12 @@ export function weave(target, config?: any) {
   }
 
   Targets.add({ target, config });
-  target.__woven__ = true;
+  (target as any).__woven__ = true;
   return target;
 }
 
-export function Wove(config?: any) {
-  return function (target) {
+export function Wove(config?: any): ClassDecorator {
+  return function<TFunction extends Function>(target: TFunction) {
     return weave(target, config);
   };
 }
