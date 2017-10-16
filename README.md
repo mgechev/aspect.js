@@ -56,6 +56,22 @@ new ArticleCollection().getArticle(1);
 // Getting article with id: 1.
 ```
 
+In case you're using aspect.js in a browser environment the minifier may break the annotated code because of the performed mangling. In order to handle this problem you can use:
+
+```ts
+class LoggerAspect {
+  @beforeMethod({
+    classes: [ArticleCollection],
+    methods: [ArticleCollection.prototype.getArticle, ArticleCollection.prototype.setArticle]
+  })
+  invokeBeforeMethod(meta: Metadata) {
+    // meta.woveMetadata == { bar: 42 }
+    console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
+  }
+}
+```
+
+This way, by explicitly listing the classes and methods which should be woven, you can prevent the unwanted effect of mangling.
 
 # API
 
@@ -94,8 +110,10 @@ The library offers the following combinations of advices and joint points:
 
 ```ts
 export interface MethodSelector {
-  classNamePattern: RegExp;
-  methodNamePattern: RegExp;
+  classNamePattern?: RegExp;
+  methodNamePattern?: RegExp;
+  classes?: any[];
+  methods?: any[];
 }
 ```
 
