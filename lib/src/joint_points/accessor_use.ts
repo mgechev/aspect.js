@@ -5,12 +5,14 @@ import { AspectRegistry, Targets, Aspect } from '../core/aspect';
 import { MemberSelector } from './selectors';
 import { MemberPrecondition } from './preconditions';
 
+export type AccessorType = 'get' | 'set';
+
 export class AccessorJointPoint extends JointPoint {
-  constructor(precondition: Precondition, private type: string) {
+  constructor(precondition: Precondition, private type: AccessorType) {
     super(precondition);
   }
 
-  public getTarget(fn: Function): Function {
+  public getTarget(fn: Function): Object {
     return fn.prototype;
   }
 

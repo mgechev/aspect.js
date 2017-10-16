@@ -10,7 +10,7 @@ export class StaticMethodJointPoint extends JointPoint {
     super(precondition);
   }
 
-  public getTarget(fn: Function): Function {
+  public getTarget(fn: Function): Object {
     return fn;
   }
 

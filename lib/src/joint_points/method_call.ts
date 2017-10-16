@@ -36,7 +36,7 @@ export class MethodCallJointPoint extends JointPoint {
   }
 
   protected woveTarget(
-    proto: any,
+    proto: { [key: string]: any },
     key: string,
     advice: Advice,
     woveMetadata: any

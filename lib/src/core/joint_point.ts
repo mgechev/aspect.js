@@ -8,12 +8,12 @@ export interface Precondition {
 export abstract class JointPoint {
   constructor(public precondition: Precondition) {}
 
-  public abstract match(descriptor: Object): string[];
+  public abstract match(descriptor: Function): string[];
 
-  protected abstract getTarget(fn: Function): Function;
+  protected abstract getTarget(fn: Function): Object;
 
   protected abstract woveTarget(
-    fn: Function,
+    target: Object,
     match: string,
     advice: Advice,
     woveMetadata: any
@@ -24,7 +24,7 @@ export abstract class JointPoint {
       fn,
       matches,
       woveMetadata
-    }: { fn: Function; matches: any; woveMetadata: any },
+    }: { fn: Function; matches: string[]; woveMetadata: any },
     advice: Advice
   ): void {
     const target = this.getTarget(fn);
@@ -36,7 +36,7 @@ export abstract class JointPoint {
   protected getMetadata(
     className: string,
     key: string,
-    fn: any,
+    fn: Function,
     args: IArguments,
     context: any,
     woveMetadata: any
