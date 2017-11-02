@@ -1,9 +1,6 @@
 import { AspectRegistry, Targets } from './aspect';
 
-export function weave<TFunction extends Function>(
-  target: TFunction,
-  config?: any
-): TFunction {
+export function weave<TFunction extends Function>(target: TFunction, config?: any): TFunction {
   if ((target as any).__woven__) {
     return;
   }

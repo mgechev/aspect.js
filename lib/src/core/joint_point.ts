@@ -12,19 +12,10 @@ export abstract class JointPoint {
 
   protected abstract getTarget(fn: Function): Object;
 
-  protected abstract woveTarget(
-    target: Object,
-    match: string,
-    advice: Advice,
-    woveMetadata: any
-  ): void;
+  protected abstract woveTarget(target: Object, match: string, advice: Advice, woveMetadata: any): void;
 
   public wove(
-    {
-      fn,
-      matches,
-      woveMetadata
-    }: { fn: Function; matches: string[]; woveMetadata: any },
+    { fn, matches, woveMetadata }: { fn: Function; matches: string[]; woveMetadata: any },
     advice: Advice
   ): void {
     const target = this.getTarget(fn);
@@ -48,7 +39,7 @@ export abstract class JointPoint {
       result: undefined,
       exception: undefined,
       args: undefined,
-      invoke: fn.bind(context)
+      invoke: fn.bind(context),
     };
     var metadata: Metadata = new Metadata();
     metadata.method = invocation;

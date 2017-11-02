@@ -9,4 +9,3 @@ export interface MemberSelector {
   classNamePattern: RegExp;
   fieldNamePattern: RegExp;
 }
-

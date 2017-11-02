@@ -18,38 +18,22 @@ export class StaticMethodJointPoint extends JointPoint {
     const keys = Object.getOwnPropertyNames(target);
     const res = keys.filter(key => {
       const descriptor = Object.getOwnPropertyDescriptor(target, key);
-      if (
+      return (
         this.precondition.assert({
           classInstance: target,
-          methodName: key
-        }) &&
-        typeof descriptor.value === 'function'
-      ) {
-        return true;
-      }
-      return false;
+          methodName: key,
+        }) && typeof descriptor.value === 'function'
+      );
     });
     return res;
   }
 
-  protected woveTarget(
-    fn: any,
-    key: string,
-    advice: Advice,
-    woveMetadata: any
-  ) {
+  protected woveTarget(fn: any, key: string, advice: Advice, woveMetadata: any) {
     let className = fn.name;
     let bak = fn[key];
     let self = this;
     fn[key] = function() {
-      let metadata = self.getMetadata(
-        className,
-        key,
-        bak,
-        arguments,
-        this,
-        woveMetadata
-      );
+      let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
       return advice.wove(bak, metadata);
     };
     fn[key].__woven__ = true;
@@ -58,11 +42,7 @@ export class StaticMethodJointPoint extends JointPoint {
 
 export function makeStaticMethodAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
-    return function<T>(
-      target: Object,
-      prop: symbol | string,
-      descriptor: TypedPropertyDescriptor<T>
-    ) {
+    return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
       let jointpoints = selectors.map(selector => {
         return new StaticMethodJointPoint(new MethodPrecondition(selector));
       });

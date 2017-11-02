@@ -11,21 +11,11 @@ export class MethodPrecondition implements Precondition {
     }
   }
 
-  assert({
-    classInstance,
-    methodName
-  }: {
-    classInstance: any;
-    methodName: string;
-  }): boolean {
+  assert({ classInstance, methodName }: { classInstance: any; methodName: string }): boolean {
     const s = this.selector;
     const className = classInstance.name;
 
-    const matchAnyMethod = (
-      methods: any[],
-      target: any,
-      methodName: string
-    ) => {
+    const matchAnyMethod = (methods: any[], target: any, methodName: string) => {
       let keys = Object.getOwnPropertyNames(target.prototype);
       return methods.some(f => {
         return target.prototype[methodName] === f;
@@ -49,16 +39,7 @@ export class MethodPrecondition implements Precondition {
 export class MemberPrecondition implements Precondition {
   constructor(private selector: MemberSelector) {}
 
-  assert({
-    className,
-    fieldName
-  }: {
-    fieldName: string;
-    className: string;
-  }): boolean {
-    return (
-      this.selector.classNamePattern.test(className) &&
-      this.selector.fieldNamePattern.test(fieldName)
-    );
+  assert({ className, fieldName }: { fieldName: string; className: string }): boolean {
+    return this.selector.classNamePattern.test(className) && this.selector.fieldNamePattern.test(fieldName);
   }
 }

@@ -1,5 +1,5 @@
-import {JointPoint} from './joint_point';
-import {Advice} from './advice';
+import { JointPoint } from './joint_point';
+import { Advice } from './advice';
 
 export class Pointcut {
   public jointPoints: JointPoint[];

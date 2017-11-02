@@ -23,7 +23,7 @@ export class MethodCallJointPoint extends JointPoint {
         if (
           this.precondition.assert({
             classInstance: target,
-            methodName: key
+            methodName: key,
           }) &&
           typeof descriptor.value === 'function'
         ) {
@@ -35,24 +35,12 @@ export class MethodCallJointPoint extends JointPoint {
     return res;
   }
 
-  protected woveTarget(
-    proto: { [key: string]: any },
-    key: string,
-    advice: Advice,
-    woveMetadata: any
-  ) {
+  protected woveTarget(proto: { [key: string]: any }, key: string, advice: Advice, woveMetadata: any) {
     let className = proto.constructor.name;
     let bak = proto[key];
     let self = this;
     proto[key] = function() {
-      let metadata = self.getMetadata(
-        className,
-        key,
-        bak,
-        arguments,
-        this,
-        woveMetadata
-      );
+      let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
       return advice.wove(bak, metadata);
     };
     proto[key].__woven__ = true;
@@ -61,11 +49,7 @@ export class MethodCallJointPoint extends JointPoint {
 
 export function makeMethodCallAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
-    return function<T>(
-      target: Object,
-      prop: symbol | string,
-      descriptor: TypedPropertyDescriptor<T>
-    ) {
+    return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
       let jointpoints = selectors.map(selector => {
         return new MethodCallJointPoint(new MethodPrecondition(selector));
       });

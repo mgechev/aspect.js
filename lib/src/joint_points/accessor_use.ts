@@ -16,29 +16,14 @@ export class AccessorJointPoint extends JointPoint {
     return fn.prototype;
   }
 
-  protected woveTarget(
-    proto: any,
-    key: string,
-    advice: Advice,
-    woveMetadata: any
-  ) {
+  protected woveTarget(proto: any, key: string, advice: Advice, woveMetadata: any) {
     const className = proto.constructor.name;
     const self = this;
     const descriptor = Object.getOwnPropertyDescriptor(proto, key);
-    if (
-      (this.type === 'get' || this.type === 'set') &&
-      typeof descriptor[this.type] === 'function'
-    ) {
+    if ((this.type === 'get' || this.type === 'set') && typeof descriptor[this.type] === 'function') {
       const bak = descriptor[this.type];
       descriptor[this.type] = function() {
-        const metadata = self.getMetadata(
-          className,
-          key,
-          bak,
-          arguments,
-          this,
-          woveMetadata
-        );
+        const metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
         return advice.wove(bak, metadata);
       };
       (descriptor[this.type] as any)['__woven__'] = true;
@@ -51,15 +36,10 @@ export class AccessorJointPoint extends JointPoint {
     const keys = Object.getOwnPropertyNames(target.prototype);
     const res = keys
       .map(key => {
-        const descriptor = Object.getOwnPropertyDescriptor(
-          target.prototype,
-          key
-        );
+        const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
         if (
           this.precondition.assert({ className: name, fieldName: key }) &&
-          (this.type === 'get' ||
-            (this.type === 'set' &&
-              typeof descriptor[this.type] === 'function'))
+          (this.type === 'get' || (this.type === 'set' && typeof descriptor[this.type] === 'function'))
         ) {
           return key;
         }
@@ -70,15 +50,9 @@ export class AccessorJointPoint extends JointPoint {
   }
 }
 
-export function makeFieldGetAdviceDecorator(
-  constr: new (...args: any[]) => Advice
-) {
+export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advice) {
   return function(...selectors: MemberSelector[]): MethodDecorator {
-    return function<T>(
-      target: Object,
-      prop: string | symbol,
-      descriptor: TypedPropertyDescriptor<T>
-    ) {
+    return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
       const jointpoints = selectors.map(selector => {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'get');
       });
@@ -94,15 +68,9 @@ export function makeFieldGetAdviceDecorator(
   };
 }
 
-export function makeFieldSetAdviceDecorator(
-  constr: new (...args: any[]) => Advice
-) {
+export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advice) {
   return function(...selectors: MemberSelector[]): MethodDecorator {
-    return function<T>(
-      target: Object,
-      prop: string | symbol,
-      descriptor: TypedPropertyDescriptor<T>
-    ) {
+    return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
       const jointpoints = selectors.map(selector => {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'set');
       });
