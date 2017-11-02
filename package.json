@@ -6,7 +6,8 @@
   "typings": "index.d.ts",
   "scripts": {
     "build_publish": "rm -rf dist && tsc && ngc && cp ./package.json README.md dist/lib",
-    "test": "tsc && mocha -R nyan ./dist/test/**/*.spec.js"
+    "test": "tsc && mocha -R nyan ./dist/test/**/*.spec.js",
+    "format": "prettier --single-quote --trailing-comma es5 --print-width 120 --write lib/src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "@types/node": "^6.0.48",
     "chai": "^3.3.0",
     "mocha": "^3.4.2",
+    "prettier": "^1.7.4",
     "rxjs": "^5.2.0",
     "typescript": "^2.0.2",
     "zone.js": "^0.7.7"

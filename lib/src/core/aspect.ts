@@ -1,4 +1,4 @@
-import {Pointcut} from './pointcut';
+import { Pointcut } from './pointcut';
 
 export let AspectRegistry = new Map<string, Aspect>();
 
@@ -22,4 +22,3 @@ export class Aspect {
     });
   }
 }
-

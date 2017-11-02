@@ -1,10 +1,21 @@
-import {Metadata, MethodMetadata, Wove, resetRegistry} from '../../lib/src/core';
-import {Advice} from '../../lib/src/core/advice';
+import {
+  Metadata,
+  MethodMetadata,
+  Wove,
+  resetRegistry
+} from '../../lib/src/core';
+import { Advice } from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';
 
-import {beforeMethod, beforeStaticMethod, beforeGetter, beforeSetter, afterMethod} from '../../lib/index';
+import {
+  beforeMethod,
+  beforeStaticMethod,
+  beforeGetter,
+  beforeSetter,
+  afterMethod
+} from '../../lib/index';
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 describe('sync advices', () => {
   beforeEach(() => {
@@ -15,8 +26,8 @@ describe('sync advices', () => {
     //   resetRegistry();
     // });
 
-    it('should invoke the advice with the appropriate metadata', (done) => {
-      let demo;
+    it('should invoke the advice with the appropriate metadata', done => {
+      let demo: any;
       class Aspect {
         @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
@@ -31,14 +42,14 @@ describe('sync advices', () => {
       }
       @Wove()
       class Demo {
-        get(foo, bar) {}
+        get(foo: any, bar: any) {}
       }
 
       demo = new Demo();
       demo.get(42, 1.618);
     });
 
-    it('should invoke the advice before the target', (done) => {
+    it('should invoke the advice before the target', done => {
       let adviceCalled = false;
       let methodCalled = false;
       class Aspect {
@@ -59,21 +70,23 @@ describe('sync advices', () => {
       new Demo().get();
     });
 
-    it('should be able to invoke the method manually', (done) => {
+    it('should be able to invoke the method manually', done => {
       let demo;
       let called = 0;
       class Aspect {
         @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke(...metadata.method.args);
+          metadata.method.result = metadata.method.invoke(
+            ...metadata.method.args
+          );
           expect(metadata.method.result).to.be.equal(6);
         }
       }
       @Wove()
       class Demo {
         multiplier = 2;
-        get(foo, bar) {
+        get(foo: any, bar: any) {
           called++;
           return (foo + bar) * this.multiplier;
         }
@@ -85,19 +98,21 @@ describe('sync advices', () => {
       done();
     });
 
-    it('should be able to invoke the static method manually', (done) => {
+    it('should be able to invoke the static method manually', done => {
       let called = 0;
       class Aspect {
         @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke(...metadata.method.args);
+          metadata.method.result = metadata.method.invoke(
+            ...metadata.method.args
+          );
           expect(metadata.method.result).to.be.equal(3);
         }
       }
       @Wove()
       class Demo {
-        static get(foo, bar) {
+        static get(foo: number, bar: number) {
           called++;
           return foo + bar;
         }
@@ -108,7 +123,7 @@ describe('sync advices', () => {
       done();
     });
 
-    it('should be able to invoke the static method manually with custom arguments', (done) => {
+    it('should be able to invoke the static method manually with custom arguments', done => {
       let called = 0;
       class Aspect {
         @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
@@ -120,9 +135,9 @@ describe('sync advices', () => {
       }
       @Wove()
       class Demo {
-        static get(foo, bar) {
+        static get(foo: number, bar: number) {
           called++;
-          return foo + bar ;
+          return foo + bar;
         }
       }
 
@@ -131,7 +146,7 @@ describe('sync advices', () => {
       done();
     });
 
-    it('should be able to invoke the getter manually', (done) => {
+    it('should be able to invoke the getter manually', done => {
       let demo;
       let called = 0;
       class Aspect {
@@ -158,7 +173,7 @@ describe('sync advices', () => {
       done();
     });
 
-    it('should be able to invoke the setter manually', (done) => {
+    it('should be able to invoke the setter manually', done => {
       let demo;
       let called = 0;
       class Aspect {
@@ -170,9 +185,9 @@ describe('sync advices', () => {
       }
       @Wove()
       class Demo {
-        private fooValue;
+        private fooValue: any;
 
-        set foo(value) {
+        set foo(value: any) {
           called++;
           this.fooValue = value;
         }
@@ -189,12 +204,11 @@ describe('sync advices', () => {
       expect(called).to.be.equal(1);
       done();
     });
-
   });
 
   describe('AfterAdvice', () => {
-    it('should invoke the advice with the appropriate metadata', (done) => {
-      let demo;
+    it('should invoke the advice with the appropriate metadata', done => {
+      let demo: any;
       class Aspect {
         @afterMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
@@ -208,14 +222,14 @@ describe('sync advices', () => {
       }
       @Wove()
       class Demo {
-        get(foo, bar) {}
+        get(foo: number, bar: number) {}
       }
 
       demo = new Demo();
       demo.get(42, 1.618);
     });
 
-    it('should invoke the advice after the target', (done) => {
+    it('should invoke the advice after the target', done => {
       let adviceCalled = false;
       let methodCalled = false;
       class Aspect {
@@ -257,14 +271,13 @@ describe('sync advices', () => {
       new Demo().get();
       expect(adviceCalls).to.eq(1);
     });
-
   });
 
   describe('Wove', () => {
     it('should pass the Wove config as `woveMetadata`', () => {
       let adviceCalls = 0;
 
-      @Wove({foo: 'bar'})
+      @Wove({ foo: 'bar' })
       class Demo {
         get() {}
         set() {}
@@ -273,7 +286,7 @@ describe('sync advices', () => {
       class Aspect {
         @beforeMethod({ classes: [Demo], methodNamePattern: /get/ })
         before(metadata: Metadata) {
-          expect(metadata.woveMetadata).to.deep.equal({foo: 'bar'});
+          expect(metadata.woveMetadata).to.deep.equal({ foo: 'bar' });
           adviceCalls += 1;
         }
       }
@@ -306,6 +319,5 @@ describe('sync advices', () => {
       demo.set();
       expect(adviceCalls).to.eq(2);
     });
-
   });
 });

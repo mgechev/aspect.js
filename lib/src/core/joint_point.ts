@@ -1,5 +1,5 @@
-import {Advice} from './advice';
-import {Metadata, MethodMetadata} from './metadata';
+import { Advice } from './advice';
+import { Metadata, MethodMetadata } from './metadata';
 
 export interface Precondition {
   assert(data: any): boolean;
@@ -8,18 +8,30 @@ export interface Precondition {
 export abstract class JointPoint {
   constructor(public precondition: Precondition) {}
 
-  public abstract match(descriptor: any): any[];
-  protected abstract getTarget(fn: any): any;
-  protected abstract woveTarget(fn: any, match: any, advice: Advice, woveMetadata: any): any;
+  public abstract match(descriptor: Function): string[];
 
-  public wove({ fn, matches, woveMetadata }, advice: Advice): void {
-    let target = this.getTarget(fn);
-    matches.forEach(match => {
+  protected abstract getTarget(fn: Function): Object;
+
+  protected abstract woveTarget(target: Object, match: string, advice: Advice, woveMetadata: any): void;
+
+  public wove(
+    { fn, matches, woveMetadata }: { fn: Function; matches: string[]; woveMetadata: any },
+    advice: Advice
+  ): void {
+    const target = this.getTarget(fn);
+    matches.forEach((match: string) => {
       this.woveTarget(target, match, advice, woveMetadata);
     });
   }
 
-  protected getMetadata(className: string, key: string, fn: any, args: IArguments, context: any, woveMetadata: any): Metadata {
+  protected getMetadata(
+    className: string,
+    key: string,
+    fn: Function,
+    args: IArguments,
+    context: any,
+    woveMetadata: any
+  ): Metadata {
     var invocation: MethodMetadata = {
       name: key,
       proceed: true,
@@ -27,7 +39,7 @@ export abstract class JointPoint {
       result: undefined,
       exception: undefined,
       args: undefined,
-      invoke: fn.bind(context)
+      invoke: fn.bind(context),
     };
     var metadata: Metadata = new Metadata();
     metadata.method = invocation;
@@ -45,4 +57,3 @@ export abstract class JointPoint {
     return metadata;
   }
 }
-

@@ -1,5 +1,5 @@
-import {Advice} from '../core/advice';
-import {Metadata} from '../core/metadata';
+import { Advice } from '../core/advice';
+import { Metadata } from '../core/metadata';
 
 export class BeforeAdvice extends Advice {
   wove(target: Function, metadata: Metadata) {
@@ -21,7 +21,7 @@ export class AroundAdvice extends Advice {
   wove(target: Function, metadata: Metadata) {
     this.advice.bind(this.context, metadata).apply(null, metadata.method.args);
     this.invoke(target, metadata);
-    this.advice.bind(this.context, metadata).apply(null, metadata.method.args)
+    this.advice.bind(this.context, metadata).apply(null, metadata.method.args);
     return metadata.method.result;
   }
 }
