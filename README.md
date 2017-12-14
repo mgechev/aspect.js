@@ -69,7 +69,14 @@ class LoggerAspect {
     console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
   }
 }
+
+class ArticleCollection {
+  getArticle(id: number) {...}
+  setArticle(article: Article) {...}
+}
 ```
+
+In this case you can omit the `@Wove` decorator.
 
 This way, by explicitly listing the classes and methods which should be woven, you can prevent the unwanted effect of mangling.
 
