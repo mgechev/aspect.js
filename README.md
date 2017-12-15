@@ -119,8 +119,8 @@ The library offers the following combinations of advices and joint points:
 export interface MethodSelector {
   classNamePattern?: RegExp;
   methodNamePattern?: RegExp;
-  classes?: any[];
-  methods?: any[];
+  classes?: Function[];
+  methods?: Function[];
 }
 ```
 
@@ -130,6 +130,8 @@ export interface MethodSelector {
 export interface MemberSelector {
   classNamePattern: RegExp;
   fieldNamePattern: RegExp;
+  classes?: Function[];
+  methods?: PropertyDescriptor[];
 }
 ```
 

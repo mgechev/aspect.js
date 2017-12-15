@@ -14,6 +14,7 @@
     "test/advices/sync_advices.spec.ts",
     "test/advices/async_advices.spec.ts",
     "test/core/pointcut.spec.ts",
+    "test/core/preconditions.spec.ts",
     "demo/index.ts"
   ],
   "angularCompilerOptions": {
