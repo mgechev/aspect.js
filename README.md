@@ -128,8 +128,8 @@ export interface MethodSelector {
 
 ```ts
 export interface MemberSelector {
-  classNamePattern: RegExp;
-  fieldNamePattern: RegExp;
+  classNamePattern?: RegExp;
+  fieldNamePattern?: RegExp;
   classes?: Function[];
   methods?: PropertyDescriptor[];
 }
