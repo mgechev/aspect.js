@@ -5,7 +5,8 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "scripts": {
-    "build_publish": "rm -rf dist && tsc && ngc && cp ./package.json README.md dist/lib",
+    "build_publish": "rm -rf dist && tsc && npm run generate_diagram && ngc && cp ./package.json README.md dist/lib",
+    "generate_diagram": "tsviz -r lib/index.ts assets/diagram.png",
     "test": "tsc && mocha -R nyan ./dist/test/**/*.spec.js",
     "format": "prettier --single-quote --trailing-comma es5 --print-width 120 --write lib/src/**/*.ts"
   },
@@ -40,6 +41,7 @@
     "mocha": "^3.4.2",
     "prettier": "^1.7.4",
     "rxjs": "^5.2.0",
+    "tsviz": "^1.0.11",
     "typescript": "^2.0.2",
     "zone.js": "^0.7.7"
   }

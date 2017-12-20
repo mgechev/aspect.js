@@ -167,6 +167,12 @@ npm install -g ts-node
 ts-node demo/index.ts
 ```
 
+# Diagram
+
+Here's a UML class diagram which shows the relations between the individual abstractions:
+
+[![UML Diagram](https://github.com/mgechev/aspect.js/blob/master/assets/diagram.png?raw=true)](https://github.com/mgechev/aspect.js/blob/master/assets/diagram.png?raw=true)
+
 # Roadmap
 
 - [x] Tests
@@ -179,10 +185,9 @@ ts-node demo/index.ts
     - [x] Throwing
     - [x] Returning
   - [x] Around
-- [ ] Implement the following joint points:
+- [x] Implement the following joint points:
   - [x] Method execution
   - [x] Static method execution
-  - [ ] Constructor execution
   - [x] Filed get
   - [x] Field set
 
