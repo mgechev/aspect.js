@@ -80,6 +80,14 @@ In this case you can omit the `@Wove` decorator.
 
 This way, by explicitly listing the classes and methods which should be woven, you can prevent the unwanted effect of mangling.
 
+# Demo
+
+```
+git clone https://github.com/mgechev/aop.js --depth 1
+npm install -g ts-node
+ts-node demo/index.ts
+```
+
 # API
 
 The library offers the following combinations of advices and joint points:
@@ -157,14 +165,6 @@ export class MethodMetadata {
   public exception: any;
   public invoke: (...args: any[]) => any;
 }
-```
-
-# Demo
-
-```
-git clone https://github.com/mgechev/aop.js --depth 1
-npm install -g ts-node
-ts-node demo/index.ts
 ```
 
 # Diagram
