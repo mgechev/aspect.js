@@ -32,13 +32,12 @@ export class AccessorJointPoint extends JointPoint {
   }
 
   public match(target: Function): any[] {
-    const name = target.name;
     const keys = Object.getOwnPropertyNames(target.prototype);
     const res = keys
       .map(key => {
         const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
         if (
-          this.precondition.assert({ className: name, fieldName: key }) &&
+          this.precondition.assert({ classDefinition: target, fieldName: key }) &&
           (this.type === 'get' || (this.type === 'set' && typeof descriptor[this.type] === 'function'))
         ) {
           return key;

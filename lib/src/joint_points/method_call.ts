@@ -22,8 +22,8 @@ export class MethodCallJointPoint extends JointPoint {
         let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
         if (
           this.precondition.assert({
-            classInstance: target,
-            methodName: key,
+            classDefinition: target,
+            methodName: key
           }) &&
           typeof descriptor.value === 'function'
         ) {

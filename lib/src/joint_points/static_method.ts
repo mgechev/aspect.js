@@ -20,8 +20,8 @@ export class StaticMethodJointPoint extends JointPoint {
       const descriptor = Object.getOwnPropertyDescriptor(target, key);
       return (
         this.precondition.assert({
-          classInstance: target,
-          methodName: key,
+          classDefinition: target,
+          methodName: key
         }) && typeof descriptor.value === 'function'
       );
     });
