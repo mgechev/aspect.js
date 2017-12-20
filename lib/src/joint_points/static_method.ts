@@ -21,7 +21,7 @@ export class StaticMethodJointPoint extends JointPoint {
       return (
         this.precondition.assert({
           classDefinition: target,
-          methodName: key
+          methodName: key,
         }) && typeof descriptor.value === 'function'
       );
     });
