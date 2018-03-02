@@ -37,10 +37,12 @@
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.33",
     "@types/node": "^6.0.48",
+    "@types/sinon": "^4.3.0",
     "chai": "^3.3.0",
     "mocha": "^3.4.2",
     "prettier": "^1.7.4",
     "rxjs": "^5.2.0",
+    "sinon": "^4.4.2",
     "tsviz": "^1.0.11",
     "typescript": "^2.0.2",
     "zone.js": "^0.7.7"

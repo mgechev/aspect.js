@@ -23,7 +23,7 @@ export class MethodCallJointPoint extends JointPoint {
         if (
           this.precondition.assert({
             classDefinition: target,
-            methodName: key,
+            methodName: key
           }) &&
           typeof descriptor.value === 'function'
         ) {

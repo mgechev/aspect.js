@@ -21,8 +21,7 @@ class CacheAspect {
   })
   before(meta: Metadata) {
     console.log(
-      `Inside CacheAspect.before for ${meta.className}.${meta.method
-        .name} with args ${meta.method.args.join(', ')}`
+      `Inside CacheAspect.before for ${meta.className}.${meta.method.name} with args ${meta.method.args.join(', ')}`
     );
   }
   @afterMethod({
@@ -35,8 +34,7 @@ class CacheAspect {
   })
   after(meta: Metadata) {
     console.log(
-      `Inside CacheAspect.after for ${meta.className}.${meta.method
-        .name} with args ${meta.method.args.join(', ')}`
+      `Inside CacheAspect.after for ${meta.className}.${meta.method.name} with args ${meta.method.args.join(', ')}`
     );
   }
 }
