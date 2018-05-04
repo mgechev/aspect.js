@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Precondition } from '../core/join_point';
 import { MethodSelector, PropertySelector } from './selectors';
 import { weave } from '../core/advised';
@@ -20,15 +21,23 @@ export class MethodPrecondition implements Precondition {
       (s.classNamePattern && s.classNamePattern.test(className)) ||
       (s.classes && s.classes.some(c => c === classDefinition));
 
-    if (!matchClass) {
-      return false;
+    let matchMethod = false;
+    if (s.methodNamePattern || s.methods) {
+      matchMethod = !!(
+        (s.methodNamePattern && s.methodNamePattern.test(methodName)) ||
+        (s.methods && s.methods.some(m => classDefinition.prototype[methodName] === m))
+      );
     }
 
-    return !!(
-      (!s.methodNamePattern && !s.methods) ||
-      (s.methodNamePattern && s.methodNamePattern.test(methodName)) ||
-      (s.methods && s.methods.some(m => classDefinition.prototype[methodName] === m))
-    );
+    let matchDecorator = false;
+    if (s.decorators) {
+      const d = Object.getOwnPropertyDescriptor(classDefinition.prototype, methodName);
+      matchDecorator = s.decorators.some(decorator => {
+        return !d.get && !d.set && Reflect.hasMetadata(decorator, classDefinition.prototype, methodName);
+      });
+    }
+
+    return matchDecorator || (matchClass && matchMethod);
   }
 }
 
@@ -44,23 +53,30 @@ export class MemberPrecondition implements Precondition {
       (s.classNamePattern && s.classNamePattern.test(className)) ||
       (s.classes && s.classes.some(c => c === classDefinition));
 
-    if (!matchClass) {
-      return false;
+    let matchField = false;
+    const d = Object.getOwnPropertyDescriptor(classDefinition.prototype, fieldName);
+    if (s.propertyNamePattern || s.properties) {
+      matchField = !!(
+        (s.propertyNamePattern && s.propertyNamePattern.test(fieldName)) ||
+        (s.properties &&
+          s.properties.some(f => {
+            if (!f) {
+              throw new Error(
+                'Got invalid property descriptor for a member selector. Use Object.getOwnPropertyDescriptor(fn.prototype, name) if you are using field selectors.'
+              );
+            }
+            return d && (d.get === f.get && d.set === f.set);
+          }))
+      );
     }
 
-    const d = Object.getOwnPropertyDescriptor(classDefinition.prototype, fieldName);
-    return !!(
-      (!s.propertyNamePattern && !s.properties) ||
-      (s.propertyNamePattern && s.propertyNamePattern.test(fieldName)) ||
-      (s.properties &&
-        s.properties.some(f => {
-          if (!f) {
-            throw new Error(
-              'Got invalid property descriptor for a member selector. Use Object.getOwnPropertyDescriptor(fn.prototype, name) if you are using field selectors.'
-            );
-          }
-          return d && (d.get === f.get && d.set === f.set);
-        }))
-    );
+    let matchDecorator = false;
+    if (s.decorators) {
+      matchDecorator = s.decorators.some(decorator => {
+        return (d.get || d.set) && Reflect.hasMetadata(decorator, classDefinition.prototype, fieldName);
+      });
+    }
+
+    return matchDecorator || (matchClass && matchField);
   }
 }

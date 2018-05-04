@@ -46,10 +46,30 @@ class LoggerAspect {
   }
 }
 
+const Log = (message: string) => {
+  return (target: object, propertyKey: string | symbol) => {
+    Reflect.defineMetadata(Log, { message }, target, propertyKey);
+  };
+};
+
+@Advised()
+class ClassC {
+  @Log('Foo was called')
+  foo() {}
+}
+
+class LoggerAspectC {
+  @beforeMethod({
+    decorators: [Log],
+  })
+  beforeLogger(meta: Metadata) {
+    const { message } = Reflect.getMetadata(Log, meta.method.context, meta.method.name);
+    console.log(message);
+  }
+}
+
 describe('@Advised', () => {
-  beforeEach(() => {
-    methods.length = 0;
-  });
+  beforeEach(() => (methods.length = 0));
 
   it('should work with subclasses', () => {
     const fooSpy = spy(ClassA.prototype, 'foo');
@@ -68,5 +88,14 @@ describe('@Advised', () => {
     expect(b.overridden()).to.equal(o + 1);
     expect(overriddenSpyA.called).to.be.true;
     expect(overriddenSpyB.called).to.be.true;
+  });
+
+  it('should work with decorated classes', () => {
+    const fooSpy = spy(console, 'log');
+
+    const c = new ClassC();
+    c.foo();
+
+    expect(fooSpy.calledWith('Foo was called')).equal(true);
   });
 });

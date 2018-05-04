@@ -1,5 +1,5 @@
 import { PropertySelector } from './../../lib/src/join_points/selectors';
-import { MemberPrecondition } from './../../lib/src/join_points/preconditions';
+import { MemberPrecondition, MethodPrecondition } from './../../lib/src/join_points/preconditions';
 
 import { expect } from 'chai';
 
@@ -99,6 +99,118 @@ describe('Preconditions', () => {
       expect(p2.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(true);
       expect(p2.assert({ classDefinition: Foo, fieldName: 'foobar' })).equal(true);
       expect(p2.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(false);
+    });
+
+    it('should match by decorator', () => {
+      const Bar = (target: object, propertyKey: string | symbol) => {
+        Reflect.defineMetadata(Bar, { propertyKey }, target, propertyKey);
+      };
+
+      const Baz = (parameter: string) => {
+        return (target: object, propertyKey: string | symbol) => {
+          Reflect.defineMetadata(Baz, { propertyKey }, target, propertyKey);
+        };
+      };
+
+      const FooBar = (options: { value: string }) => {
+        return (target: object, propertyKey: string | symbol) => {
+          Reflect.defineMetadata(FooBar, { propertyKey, args: options }, target, propertyKey);
+        };
+      };
+
+      class Foo {
+        @Bar
+        get bar(): any {
+          return null;
+        }
+
+        @Baz('baz')
+        get baz(): any {
+          return null;
+        }
+
+        @FooBar({ value: 'value' })
+        set foobar(v: any) {
+          // empty
+        }
+
+        get nope(): any {
+          return null;
+        }
+      }
+
+      const p1 = new MemberPrecondition({
+        classes: [Foo],
+        propertyNamePattern: /bar/,
+        decorators: [Bar, Baz, FooBar]
+      });
+      expect(p1.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(true);
+      expect(p1.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);
+      expect(p1.assert({ classDefinition: Foo, fieldName: 'foobar' })).equal(true);
+      expect(p1.assert({ classDefinition: Foo, fieldName: 'nope' })).equal(false);
+    });
+  });
+
+  describe('MethodPrecondition', () => {
+    it('should match by decorator', () => {
+      const Bar = (target: object, propertyKey: string | symbol) => {
+        Reflect.defineMetadata(Bar, { propertyKey }, target, propertyKey);
+      };
+
+      const Baz = (parameter: string) => {
+        return (target: object, propertyKey: string | symbol) => {
+          Reflect.defineMetadata(Baz, { propertyKey }, target, propertyKey);
+        };
+      };
+
+      const FooBar = (options: { value: string }) => {
+        return (target: object, propertyKey: string | symbol) => {
+          Reflect.defineMetadata(FooBar, { propertyKey, args: options }, target, propertyKey);
+        };
+      };
+
+      class ClassA {
+        yep(): any {
+          return null;
+        }
+      }
+
+      class Foo {
+        @Bar
+        get bar(): any {
+          return null;
+        }
+
+        @Baz('baz')
+        baz(): any {
+          return null;
+        }
+
+        @FooBar({ value: 'value' })
+        foobar(v: any) {
+          // empty
+        }
+
+        nope(): any {
+          return null;
+        }
+
+        yep(): any {
+          return null;
+        }
+      }
+
+      const p1 = new MethodPrecondition({
+        classes: [ClassA, Foo],
+        methodNamePattern: /yep/,
+        decorators: [Bar, Baz]
+      });
+      expect(p1.assert({ classDefinition: Foo, methodName: 'bar' })).equal(false);
+      expect(p1.assert({ classDefinition: Foo, methodName: 'baz' })).equal(true);
+      expect(p1.assert({ classDefinition: Foo, methodName: 'foobar' })).equal(false);
+      expect(p1.assert({ classDefinition: Foo, methodName: 'nope' })).equal(false);
+      expect(p1.assert({ classDefinition: Foo, methodName: 'yep' })).equal(true);
+      expect(p1.assert({ classDefinition: ClassA, methodName: 'yep' })).equal(true);
     });
   });
 });
