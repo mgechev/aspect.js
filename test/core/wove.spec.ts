@@ -37,6 +37,28 @@ class LoggerAspect {
   }
 }
 
+const Log = (message: string) => {
+  return (target: object, propertyKey: string | symbol) => {
+    Reflect.defineMetadata(Log, { message }, target, propertyKey);
+  };
+};
+
+@Wove()
+class ClassC {
+  @Log('Foo was called')
+  foo() {}
+}
+
+class LoggerAspectC {
+  @beforeMethod({
+    decorators: [Log],
+  })
+  beforeLogger(meta: Metadata) {
+    const { message } = Reflect.getMetadata(Log, meta.method.context, meta.method.name);
+    console.log(message);
+  }
+}
+
 describe('@Wove', () => {
   beforeEach(() => (methods.length = 0));
 
@@ -51,5 +73,14 @@ describe('@Wove', () => {
     expect(barSpy.called).equal(true);
     expect(quxSpy.called).equal(true);
     expect(methods).deep.eq(['foo', 'bar', 'qux']);
+  });
+
+  it('should work with decorated classes', () => {
+    const fooSpy = spy(console, 'log');
+
+    const c = new ClassC();
+    c.foo();
+
+    expect(fooSpy.calledWith('Foo was called')).equal(true);
   });
 });

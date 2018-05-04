@@ -41,10 +41,14 @@
     "chai": "^3.3.0",
     "mocha": "^3.4.2",
     "prettier": "^1.7.4",
+    "reflect-metadata": "^0.1.12",
     "rxjs": "^5.2.0",
     "sinon": "^4.4.2",
     "tsviz": "^1.0.11",
     "typescript": "^2.0.2",
     "zone.js": "^0.7.7"
+  },
+  "peerDependencies": {
+    "reflect-metadata": "^0.1.12"
   }
 }
