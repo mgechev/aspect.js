@@ -5,7 +5,7 @@ export interface Precondition {
   assert(data: any): boolean;
 }
 
-export abstract class JointPoint {
+export abstract class JoinPoint {
   constructor(public precondition: Precondition) {}
 
   public abstract match(descriptor: Function): string[];

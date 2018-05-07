@@ -1,11 +1,11 @@
-import { Precondition, JointPoint } from '../core/joint_point';
+import { Precondition, JoinPoint } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
 import { MethodSelector } from './selectors';
 import { MethodPrecondition } from './preconditions';
 
-export class StaticMethodJointPoint extends JointPoint {
+export class StaticMethodJoinPoint extends JoinPoint {
   constructor(precondition: Precondition) {
     super(precondition);
   }
@@ -43,12 +43,12 @@ export class StaticMethodJointPoint extends JointPoint {
 export function makeStaticMethodAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
-      let jointpoints = selectors.map(selector => {
-        return new StaticMethodJointPoint(new MethodPrecondition(selector));
+      let joinpoints = selectors.map(selector => {
+        return new StaticMethodJoinPoint(new MethodPrecondition(selector));
       });
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.jointPoints = jointpoints;
+      pointcut.joinPoints = joinpoints;
       let aspectName = target.constructor.name;
       let aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);

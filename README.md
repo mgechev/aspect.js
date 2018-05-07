@@ -124,22 +124,28 @@ The library offers the following combinations of advices and joint points:
 ## `MethodSelector`
 
 ```ts
+export type DecoratorKey = string | symbol | MethodDecorator | MethodDecoratorFactory;
+
 export interface MethodSelector {
   classNamePattern?: RegExp;
   methodNamePattern?: RegExp;
   classes?: Function[];
   methods?: Function[];
+  decorators?: DecoratorKey[];
 }
 ```
 
 ## `MemberSelector`
 
 ```ts
+export type DecoratorKey = string | symbol | MethodDecorator | MethodDecoratorFactory;
+
 export interface MemberSelector {
   classNamePattern?: RegExp;
   fieldNamePattern?: RegExp;
   classes?: Function[];
   methods?: PropertyDescriptor[];
+  decorators?: DecoratorKey[];
 }
 ```
 
@@ -188,8 +194,12 @@ Here's a UML class diagram which shows the relations between the individual abst
 - [x] Implement the following joint points:
   - [x] Method execution
   - [x] Static method execution
-  - [x] Filed get
+  - [x] Field get
   - [x] Field set
+- [x] Implement selectos
+  - [x] Class & method selector
+  - [x] Class & field selector
+  - [x] Method & field decorator selectors
 
 # License
 

@@ -1,10 +1,10 @@
-import {Metadata, MethodMetadata, Wove, resetRegistry} from '../../lib/src/core';
-import {Advice} from '../../lib/src/core/advice';
-import * as SyncAdvices from '../../lib/src/advices';
+import { Metadata, MethodMetadata, Wove, resetRegistry } from '../../lib/core';
+import { Advice } from '../../lib/core/advice';
+import * as SyncAdvices from '../../lib/advices';
 
-import {afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod} from '../../lib/index';
+import { afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod } from '../../lib/index';
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 @Wove()
 class Target {
@@ -14,9 +14,11 @@ class Target {
   }
 
   async throwError() {
-    await new Promise((_, reject) => setTimeout(_ => {
-      reject(42);
-    }, 10))
+    await new Promise((_, reject) =>
+      setTimeout(_ => {
+        reject(42);
+      }, 10)
+    );
   }
 
   async directThrow() {
@@ -45,7 +47,10 @@ describe('async advices', () => {
     it('should work with async targets', async () => {
       let hasBeenCalled = false;
       class Advice {
-        @asyncOnThrowOfMethod({ classNamePattern: /Target/, methodNamePattern: /throwError/ })
+        @asyncOnThrowOfMethod({
+          classNamePattern: /Target/,
+          methodNamePattern: /throwError/,
+        })
         throwError(data: Metadata) {
           hasBeenCalled = true;
           expect(data.method.exception).to.eq(42);
@@ -61,7 +66,10 @@ describe('async advices', () => {
     it('should work with async targets', async () => {
       let hasBeenCalled = false;
       class Advice {
-        @asyncOnThrowOfMethod({ classNamePattern: /Target/, methodNamePattern: /directThrow/ })
+        @asyncOnThrowOfMethod({
+          classNamePattern: /Target/,
+          methodNamePattern: /directThrow/,
+        })
         throwError(data: Metadata) {
           hasBeenCalled = true;
           expect(data.method.exception).to.eq('Message');
@@ -77,7 +85,10 @@ describe('async advices', () => {
     it('onThrowOfMethod should not work with async targets', async () => {
       let hasBeenCalled = false;
       class Advice {
-        @onThrowOfMethod({ classNamePattern: /Target/, methodNamePattern: /directThrow/ })
+        @onThrowOfMethod({
+          classNamePattern: /Target/,
+          methodNamePattern: /directThrow/,
+        })
         throwError(data: Metadata) {
           hasBeenCalled = true;
         }

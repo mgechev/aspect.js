@@ -1,4 +1,4 @@
-import { Precondition, JointPoint } from '../core/joint_point';
+import { Precondition, JoinPoint } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
@@ -7,7 +7,7 @@ import { MethodPrecondition } from './preconditions';
 
 const BLACK_LIST = ['constructor'];
 
-export class MethodCallJointPoint extends JointPoint {
+export class MethodCallJointPoint extends JoinPoint {
   public getTarget(fn: Function): any {
     return fn.prototype;
   }
@@ -55,7 +55,7 @@ export function makeMethodCallAdviceDecorator(constr: any) {
       });
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.jointPoints = jointpoints;
+      pointcut.joinPoints = jointpoints;
       let aspectName = target.constructor.name;
       let aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);

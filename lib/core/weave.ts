@@ -13,9 +13,3 @@ export function weave<TFunction extends Function>(target: TFunction, config?: an
   (target as any).__woven__ = true;
   return target;
 }
-
-export function Wove(config?: any): ClassDecorator {
-  return function<TFunction extends Function>(target: TFunction) {
-    return weave(target, config);
-  };
-}

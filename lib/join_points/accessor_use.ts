@@ -1,4 +1,4 @@
-import { JointPoint, Precondition } from '../core/joint_point';
+import { JoinPoint, Precondition } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
@@ -7,7 +7,7 @@ import { MemberPrecondition } from './preconditions';
 
 export type AccessorType = 'get' | 'set';
 
-export class AccessorJointPoint extends JointPoint {
+export class AccessorJointPoint extends JoinPoint {
   constructor(precondition: Precondition, private type: AccessorType) {
     super(precondition);
   }
@@ -37,7 +37,10 @@ export class AccessorJointPoint extends JointPoint {
       .map(key => {
         const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
         if (
-          this.precondition.assert({ classDefinition: target, fieldName: key }) &&
+          this.precondition.assert({
+            classDefinition: target,
+            fieldName: key,
+          }) &&
           (this.type === 'get' || (this.type === 'set' && typeof descriptor[this.type] === 'function'))
         ) {
           return key;
@@ -52,12 +55,12 @@ export class AccessorJointPoint extends JointPoint {
 export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advice) {
   return function(...selectors: MemberSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
-      const jointpoints = selectors.map(selector => {
+      const joinpoints = selectors.map(selector => {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'get');
       });
       const pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.jointPoints = jointpoints;
+      pointcut.joinPoints = joinpoints;
       const aspectName = target.constructor.name;
       const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
@@ -75,7 +78,7 @@ export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advi
       });
       const pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.jointPoints = jointpoints;
+      pointcut.joinPoints = jointpoints;
       const aspectName = target.constructor.name;
       const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);

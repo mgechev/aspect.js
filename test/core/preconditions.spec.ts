@@ -1,7 +1,6 @@
-import { MemberSelector } from './../../lib/src/joint_points/selectors';
-import { MemberPrecondition, MethodPrecondition } from './../../lib/src/joint_points/preconditions';
-
 import { expect } from 'chai';
+
+import { MemberPrecondition, MemberSelector, MethodPrecondition } from './../../lib/join_points';
 
 describe('Preconditions', () => {
   describe('MemberPrecondition', () => {
@@ -20,7 +19,7 @@ describe('Preconditions', () => {
 
       const selector: MemberSelector = {
         classNamePattern: /Foo/,
-        fieldNamePattern: /bar/
+        fieldNamePattern: /bar/,
       };
       const p = new MemberPrecondition(selector);
       expect(p.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(true);
@@ -42,7 +41,7 @@ describe('Preconditions', () => {
 
       const selector: MemberSelector = {
         classes: [Foo],
-        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')]
+        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')],
       };
       const p = new MemberPrecondition(selector);
       // expect(p.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);
@@ -64,7 +63,7 @@ describe('Preconditions', () => {
 
       const selector: MemberSelector = {
         classes: [Foo],
-        fields: [Foo.prototype.foobar]
+        fields: [Foo.prototype.foobar],
       };
       const p = new MemberPrecondition(selector);
       expect(() => {
@@ -87,14 +86,14 @@ describe('Preconditions', () => {
 
       const p1 = new MemberPrecondition({
         classNamePattern: /Foo/,
-        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')]
+        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')],
       });
       expect(p1.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(false);
       expect(p1.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);
 
       const p2 = new MemberPrecondition({
         classes: [Foo],
-        fieldNamePattern: /bar/
+        fieldNamePattern: /bar/,
       });
       expect(p2.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(true);
       expect(p2.assert({ classDefinition: Foo, fieldName: 'foobar' })).equal(true);
@@ -142,7 +141,7 @@ describe('Preconditions', () => {
       const p1 = new MemberPrecondition({
         classes: [Foo],
         fieldNamePattern: /bar/,
-        decorators: [Bar, Baz, FooBar]
+        decorators: [Bar, Baz, FooBar],
       });
       expect(p1.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(true);
       expect(p1.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);
@@ -203,7 +202,7 @@ describe('Preconditions', () => {
       const p1 = new MethodPrecondition({
         classes: [ClassA, Foo],
         methodNamePattern: /yep/,
-        decorators: [Bar, Baz]
+        decorators: [Bar, Baz],
       });
       expect(p1.assert({ classDefinition: Foo, methodName: 'bar' })).equal(false);
       expect(p1.assert({ classDefinition: Foo, methodName: 'baz' })).equal(true);

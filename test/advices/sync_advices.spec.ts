@@ -1,19 +1,8 @@
-import {
-  Metadata,
-  MethodMetadata,
-  Wove,
-  resetRegistry
-} from '../../lib/src/core';
-import { Advice } from '../../lib/src/core/advice';
-import * as SyncAdvices from '../../lib/src/advices';
+import { Metadata, MethodMetadata, Wove, resetRegistry } from '../../lib/core';
+import { Advice } from '../../lib/core/advice';
+import * as SyncAdvices from '../../lib/advices';
 
-import {
-  beforeMethod,
-  beforeStaticMethod,
-  beforeGetter,
-  beforeSetter,
-  afterMethod
-} from '../../lib/index';
+import { beforeMethod, beforeStaticMethod, beforeGetter, beforeSetter, afterMethod } from '../../lib/index';
 
 import { expect } from 'chai';
 
@@ -22,10 +11,6 @@ describe('sync advices', () => {
     resetRegistry();
   });
   describe('BeforeAdvice', () => {
-    // beforeEach(() => {
-    //   resetRegistry();
-    // });
-
     it('should invoke the advice with the appropriate metadata', done => {
       let demo: any;
       class Aspect {
@@ -77,9 +62,7 @@ describe('sync advices', () => {
         @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke(
-            ...metadata.method.args
-          );
+          metadata.method.result = metadata.method.invoke(...metadata.method.args);
           expect(metadata.method.result).to.be.equal(6);
         }
       }
@@ -104,9 +87,7 @@ describe('sync advices', () => {
         @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke(
-            ...metadata.method.args
-          );
+          metadata.method.result = metadata.method.invoke(...metadata.method.args);
           expect(metadata.method.result).to.be.equal(3);
         }
       }

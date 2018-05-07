@@ -1,7 +1,7 @@
 import 'reflect-metadata';
-import { Precondition } from '../core/joint_point';
+import { Precondition } from '../core/join_point';
 import { MethodSelector, MemberSelector } from './selectors';
-import { weave } from '../core/wove';
+import { weave } from '../core/weave';
 
 export class MethodPrecondition implements Precondition {
   constructor(private selector: MethodSelector) {
