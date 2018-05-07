@@ -1,6 +1,6 @@
 # Introduction
 
-[![Build Status](https://travis-ci.org/mgechev/aspect.js.svg?branch=master)](https://travis-ci.org/mgechev/aspect.js)
+[![Build Status](https://travis-ci.org/lizardruss/crosscut.js.svg?branch=master)](https://travis-ci.org/lizardruss/crosscut.js)
 
 Library for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 2016 decorators syntax.
 
