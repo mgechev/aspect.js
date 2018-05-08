@@ -1,0 +1,6 @@
+--require source-map-support/register
+--require ts-node/register
+--reporter spec
+--timeout 2000
+
+test/**/*.spec.ts

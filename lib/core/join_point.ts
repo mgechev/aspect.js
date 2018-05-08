@@ -34,7 +34,6 @@ export abstract class JoinPoint {
   ): Metadata {
     var invocation: MethodMetadata = {
       name: key,
-      proceed: true,
       context: context,
       result: undefined,
       exception: undefined,
@@ -48,7 +47,6 @@ export abstract class JoinPoint {
     if (args[0] && args[0].__advice_metadata__) {
       let previousMetadata = <Metadata>args[0];
       metadata.method.result = previousMetadata.method.result;
-      metadata.method.proceed = previousMetadata.method.proceed;
       metadata.method.args = previousMetadata.method.args;
       metadata.method.context = previousMetadata.method.context;
     } else {

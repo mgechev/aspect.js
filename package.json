@@ -10,7 +10,7 @@
     "build:publish": "rm -rf dist && tsc && npm run generate:diagram && cp ./package.json README.md dist/lib",
     "package": "cp ./package.json README.md dist/lib",
     "generate:diagram": "tsviz -r lib/index.ts assets/diagram.png",
-    "test": "tsc && mocha ./dist/test/**/*.spec.js",
+    "test": "mocha",
     "format": "npm run format:lib && npm run format:test",
     "format:lib": "prettier --single-quote --trailing-comma es5 --print-width 120 --write lib/**/*.ts",
     "format:test": "prettier --single-quote --trailing-comma es5 --print-width 120 --write test/**/*.ts"
@@ -45,6 +45,8 @@
     "prettier": "^1.7.4",
     "reflect-metadata": "^0.1.12",
     "sinon": "^4.4.2",
+    "source-map-support": "^0.5.5",
+    "ts-node": "^6.0.3",
     "tsviz": "^1.0.11",
     "typescript": "^2.0.2"
   },

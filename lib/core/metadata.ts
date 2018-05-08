@@ -1,5 +1,4 @@
 export class MethodMetadata {
-  public proceed: boolean;
   public name: string;
   public args: any[];
   public context: any;

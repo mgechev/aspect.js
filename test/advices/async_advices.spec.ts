@@ -30,6 +30,7 @@ describe('async advices', () => {
   describe('AsyncAfterAdvice', () => {
     it('should work with async targets', async () => {
       let hasBeenCalled = false;
+
       class Advice {
         @afterMethod({ classNamePattern: /Target/, methodNamePattern: /foo/ })
         async after(data: Metadata) {
@@ -38,14 +39,16 @@ describe('async advices', () => {
           expect(res).to.eq(1.618);
         }
       }
+
       await new Target().foo();
       expect(hasBeenCalled).to.eq(true);
     });
   });
 
-  describe('AsynOnThrowAdvice', () => {
+  describe('AsyncOnThrowAdvice', () => {
     it('should work with async targets', async () => {
       let hasBeenCalled = false;
+
       class Advice {
         @asyncOnThrowOfMethod({
           classNamePattern: /Target/,
@@ -56,6 +59,7 @@ describe('async advices', () => {
           expect(data.method.exception).to.eq(42);
         }
       }
+
       const target = new Target();
       try {
         await target.throwError();
@@ -65,6 +69,7 @@ describe('async advices', () => {
 
     it('should work with async targets', async () => {
       let hasBeenCalled = false;
+
       class Advice {
         @asyncOnThrowOfMethod({
           classNamePattern: /Target/,
@@ -75,6 +80,7 @@ describe('async advices', () => {
           expect(data.method.exception).to.eq('Message');
         }
       }
+
       const target = new Target();
       try {
         await target.directThrow();
@@ -84,6 +90,7 @@ describe('async advices', () => {
 
     it('onThrowOfMethod should not work with async targets', async () => {
       let hasBeenCalled = false;
+
       class Advice {
         @onThrowOfMethod({
           classNamePattern: /Target/,
@@ -93,6 +100,7 @@ describe('async advices', () => {
           hasBeenCalled = true;
         }
       }
+
       const target = new Target();
       try {
         await target.directThrow();
@@ -104,22 +112,18 @@ describe('async advices', () => {
   describe('AsyncAroundAdvice', () => {
     it('should work with async targets', async () => {
       let hasBeenCalled = false;
-      let calledTimes = 0;
+
       class Advice {
         @aroundMethod({ classNamePattern: /Target/, methodNamePattern: /foo/ })
         async around(data: Metadata) {
-          calledTimes += 1;
-          if (!hasBeenCalled) {
-            expect(data.method.result).to.eq(undefined);
-            hasBeenCalled = true;
-          } else {
-            const res = await data.method.result;
-            expect(res).to.eq(1.618);
-          }
+          hasBeenCalled = true;
+          return await data.method.invoke(...data.method.args);
         }
       }
-      await new Target().foo();
-      expect(calledTimes).to.eq(2);
+
+      const result = await new Target().foo();
+      expect(hasBeenCalled).to.eq(true);
+      expect(result).to.eq(1.618);
     });
   });
 });

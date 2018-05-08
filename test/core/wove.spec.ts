@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { SinonSpy, spy } from 'sinon';
 
-import { beforeMethod } from './../../lib';
+import { beforeMethod, aroundMethod } from './../../lib';
 import { makeMethodDecorator, Wove } from './../../lib/core';
 import { Metadata } from './../../lib/core/metadata';
 
@@ -97,47 +97,107 @@ describe('Aspects with @Wove and decorators', () => {
 });
 
 describe('Aspects with decorators', () => {
-  const Log = (message: string) => {
-    return makeMethodDecorator((target: object, propertyKey: string | symbol) => {
-      Reflect.defineMetadata(Log, { foo: message }, target, propertyKey);
-    });
-  };
+  describe('@beforeMethod()', () => {
+    const Log = (message: string) => {
+      return makeMethodDecorator((target: object, propertyKey: string | symbol) => {
+        Reflect.defineMetadata(Log, { foo: message }, target, propertyKey);
+      });
+    };
 
-  class ClassD {
-    @Log('Foo was called')
-    foo() {}
+    class ClassD {
+      @Log('Foo was called')
+      foo() {}
 
-    @Log('Bar was called')
-    bar() {}
-  }
-
-  class LoggerAspectD {
-    @beforeMethod({
-      decorators: [Log],
-    })
-    beforeLogger(meta: Metadata) {
-      const { foo: message } = Reflect.getMetadata(Log, meta.method.context, meta.method.name);
-      console.log(message);
+      @Log('Bar was called')
+      bar() {}
     }
-  }
 
-  let logStub: SinonSpy;
+    class LoggerAspectD {
+      @beforeMethod({
+        decorators: [Log],
+      })
+      beforeLogger(meta: Metadata) {
+        const { foo: message } = Reflect.getMetadata(Log, meta.method.context, meta.method.name);
+        console.log(message);
+      }
+    }
 
-  beforeEach(() => {
-    methods.length = 0;
-    logStub = spy(console, 'log');
+    let logStub: SinonSpy;
+
+    beforeEach(() => {
+      methods.length = 0;
+      logStub = spy(console, 'log');
+    });
+
+    afterEach(() => {
+      methods.length = 0;
+      logStub.restore();
+    });
+
+    it('should work with decorated classes', () => {
+      const d = new ClassD();
+      d.foo();
+      d.bar();
+      expect(logStub.calledWith('Foo was called')).equal(true);
+      expect(logStub.calledWith('Bar was called')).equal(true);
+    });
   });
 
-  afterEach(() => {
-    methods.length = 0;
-    logStub.restore();
-  });
+  describe('@aroundMethod()', () => {
+    const Log = (message: string) => {
+      return makeMethodDecorator((target: object, propertyKey: string | symbol) => {
+        Reflect.defineMetadata(Log, { foo: message }, target, propertyKey);
+      });
+    };
 
-  it('should work with decorated classes', () => {
-    const d = new ClassD();
-    d.foo();
-    d.bar();
-    expect(logStub.calledWith('Foo was called')).equal(true);
-    expect(logStub.calledWith('Bar was called')).equal(true);
+    class ClassE {
+      @Log('Foo was called')
+      foo() {
+        console.log('foo');
+      }
+
+      @Log('Bar was called')
+      bar() {
+        console.log('bar');
+      }
+    }
+
+    class LoggerAspectE {
+      @aroundMethod({
+        decorators: [Log],
+      })
+      beforeLogger(meta: Metadata) {
+        const { method } = meta;
+        const { foo: message } = Reflect.getMetadata(Log, meta.method.context, meta.method.name);
+        console.log(`Before: ${message}`);
+        const result = method.invoke(...method.args);
+        console.log(`After: ${message}`);
+        return result;
+      }
+    }
+
+    let logStub: SinonSpy;
+
+    beforeEach(() => {
+      methods.length = 0;
+      logStub = spy(console, 'log');
+    });
+
+    afterEach(() => {
+      methods.length = 0;
+      logStub.restore();
+    });
+
+    it('should work with decorated classes', () => {
+      const e = new ClassE();
+      e.foo();
+      e.bar();
+      expect(logStub.withArgs('Before: Foo was called').calledOnce).equal(true);
+      expect(logStub.withArgs('foo').calledOnce).equal(true);
+      expect(logStub.withArgs('After: Foo was called').calledOnce).equal(true);
+      expect(logStub.withArgs('Before: Bar was called').calledOnce).equal(true);
+      expect(logStub.withArgs('bar').calledOnce).equal(true);
+      expect(logStub.withArgs('After: Bar was called').calledOnce).equal(true);
+    });
   });
 });
