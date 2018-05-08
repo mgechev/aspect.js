@@ -1,13 +1,13 @@
 {
   "name": "crosscut.js",
-  "version": "0.7.4",
+  "version": "0.8.0",
   "description": "Library for aspect-oriented programming with TypeScript",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc",
-    "build:publish": "rm -rf dist && tsc && npm run generate:diagram && cp ./package.json README.md dist/lib",
+    "build:publish": "rm -rf dist && tsc && npm run generate:diagram && npm run package",
     "package": "cp ./package.json README.md dist/lib",
     "generate:diagram": "tsviz -r lib/index.ts assets/diagram.png",
     "test": "mocha",
