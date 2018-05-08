@@ -33,7 +33,10 @@ export class MethodPrecondition implements Precondition {
     if (s.decorators) {
       const d = Object.getOwnPropertyDescriptor(classDefinition.prototype, methodName);
       matchDecorator = s.decorators.some(decorator => {
-        return !d.get && !d.set && Reflect.hasMetadata(decorator, classDefinition.prototype, methodName);
+        return !d.get && !d.set && (
+          Reflect.hasMetadata(decorator, classDefinition.prototype, methodName) ||
+          Reflect.hasMetadata(decorator, classDefinition.prototype[methodName])
+        );
       });
     }
 

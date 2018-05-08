@@ -164,8 +164,8 @@ describe('Preconditions', () => {
       };
 
       const FooBar = (options: { value: string }) => {
-        return (target: object, propertyKey: string | symbol) => {
-          Reflect.defineMetadata(FooBar, { propertyKey, args: options }, target, propertyKey);
+        return (target: object, propertyKey: string | symbol, propertyDescriptor: PropertyDescriptor) => {
+          Reflect.defineMetadata(FooBar, { propertyKey, args: options }, propertyDescriptor.value);
         };
       };
 
@@ -203,12 +203,13 @@ describe('Preconditions', () => {
       const p1 = new MethodPrecondition({
         classes: [ClassA, Foo],
         methodNamePattern: /yep/,
-        decorators: [Bar, Baz]
+        decorators: [Bar, Baz, FooBar]
       });
       expect(p1.assert({ classDefinition: Foo, methodName: 'bar' })).equal(false);
       expect(p1.assert({ classDefinition: Foo, methodName: 'baz' })).equal(true);
-      expect(p1.assert({ classDefinition: Foo, methodName: 'foobar' })).equal(false);
+      expect(p1.assert({ classDefinition: Foo, methodName: 'foobar' })).equal(true);
       expect(p1.assert({ classDefinition: Foo, methodName: 'nope' })).equal(false);
+      expect(p1.assert({ classDefinition: Foo, methodName: 'yep' })).equal(true);
       expect(p1.assert({ classDefinition: Foo, methodName: 'yep' })).equal(true);
       expect(p1.assert({ classDefinition: ClassA, methodName: 'yep' })).equal(true);
     });

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { Metadata } from './../../lib/src/core/metadata';
-import { beforeMethod } from './../../lib/index';
+import { aroundMethod, beforeMethod } from './../../lib/index';
 import { Advised } from './../../lib/src/core';
 
-import { spy } from 'sinon';
+import { spy, stub } from 'sinon';
 
 const o = 42;
 
@@ -68,6 +68,33 @@ class LoggerAspectC {
   }
 }
 
+const Cache = (key: string) => {
+  return (target: object, propertyKey: string | symbol, propertyDescriptor: PropertyDescriptor) => {
+    Reflect.defineMetadata(Cache, key, propertyDescriptor.value);
+  };
+};
+
+@Advised()
+class ClassD {
+  @Cache('cache:key')
+  foo() {}
+}
+
+class CacheAspect {
+  @aroundMethod({
+    decorators: [ Cache ],
+  })
+  cache(meta: Metadata) {
+    const { method } = meta;
+    const { context } = method;
+    const key = Reflect.getMetadata(Cache, context[method.name]);
+    console.log(`Before: ${key}`);
+    const result = method.complete(...method.args);
+    console.log(`After: ${key}`);
+    return result;
+  }
+}
+
 describe('@Advised', () => {
   beforeEach(() => (methods.length = 0));
 
@@ -91,11 +118,23 @@ describe('@Advised', () => {
   });
 
   it('should work with decorated classes', () => {
-    const fooSpy = spy(console, 'log');
+    const logStub = stub(console, 'log');
 
     const c = new ClassC();
     c.foo();
 
-    expect(fooSpy.calledWith('Foo was called')).equal(true);
+    expect(logStub.calledWith('Foo was called')).equal(true);
+    logStub.restore();
+  });
+
+  it('should work with decorators using propertyDescriptor.value', () => {
+    const logStub = stub(console, 'log');
+
+    const d = new ClassD();
+    d.foo();
+
+    expect(logStub.withArgs('Before: cache:key').calledOnce).equal(true);
+    expect(logStub.withArgs('After: cache:key').calledOnce).equal(true);
+    logStub.restore();
   });
 });

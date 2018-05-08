@@ -87,15 +87,13 @@ This way, by explicitly listing the classes and methods which should be woven, y
 
 # Sample usage (decorators)
 
-To use advice using custom decorators, you can use the `makeMethodDecorator()` and `makeMemberDecorator()` functions. Here's an example:
+Here's an example using custom decorators and reflect-metadata:
 
 ```ts
-import { makeMethodDecorator } from 'aspect.js';
-
 export const Log = (message?: string) => {
-  return makeMethodDecorator(((target: object, propertyKey: string | symbol) => {
+  return (target: object, propertyKey: string | symbol) => {
     Reflect.defineMetadata(Log, { message }, target, propertyKey);
-  });
+  };
 };
 
 class LoggerAspect {
@@ -118,6 +116,7 @@ class Article {
   content: string;
 }
 
+@Advised()
 class ArticleCollection {
   articles: Article[] = [];
 
