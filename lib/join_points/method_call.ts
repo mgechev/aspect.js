@@ -39,11 +39,20 @@ export class MethodCallJointPoint extends JoinPoint {
     let className = proto.constructor.name;
     let bak = proto[key];
     let self = this;
-    proto[key] = function() {
+
+    const proxy: any = function() {
       let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
       return advice.wove(bak, metadata);
     };
-    proto[key].__woven__ = true;
+    proxy.__woven__ = true;
+    proxy.__bak__ = bak;
+    proto[key] = proxy;
+
+    // Copy reflect-metadata for decorators that use the descriptor value.
+    Reflect.getMetadataKeys(bak).forEach((key: any) => {
+      const value = Reflect.getMetadata(key, bak);
+      Reflect.defineMetadata(key, value, proxy);
+    });
   }
 }
 

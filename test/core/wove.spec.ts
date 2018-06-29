@@ -1,3 +1,5 @@
+import { Memoize } from './fixtures/memoize';
+import { Service } from './fixtures/service';
 import { expect } from 'chai';
 import { SinonSpy, spy } from 'sinon';
 
@@ -6,6 +8,8 @@ import { makeMethodDecorator, Wove } from './../../lib/core';
 import { Metadata } from './../../lib/core/metadata';
 
 const methods: string[] = [];
+
+require('./fixtures/cache-aspect');
 
 describe('Aspects with @Wove', () => {
   @Wove()
@@ -198,6 +202,15 @@ describe('Aspects with decorators', () => {
       expect(logStub.withArgs('Before: Bar was called').calledOnce).equal(true);
       expect(logStub.withArgs('bar').calledOnce).equal(true);
       expect(logStub.withArgs('After: Bar was called').calledOnce).equal(true);
+    });
+
+    it('should work with imported decorated classes', () => {
+      const service = new Service();
+      service.method1();
+      expect(logStub.withArgs('Before: method1').calledOnce).equal(true);
+      expect(logStub.withArgs('method1 called').calledOnce).equal(true);
+      expect(logStub.withArgs('After: method1').calledOnce).equal(true);
+      expect(Reflect.getMetadata(Memoize, Service.prototype.method1)).to.equal('memoize:method1');
     });
   });
 });
