@@ -1,6 +1,6 @@
 {
   "name": "crosscut.js",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Library for aspect-oriented programming with TypeScript",
   "main": "dist/lib/index.js",
   "typings": "dist/lib/index.d.ts",
