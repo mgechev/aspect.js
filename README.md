@@ -145,7 +145,7 @@ This way, by explicitly listing the classes and methods which should be woven, y
 # Demo
 
 ```
-git clone https://github.com/mgechev/aop.js --depth 1
+git clone https://github.com/lizardruss/crosscut.js --depth 1
 npm install -g ts-node
 ts-node demo/index.ts
 ```
