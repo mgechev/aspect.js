@@ -7,9 +7,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc",
-    "build:publish": "rm -rf dist && tsc && npm run generate:diagram && npm run package",
+    "build:publish": "rm -rf dist && tsc && npm run package",
     "package": "cp ./package.json README.md dist/lib",
-    "generate:diagram": "tsviz -r lib/index.ts assets/diagram.png",
     "test": "mocha",
     "format": "npm run format:lib && npm run format:test",
     "format:lib": "prettier --single-quote --trailing-comma es5 --print-width 120 --write lib/**/*.ts",
@@ -47,7 +46,6 @@
     "sinon": "^4.4.2",
     "source-map-support": "^0.5.5",
     "ts-node": "^6.0.3",
-    "tsviz": "^1.0.11",
     "typescript": "^2.0.2"
   },
   "peerDependencies": {
