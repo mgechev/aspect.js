@@ -8,7 +8,7 @@ import {
   afterSetter,
   afterGetter,
   beforeStaticMethod
-} from '../lib';
+} from '../src';
 
 class CacheAspect {
   @beforeMethod({

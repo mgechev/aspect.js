@@ -1,7 +1,9 @@
 import { expect } from 'chai';
 
-import { Advice, JoinPoint, Pointcut, Precondition } from '../../lib/core';
+import { Advice, JoinPoint, Pointcut, Precondition } from '../../src/core';
 import { spy } from 'sinon';
+
+class SimpleAspect {}
 
 class SimpleJP extends JoinPoint {
   match(descriptor: Object): string[] {
@@ -29,13 +31,12 @@ describe('Pointcut', () => {
   let jp2: JoinPoint;
 
   beforeEach(() => {
-    pc = new Pointcut();
     jp1 = new SimpleJP(new SimplePrecondition());
     jp1.precondition = new SimplePrecondition();
 
     jp2 = new SimpleJP(new SimplePrecondition());
     jp2.precondition = new SimplePrecondition();
-    pc.joinPoints = [jp1, jp2];
+    pc = new Pointcut([jp1, jp2], <Advice>new SimpleAspect());
   });
 
   it('Match should be invoked', () => {

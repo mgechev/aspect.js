@@ -19,14 +19,13 @@ export class MethodCallJointPoint extends JoinPoint {
     });
     let res = keys
       .map(key => {
-        let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
-        if (
-          this.precondition.assert({
-            classDefinition: target,
-            methodName: key,
-          }) &&
-          typeof descriptor.value === 'function'
-        ) {
+        const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
+        const descriptorIsFunction = descriptor != null ? typeof descriptor.value === 'function' : false;
+        const preconditionMatches = this.precondition.assert({
+          classDefinition: target,
+          methodName: key,
+        });
+        if (preconditionMatches && descriptorIsFunction) {
           return key;
         }
         return false;
@@ -40,7 +39,7 @@ export class MethodCallJointPoint extends JoinPoint {
     let bak = proto[key];
     let self = this;
 
-    const proxy: any = function() {
+    const proxy: any = function(this: any) {
       let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
       return advice.wove(bak, metadata);
     };
@@ -59,12 +58,10 @@ export class MethodCallJointPoint extends JoinPoint {
 export function makeMethodCallAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
-      let jointpoints = selectors.map(selector => {
+      let joinPoints = selectors.map(selector => {
         return new MethodCallJointPoint(new MethodPrecondition(selector));
       });
-      let pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.joinPoints = jointpoints;
+      let pointcut = new Pointcut(joinPoints, <Advice>new constr(target, descriptor.value));
       let aspectName = target.constructor.name;
       let aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);

@@ -1,0 +1,25 @@
+{
+  "all": true,
+  "extension": [
+    ".ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "**/fixtures",
+    "**/node_modules/**",
+    "**/*.d.ts",
+    "**/*.spec.ts",
+    "*.js"
+  ],
+  "instrument": true,
+  "require": [
+    "ts-node/register"
+  ],
+  "reporter": [
+    "text-summary",
+    "html"
+  ],
+  "sourceMap": true
+}

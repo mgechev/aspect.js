@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { MemberPrecondition, MemberSelector, MethodPrecondition } from './../../lib/join_points';
+import { MemberPrecondition, MemberSelector, MethodPrecondition } from './../../src/join_points';
 
 describe('Preconditions', () => {
   describe('MemberPrecondition', () => {
@@ -41,7 +41,7 @@ describe('Preconditions', () => {
 
       const selector: MemberSelector = {
         classes: [Foo],
-        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')],
+        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')!],
       };
       const p = new MemberPrecondition(selector);
       // expect(p.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);
@@ -86,7 +86,7 @@ describe('Preconditions', () => {
 
       const p1 = new MemberPrecondition({
         classNamePattern: /Foo/,
-        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')],
+        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')!],
       });
       expect(p1.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(false);
       expect(p1.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);

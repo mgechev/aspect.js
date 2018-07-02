@@ -1,5 +1,5 @@
-import { aroundMethod } from './../../../lib';
-import { Metadata } from './../../../lib/core/metadata';
+import { aroundMethod } from './../../../src';
+import { Metadata } from './../../../src/core/metadata';
 import { Cache } from './cache';
 
 export class CacheAspect {

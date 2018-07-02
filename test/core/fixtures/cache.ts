@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { makeMethodDecorator } from '../../../lib/core';
+import { makeMethodDecorator } from '../../../src/core';
 
 export const Cache = (key: string) => {
   return makeMethodDecorator((target: object, propertyKey: string | symbol) => {

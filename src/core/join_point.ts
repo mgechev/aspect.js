@@ -26,32 +26,33 @@ export abstract class JoinPoint {
 
   protected getMetadata(
     className: string,
-    key: string,
+    name: string,
     fn: Function,
     args: IArguments,
     context: any,
     woveMetadata: any
   ): Metadata {
-    var invocation: MethodMetadata = {
-      name: key,
-      context: context,
-      result: undefined,
-      exception: undefined,
-      args: undefined,
-      invoke: fn.bind(context),
-    };
-    var metadata: Metadata = new Metadata();
-    metadata.method = invocation;
-    metadata.className = className;
-    metadata.woveMetadata = woveMetadata;
+    let method: MethodMetadata;
     if (args[0] && args[0].__advice_metadata__) {
       let previousMetadata = <Metadata>args[0];
-      metadata.method.result = previousMetadata.method.result;
-      metadata.method.args = previousMetadata.method.args;
-      metadata.method.context = previousMetadata.method.context;
+      method = new MethodMetadata(
+        name,
+        previousMetadata.method.args,
+        context,
+        previousMetadata.method.result,
+        previousMetadata.method.exception,
+        fn.bind(context)
+      );
     } else {
-      metadata.method.args = Array.prototype.slice.call(args);
+      method = new MethodMetadata(
+        name,
+        Array.prototype.slice.call(args),
+        context,
+        undefined,
+        undefined,
+        fn.bind(context)
+      );
     }
-    return metadata;
+    return new Metadata(method, woveMetadata, className);
   }
 }

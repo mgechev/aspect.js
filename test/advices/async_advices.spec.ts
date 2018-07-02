@@ -1,8 +1,8 @@
-import { Metadata, MethodMetadata, Wove, resetRegistry } from '../../lib/core';
-import { Advice } from '../../lib/core/advice';
-import * as SyncAdvices from '../../lib/advices';
+import { Metadata, MethodMetadata, Wove, resetRegistry } from '../../src/core';
+import { Advice } from '../../src/core/advice';
+import * as SyncAdvices from '../../src/advices';
 
-import { afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod } from '../../lib/index';
+import { afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod } from '../../src/index';
 
 import { expect } from 'chai';
 

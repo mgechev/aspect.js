@@ -3,9 +3,9 @@ import { Service } from './fixtures/service';
 import { expect } from 'chai';
 import { SinonSpy, spy } from 'sinon';
 
-import { beforeMethod, aroundMethod } from './../../lib';
-import { makeMethodDecorator, Wove } from './../../lib/core';
-import { Metadata } from './../../lib/core/metadata';
+import { beforeMethod, aroundMethod } from './../../src';
+import { makeMethodDecorator, Wove } from './../../src/core';
+import { Metadata } from './../../src/core/metadata';
 
 const methods: string[] = [];
 

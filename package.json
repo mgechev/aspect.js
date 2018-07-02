@@ -2,16 +2,17 @@
   "name": "crosscut.js",
   "version": "0.9.0",
   "description": "Library for aspect-oriented programming with TypeScript",
-  "main": "dist/lib/index.js",
-  "typings": "dist/lib/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "tsc",
+    "build": "tsc --project src/tsconfig.json",
     "build:publish": "rm -rf dist && tsc && npm run package",
-    "package": "cp ./package.json README.md dist/lib",
+    "package": "cp ./package.json README.md dist/",
     "test": "mocha",
-    "format": "npm run format:lib && npm run format:test",
-    "format:lib": "prettier --single-quote --trailing-comma es5 --print-width 120 --write lib/**/*.ts",
+    "coverage": "nyc mocha",
+    "format": "npm run format:src && npm run format:test",
+    "format:src": "prettier --single-quote --trailing-comma es5 --print-width 120 --write src/**/*.ts",
     "format:test": "prettier --single-quote --trailing-comma es5 --print-width 120 --write test/**/*.ts"
   },
   "repository": {
@@ -41,12 +42,13 @@
     "@types/sinon": "^4.3.0",
     "chai": "^3.3.0",
     "mocha": "^3.4.2",
+    "nyc": "^12.0.2",
     "prettier": "^1.7.4",
     "reflect-metadata": "^0.1.12",
     "sinon": "^4.4.2",
     "source-map-support": "^0.5.5",
     "ts-node": "^6.0.3",
-    "typescript": "^2.0.2"
+    "typescript": "^2.9.2"
   },
   "peerDependencies": {
     "reflect-metadata": "^0.1.12"

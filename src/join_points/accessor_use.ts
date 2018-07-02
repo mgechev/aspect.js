@@ -20,14 +20,22 @@ export class AccessorJointPoint extends JoinPoint {
     const className = proto.constructor.name;
     const self = this;
     const descriptor = Object.getOwnPropertyDescriptor(proto, key);
-    if ((this.type === 'get' || this.type === 'set') && typeof descriptor[this.type] === 'function') {
-      const bak = descriptor[this.type];
-      descriptor[this.type] = function() {
-        const metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
-        return advice.wove(bak, metadata);
-      };
-      (descriptor[this.type] as any)['__woven__'] = true;
-      Object.defineProperty(proto, key, descriptor);
+    if (descriptor != null) {
+      const descriptorIsAccessor = this.type === 'get' || this.type === 'set';
+      const accessor = descriptor[this.type];
+      if (descriptorIsAccessor && accessor != null) {
+        const accessorIsFunction = accessor != null ? typeof accessor === 'function' : false;
+        if (accessorIsFunction) {
+          const proxy = function(this: any) {
+            const metadata = self.getMetadata(className, key, accessor!, arguments, this, woveMetadata);
+            return advice.wove(accessor!, metadata);
+          };
+          descriptor[this.type] = proxy;
+          (descriptor[this.type] as any).__woven__ = true;
+          (descriptor[this.type] as any).__bak__ = accessor;
+          Object.defineProperty(proto, key, descriptor);
+        }
+      }
     }
   }
 
@@ -36,13 +44,14 @@ export class AccessorJointPoint extends JoinPoint {
     const res = keys
       .map(key => {
         const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
-        if (
-          this.precondition.assert({
-            classDefinition: target,
-            fieldName: key,
-          }) &&
-          (this.type === 'get' || (this.type === 'set' && typeof descriptor[this.type] === 'function'))
-        ) {
+        const preconditionMatches: boolean = this.precondition.assert({
+          classDefinition: target,
+          fieldName: key,
+        });
+        const isAccessor = this.type === 'get' || this.type === 'set';
+        const accessorIsFunction: boolean =
+          isAccessor && descriptor != null ? typeof descriptor[this.type] === 'function' : false;
+        if (preconditionMatches && accessorIsFunction) {
           return key;
         }
         return false;
@@ -55,12 +64,10 @@ export class AccessorJointPoint extends JoinPoint {
 export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advice) {
   return function(...selectors: MemberSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
-      const joinpoints = selectors.map(selector => {
+      const joinPoints = selectors.map(selector => {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'get');
       });
-      const pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.joinPoints = joinpoints;
+      const pointcut = new Pointcut(joinPoints, <Advice>new constr(target, descriptor.value));
       const aspectName = target.constructor.name;
       const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
@@ -73,12 +80,10 @@ export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advi
 export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advice) {
   return function(...selectors: MemberSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
-      const jointpoints = selectors.map(selector => {
+      const jointPoints = selectors.map(selector => {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'set');
       });
-      const pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.joinPoints = jointpoints;
+      const pointcut = new Pointcut(jointPoints, <Advice>new constr(target, descriptor.value));
       const aspectName = target.constructor.name;
       const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
