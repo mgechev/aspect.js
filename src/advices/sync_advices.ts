@@ -19,17 +19,16 @@ export class AfterAdvice extends Advice {
 
 export class AroundAdvice extends Advice {
   wove(target: Function, metadata: Metadata) {
-    this.advice.bind(this.context, metadata).apply(null, metadata.method.args);
-    this.invoke(target, metadata);
-    this.advice.bind(this.context, metadata).apply(null, metadata.method.args);
-    return metadata.method.result;
+    return (metadata.method.result = this.advice.bind(this.context, metadata).apply(null, metadata.method.args));
   }
 }
 
 export class OnThrowAdvice extends Advice {
   wove(target: Function, metadata: Metadata) {
     try {
-      this.invoke(target, metadata);
+      const result = this.invoke(target, metadata);
+      if (result instanceof Promise) {
+      }
     } catch (e) {
       metadata.method.exception = e;
       this.advice.bind(this.context, metadata).apply(null, metadata.method.args);

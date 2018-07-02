@@ -1,18 +1,23 @@
 {
-  "name": "aspect.js",
-  "version": "0.7.3",
-  "description": "Library for aspect-oriented programming with JavaScript",
-  "main": "index.js",
-  "typings": "index.d.ts",
+  "name": "crosscut.js",
+  "version": "0.9.0",
+  "description": "Library for aspect-oriented programming with TypeScript",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "build_publish": "rm -rf dist && tsc && npm run generate_diagram && ngc && cp ./package.json README.md dist/lib",
-    "generate_diagram": "tsviz -r lib/index.ts assets/diagram.png",
-    "test": "tsc && mocha -R nyan ./dist/test/**/*.spec.js",
-    "format": "prettier --single-quote --trailing-comma es5 --print-width 120 --write lib/src/**/*.ts"
+    "clean": "rm -rf dist",
+    "build": "tsc --project src/tsconfig.json",
+    "build:publish": "rm -rf dist && tsc && npm run package",
+    "package": "cp ./package.json README.md dist/",
+    "test": "mocha",
+    "coverage": "nyc mocha",
+    "format": "npm run format:src && npm run format:test",
+    "format:src": "prettier --single-quote --trailing-comma es5 --print-width 120 --write src/**/*.ts",
+    "format:test": "prettier --single-quote --trailing-comma es5 --print-width 120 --write test/**/*.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mgechev/aspect.js.git"
+    "url": "git://github.com/lizardruss/crosscut.js.git"
   },
   "keywords": [
     "aop",
@@ -22,7 +27,7 @@
     "javascript",
     "decorators",
     "pointcut",
-    "joint point"
+    "join point"
   ],
   "author": "Minko Gechev <mgechev@gmail.com>",
   "license": "MIT",
@@ -31,20 +36,21 @@
   },
   "homepage": "https://github.com/mgechev/aspect.js",
   "devDependencies": {
-    "@angular/compiler": "^2.4.8",
-    "@angular/compiler-cli": "^2.4.8",
-    "@angular/core": "^2.4.8",
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.33",
     "@types/node": "^6.0.48",
     "@types/sinon": "^4.3.0",
     "chai": "^3.3.0",
     "mocha": "^3.4.2",
+    "nyc": "^12.0.2",
     "prettier": "^1.7.4",
-    "rxjs": "^5.2.0",
+    "reflect-metadata": "^0.1.12",
     "sinon": "^4.4.2",
-    "tsviz": "^1.0.11",
-    "typescript": "^2.0.2",
-    "zone.js": "^0.7.7"
+    "source-map-support": "^0.5.5",
+    "ts-node": "^6.0.3",
+    "typescript": "^2.9.2"
+  },
+  "peerDependencies": {
+    "reflect-metadata": "^0.1.12"
   }
 }

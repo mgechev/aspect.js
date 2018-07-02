@@ -1,4 +1,4 @@
-import { Precondition, JointPoint } from '../core/joint_point';
+import { Precondition, JoinPoint } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
@@ -7,7 +7,7 @@ import { MethodPrecondition } from './preconditions';
 
 const BLACK_LIST = ['constructor'];
 
-export class MethodCallJointPoint extends JointPoint {
+export class MethodCallJointPoint extends JoinPoint {
   public getTarget(fn: Function): any {
     return fn.prototype;
   }
@@ -19,14 +19,13 @@ export class MethodCallJointPoint extends JointPoint {
     });
     let res = keys
       .map(key => {
-        let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
-        if (
-          this.precondition.assert({
-            classDefinition: target,
-            methodName: key
-          }) &&
-          typeof descriptor.value === 'function'
-        ) {
+        const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
+        const descriptorIsFunction = descriptor != null ? typeof descriptor.value === 'function' : false;
+        const preconditionMatches = this.precondition.assert({
+          classDefinition: target,
+          methodName: key,
+        });
+        if (preconditionMatches && descriptorIsFunction) {
           return key;
         }
         return false;
@@ -39,23 +38,30 @@ export class MethodCallJointPoint extends JointPoint {
     let className = proto.constructor.name;
     let bak = proto[key];
     let self = this;
-    proto[key] = function() {
+
+    const proxy: any = function(this: any) {
       let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
       return advice.wove(bak, metadata);
     };
-    proto[key].__woven__ = true;
+    proxy.__woven__ = true;
+    proxy.__bak__ = bak;
+    proto[key] = proxy;
+
+    // Copy reflect-metadata for decorators that use the descriptor value.
+    Reflect.getMetadataKeys(bak).forEach((key: any) => {
+      const value = Reflect.getMetadata(key, bak);
+      Reflect.defineMetadata(key, value, proxy);
+    });
   }
 }
 
 export function makeMethodCallAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
-      let jointpoints = selectors.map(selector => {
+      let joinPoints = selectors.map(selector => {
         return new MethodCallJointPoint(new MethodPrecondition(selector));
       });
-      let pointcut = new Pointcut();
-      pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.jointPoints = jointpoints;
+      let pointcut = new Pointcut(joinPoints, <Advice>new constr(target, descriptor.value));
       let aspectName = target.constructor.name;
       let aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
