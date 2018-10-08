@@ -1,4 +1,4 @@
-import { Precondition } from '../core/joint_point';
+import { Precondition } from '../core/join_point';
 import { MethodSelector, MemberSelector } from './selectors';
 import { weave } from '../core/wove';
 

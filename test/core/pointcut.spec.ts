@@ -34,7 +34,7 @@ describe('Pointcut', () => {
 
     jp2 = new SimpleJP(new SimplePrecondition());
     jp2.precondition = new SimplePrecondition();
-    pc.jointPoints = [jp1, jp2];
+    pc.joinPoints = [jp1, jp2];
   });
   it('Match should be invoked', done => {
     let bak = jp1.match;

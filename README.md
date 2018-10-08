@@ -90,7 +90,7 @@ ts-node demo/index.ts
 
 # API
 
-The library offers the following combinations of advices and joint points:
+The library offers the following combinations of advices and join points:
 
 ## Method calls
 
@@ -185,7 +185,7 @@ Here's a UML class diagram which shows the relations between the individual abst
     - [x] Throwing
     - [x] Returning
   - [x] Around
-- [x] Implement the following joint points:
+- [x] Implement the following join points:
   - [x] Method execution
   - [x] Static method execution
   - [x] Filed get
