@@ -1,8 +1,8 @@
-import { JointPoint } from './joint_point';
+import { JointPoint } from './join_point';
 import { Advice } from './advice';
 
 export class Pointcut {
-  public jointPoints: JointPoint[];
+  public joinPoints: JointPoint[];
   public advice: Advice;
   private _applications = new Set<Function>();
 
@@ -11,6 +11,6 @@ export class Pointcut {
       return;
     }
     this._applications.add(fn);
-    this.jointPoints.forEach(jp => jp.wove({ fn, matches: jp.match(fn), woveMetadata }, this.advice));
+    this.joinPoints.forEach(jp => jp.wove({ fn, matches: jp.match(fn), woveMetadata }, this.advice));
   }
 }

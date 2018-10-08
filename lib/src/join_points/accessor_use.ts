@@ -1,4 +1,4 @@
-import { JointPoint, Precondition } from '../core/joint_point';
+import { JointPoint, Precondition } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
@@ -52,12 +52,12 @@ export class AccessorJointPoint extends JointPoint {
 export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advice) {
   return function(...selectors: MemberSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
-      const jointpoints = selectors.map(selector => {
+      const joinpoints = selectors.map(selector => {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'get');
       });
       const pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.jointPoints = jointpoints;
+      pointcut.joinPoints = joinpoints;
       const aspectName = target.constructor.name;
       const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
@@ -70,12 +70,12 @@ export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advi
 export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advice) {
   return function(...selectors: MemberSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
-      const jointpoints = selectors.map(selector => {
+      const joinpoints = selectors.map(selector => {
         return new AccessorJointPoint(new MemberPrecondition(selector), 'set');
       });
       const pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
-      pointcut.jointPoints = jointpoints;
+      pointcut.joinPoints = joinpoints;
       const aspectName = target.constructor.name;
       const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);

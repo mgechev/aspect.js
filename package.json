@@ -22,7 +22,8 @@
     "javascript",
     "decorators",
     "pointcut",
-    "joint point"
+    "join point",
+    "joinpoint"
   ],
   "author": "Minko Gechev <mgechev@gmail.com>",
   "license": "MIT",

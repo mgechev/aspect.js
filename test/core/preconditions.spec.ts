@@ -1,5 +1,5 @@
-import { MemberSelector } from './../../lib/src/joint_points/selectors';
-import { MemberPrecondition } from './../../lib/src/joint_points/preconditions';
+import { MemberSelector } from './../../lib/src/join_points/selectors';
+import { MemberPrecondition } from './../../lib/src/join_points/preconditions';
 
 import { expect } from 'chai';
 
