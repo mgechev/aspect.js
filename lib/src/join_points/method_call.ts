@@ -1,4 +1,4 @@
-import { Precondition, JointPoint } from '../core/join_point';
+import { Precondition, JoinPoint } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
@@ -7,7 +7,7 @@ import { MethodPrecondition } from './preconditions';
 
 const BLACK_LIST = ['constructor'];
 
-export class MethodCallJointPoint extends JointPoint {
+export class MethodCallJoinPoint extends JoinPoint {
   public getTarget(fn: Function): any {
     return fn.prototype;
   }
@@ -51,7 +51,7 @@ export function makeMethodCallAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
       let joinpoints = selectors.map(selector => {
-        return new MethodCallJointPoint(new MethodPrecondition(selector));
+        return new MethodCallJoinPoint(new MethodPrecondition(selector));
       });
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
@@ -65,4 +65,17 @@ export function makeMethodCallAdviceDecorator(constr: any) {
       return target;
     };
   };
+}
+
+/**
+ * Kept for backward compability only.
+ * Use {@link MethodCallJoinPoint} instead.
+ *
+ * @deprecated renamed to MethodCallJoinPoint
+ * @see MethodCallJoinPoint
+ */
+export abstract class MethodCallJointPoint extends MethodCallJoinPoint {
+  constructor(precondition: Precondition) {
+    super(precondition)
+  }
 }

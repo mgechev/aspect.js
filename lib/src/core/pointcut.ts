@@ -1,8 +1,8 @@
-import { JointPoint } from './join_point';
+import { JoinPoint } from './join_point';
 import { Advice } from './advice';
 
 export class Pointcut {
-  public joinPoints: JointPoint[];
+  public joinPoints: JoinPoint[];
   public advice: Advice;
   private _applications = new Set<Function>();
 

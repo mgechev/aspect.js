@@ -1,11 +1,11 @@
-import { Precondition, JointPoint } from '../core/join_point';
+import { Precondition, JoinPoint } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
 import { MethodSelector } from './selectors';
 import { MethodPrecondition } from './preconditions';
 
-export class StaticMethodJointPoint extends JointPoint {
+export class StaticMethodJoinPoint extends JoinPoint {
   constructor(precondition: Precondition) {
     super(precondition);
   }
@@ -44,7 +44,7 @@ export function makeStaticMethodAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
       let joinpoints = selectors.map(selector => {
-        return new StaticMethodJointPoint(new MethodPrecondition(selector));
+        return new StaticMethodJoinPoint(new MethodPrecondition(selector));
       });
       let pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
@@ -57,4 +57,17 @@ export function makeStaticMethodAdviceDecorator(constr: any) {
       return target;
     };
   };
+}
+
+/**
+ * Kept for backward compability only.
+ * Use {@link StaticMethodJoinPoint} instead.
+ *
+ * @deprecated renamed to StaticMethodJoinPoint
+ * @see StaticMethodJoinPoint
+ */
+export abstract class StaticMethodJointPoint extends StaticMethodJoinPoint {
+  constructor(precondition: Precondition) {
+    super(precondition)
+  }
 }

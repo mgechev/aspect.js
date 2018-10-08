@@ -1,8 +1,8 @@
-import { Pointcut, Precondition, JointPoint, Advice } from '../../lib/src/core';
+import { Pointcut, Precondition, JoinPoint, Advice } from '../../lib/src/core';
 
 import { expect } from 'chai';
 
-class SimpleJP extends JointPoint {
+class SimpleJP extends JoinPoint {
   match(descriptor: Object): string[] {
     if (this.precondition.assert(descriptor)) {
       return ['1'];
@@ -25,8 +25,8 @@ class SimplePrecondition implements Precondition {
 // TODO(mgechev) refactor with spies
 describe('Pointcut', () => {
   let pc: Pointcut;
-  let jp1: JointPoint;
-  let jp2: JointPoint;
+  let jp1: JoinPoint;
+  let jp2: JoinPoint;
   beforeEach(() => {
     pc = new Pointcut();
     jp1 = new SimpleJP(new SimplePrecondition());
