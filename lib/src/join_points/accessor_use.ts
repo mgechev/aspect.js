@@ -1,4 +1,4 @@
-import { JointPoint, Precondition } from '../core/join_point';
+import { JoinPoint, Precondition } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
@@ -7,8 +7,8 @@ import { MemberPrecondition } from './preconditions';
 
 export type AccessorType = 'get' | 'set';
 
-export class AccessorJointPoint extends JointPoint {
-  constructor(precondition: Precondition, private type: AccessorType) {
+export class AccessorJoinPoint extends JoinPoint {
+  constructor(precondition: Precondition, protected type: AccessorType) {
     super(precondition);
   }
 
@@ -53,7 +53,7 @@ export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advi
   return function(...selectors: MemberSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
       const joinpoints = selectors.map(selector => {
-        return new AccessorJointPoint(new MemberPrecondition(selector), 'get');
+        return new AccessorJoinPoint(new MemberPrecondition(selector), 'get');
       });
       const pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
@@ -71,7 +71,7 @@ export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advi
   return function(...selectors: MemberSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
       const joinpoints = selectors.map(selector => {
-        return new AccessorJointPoint(new MemberPrecondition(selector), 'set');
+        return new AccessorJoinPoint(new MemberPrecondition(selector), 'set');
       });
       const pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
@@ -84,4 +84,17 @@ export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advi
       return target;
     };
   };
+}
+
+/**
+ * Kept for backward compability only.
+ * Use {@link AccessorJoinPoint} instead.
+ *
+ * @deprecated renamed to AccessorJoinPoint
+ * @see AccessorJoinPoint
+ */
+export abstract class AccessorJointPoint extends AccessorJoinPoint {
+  constructor(precondition: Precondition, protected type: AccessorType) {
+    super(precondition, type);
+  }
 }

@@ -5,7 +5,7 @@ export interface Precondition {
   assert(data: any): boolean;
 }
 
-export abstract class JointPoint {
+export abstract class JoinPoint {
   constructor(public precondition: Precondition) {}
 
   public abstract match(descriptor: Function): string[];
@@ -55,5 +55,18 @@ export abstract class JointPoint {
       metadata.method.args = Array.prototype.slice.call(args);
     }
     return metadata;
+  }
+}
+
+/**
+ * Kept for backward compability only.
+ * Use {@link JoinPoint} instead.
+ *
+ * @deprecated renamed to JoinPoint
+ * @see JoinPoint
+ */
+export abstract class JointPoint extends JoinPoint {
+  constructor(public precondition: Precondition) {
+    super(precondition)
   }
 }
