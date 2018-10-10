@@ -305,6 +305,8 @@ describe('sync advices', () => {
     it('should invoke the external advice with the appropriate metadata', () => {
       let demo: any;
 
+      // (aspect ExternalAspect is imported above)
+
       @Wove()
       class Demo {
         get(foo: any, bar: any): string { return 'Demo' }
