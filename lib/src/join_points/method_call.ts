@@ -17,9 +17,9 @@ export class MethodCallJoinPoint extends JoinPoint {
     keys = keys.filter(key => {
       return BLACK_LIST.indexOf(key) < 0;
     });
-    let res = keys
+    const res = keys
       .map(key => {
-        let descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
+        const descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
         if (
           this.precondition.assert({
             classDefinition: target,
@@ -36,11 +36,11 @@ export class MethodCallJoinPoint extends JoinPoint {
   }
 
   protected woveTarget(proto: { [key: string]: any }, key: string, advice: Advice, woveMetadata: any) {
-    let className = proto.constructor.name;
-    let bak = proto[key];
-    let self = this;
+    const className = proto.constructor.name;
+    const bak = proto[key];
+    const self = this;
     proto[key] = function() {
-      let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
+      const metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
       return advice.wove(bak, metadata);
     };
     proto[key].__woven__ = true;
@@ -50,14 +50,14 @@ export class MethodCallJoinPoint extends JoinPoint {
 export function makeMethodCallAdviceDecorator(constr: any) {
   return function(...selectors: MethodSelector[]): MethodDecorator {
     return function<T>(target: Object, prop: symbol | string, descriptor: TypedPropertyDescriptor<T>) {
-      let joinpoints = selectors.map(selector => {
+      const joinpoints = selectors.map(selector => {
         return new MethodCallJoinPoint(new MethodPrecondition(selector));
       });
-      let pointcut = new Pointcut();
+      const pointcut = new Pointcut();
       pointcut.advice = <Advice>new constr(target, descriptor.value);
       pointcut.joinPoints = joinpoints;
-      let aspectName = target.constructor.name;
-      let aspect = AspectRegistry.get(aspectName) || new Aspect();
+      const aspectName = target.constructor.name;
+      const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
       AspectRegistry.set(aspectName, aspect);
       // For lazy loading
@@ -76,6 +76,6 @@ export function makeMethodCallAdviceDecorator(constr: any) {
  */
 export abstract class MethodCallJointPoint extends MethodCallJoinPoint {
   constructor(precondition: Precondition) {
-    super(precondition)
+    super(precondition);
   }
 }
