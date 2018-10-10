@@ -5,10 +5,13 @@ import { Wove } from './../../lib/src/core';
 
 import { spy } from 'sinon';
 
-@Wove()
+const o = 42;
+
 @Wove()
 class ClassA {
   foo() {}
+
+  overridden() { return o; }
 }
 
 @Wove()
@@ -23,6 +26,8 @@ class ClassB extends ClassA {
   bar() {}
 
   qux() {}
+
+  overridden() { return super.overridden() + 1; }
 }
 
 const methods: string[] = [];
@@ -40,16 +45,22 @@ class LoggerAspect {
 describe('@Wove', () => {
   beforeEach(() => (methods.length = 0));
 
-  it('should work with extended classes', () => {
+  it('should work with subclasses', () => {
     const fooSpy = spy(ClassA.prototype, 'foo');
     const barSpy = spy(ClassB.prototype, 'bar');
     const quxSpy = spy(ClassB.prototype, 'qux');
+    const overriddenSpyA = spy(ClassA.prototype, 'overridden')
+    const overriddenSpyB = spy(ClassB.prototype, 'overridden')
 
-    new ClassB();
+    const b = new ClassB();
 
-    expect(fooSpy.called).equal(true);
-    expect(barSpy.called).equal(true);
-    expect(quxSpy.called).equal(true);
-    expect(methods).deep.eq(['foo', 'bar', 'qux']);
+    expect(fooSpy.called).to.be.true;
+    expect(barSpy.called).to.be.true;
+    expect(quxSpy.called).to.be.true;
+    expect(methods).to.deep.equal(['foo', 'bar', 'qux']);
+
+    expect(b.overridden()).to.equal(o + 1);
+    expect(overriddenSpyA.called).to.be.true;
+    expect(overriddenSpyB.called).to.be.true;
   });
 });
