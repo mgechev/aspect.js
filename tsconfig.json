@@ -17,7 +17,7 @@
     "test/core/preconditions.spec.ts",
     "test/core/wove.spec.ts",
     "demo/index.ts",
-    "demo/class.ts",
+    "demo/class.ts"
   ],
   "angularCompilerOptions": {
     "skipTemplateCodegen": true
