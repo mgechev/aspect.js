@@ -7,8 +7,6 @@ import {
 import { Advice } from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';
 
-import ExternalAspect from './external_aspect'
-
 import {
   beforeMethod,
   beforeStaticMethod,
@@ -19,8 +17,13 @@ import {
 
 import { expect } from 'chai';
 
+import './external_aspect'
+
 describe('sync advices', () => {
   beforeEach(() => {
+    resetRegistry();
+  });
+  afterEach(() => {
     resetRegistry();
   });
   describe('BeforeAdvice', () => {
@@ -304,8 +307,6 @@ describe('sync advices', () => {
 
     it('should invoke the external advice with the appropriate metadata', () => {
       let demo: any;
-
-      // (aspect ExternalAspect is imported above)
 
       @Wove()
       class Demo {
