@@ -7,13 +7,15 @@ import {
 import { Advice } from '../../lib/src/core/advice';
 import * as SyncAdvices from '../../lib/src/advices';
 
+import ExternalAspect from './external_aspect'
+
 import {
   beforeMethod,
   beforeStaticMethod,
   beforeGetter,
   beforeSetter,
-  afterMethod
-} from '../../lib/index';
+  afterMethod, aroundMethod
+} from "../../lib/index";
 
 import { expect } from 'chai';
 
@@ -270,6 +272,46 @@ describe('sync advices', () => {
       }
       new Demo().get();
       expect(adviceCalls).to.eq(1);
+    });
+  });
+
+  describe('AroundAdvice', () => {
+    it('should invoke the advice with the appropriate metadata', () => {
+      let demo: any;
+
+      class Aspect {
+        @aroundMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
+        around(metadata: Metadata) {
+          expect(this).to.deep.equal(Aspect.prototype);
+          expect(metadata.method.context).to.eq(demo);
+          expect(metadata.className).to.equal('Demo');
+          expect(metadata.method.name).to.equal('get');
+          expect(metadata.method.args).to.deep.equal([42, 1.618]);
+          expect(metadata.method.invoke).to.be.a('function');
+
+          metadata.method.proceed = false;
+          metadata.method.result = 'Aspect';
+        }
+      }
+      @Wove()
+      class Demo {
+        get(foo: any, bar: any): string { return 'Demo'; }
+      }
+
+      demo = new Demo();
+      expect(demo.get(42, 1.618)).to.equal('Aspect');
+    });
+
+    it('should invoke the external advice with the appropriate metadata', () => {
+      let demo: any;
+
+      @Wove()
+      class Demo {
+        get(foo: any, bar: any): string { return 'Demo' }
+      }
+
+      demo = new Demo();
+      expect(demo.get(42, 1.618)).to.equal('ExternalAspect');
     });
   });
 
