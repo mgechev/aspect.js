@@ -32,6 +32,8 @@ export abstract class JoinPoint {
     context: any,
     woveMetadata: any
   ): Metadata {
+    const boundFn = fn.bind(context)
+
     var invocation: MethodMetadata = {
       name: key,
       proceed: true,
@@ -39,8 +41,13 @@ export abstract class JoinPoint {
       result: undefined,
       exception: undefined,
       args: undefined,
-      invoke: fn.bind(context),
+      invoke: boundFn,
+      complete: function complete(...args: any[]): any {
+        this.method.proceed = false;
+        return boundFn.apply(null, args);
+      }
     };
+
     var metadata: Metadata = new Metadata();
     metadata.method = invocation;
     metadata.className = className;
@@ -53,6 +60,7 @@ export abstract class JoinPoint {
       metadata.method.context = previousMetadata.method.context;
     } else {
       metadata.method.args = Array.prototype.slice.call(args);
+      metadata.method.complete = metadata.method.complete.bind(metadata)
     }
     return metadata;
   }
