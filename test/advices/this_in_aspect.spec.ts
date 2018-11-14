@@ -1,42 +1,40 @@
 import { Wove, resetRegistry, Metadata } from "../../lib/src/core";
-
-import { expect } from "chai";
 import { aroundMethod } from "../../lib";
 
-describe("sync advices", () => {
+import { expect } from "chai";
+
+describe("the \"this\" in an aspect", () => {
   afterEach(() => {
     resetRegistry();
   });
 
-  describe("the \"this\" in an aspect", () => {
-    it("should be bound correctly", () => {
-      const bar = "bar";
+  it("should be bound correctly", () => {
+    const bar = "bar";
 
-      class AspectWithThis {
-        foo: string;
+    class AspectWithThis {
+      foo: string;
 
-        constructor() {
-          this.foo = bar;
-        }
-
-        @aroundMethod({ classNamePattern: /^Test$/, methodNamePattern: /^appendX$/ })
-        aroundMethod(meta: Metadata) {
-          if (meta.method.proceed) {
-            meta.method.proceed = false;
-            meta.method.result = this.foo;
-          }
-        }
+      constructor() {
+        this.foo = bar;
       }
 
-      @Wove()
-      class Test {
-        appendX(it: string) {
-          return `${it}x`;
+      @aroundMethod({ classNamePattern: /^Test$/, methodNamePattern: /^appendX$/ })
+      aroundMethod(meta: Metadata) {
+        if (meta.method.proceed) {
+          meta.method.proceed = false;
+          meta.method.result = this.foo;
         }
       }
+    }
 
-      const test = new Test();
-      expect(test.appendX("it")).to.equal(bar); // instead of "itx"
-    });
+    @Wove()
+    class Test {
+      appendX(it: string) {
+        return `${it}x`;
+      }
+    }
+
+    const test = new Test();
+    expect(test.appendX("it")).to.equal(bar); // instead of "itx"
   });
 });
