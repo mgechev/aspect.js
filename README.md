@@ -2,7 +2,13 @@
 
 [![Build Status](https://travis-ci.org/mgechev/aspect.js.svg?branch=master)](https://travis-ci.org/mgechev/aspect.js)
 
+
 Library for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 2016 decorators syntax.
+
+> NOTE: if you are using `aspect.js` in a plain JavaScript project that uses [`@babel/plugin-proposal-decorators`](https://www.npmjs.com/package/@babel/plugin-proposal-decorators), you _must_ set its `legacy` property to `true` until [#72](https://github.com/mgechev/aspect.js/issues/72) is fixed.
+See [this migration note](https://babeljs.io/docs/en/v7-migration#babel-plugin-proposal-decorators) for more information.
+A sample project using JavaScript with Node >=10.12.0 (or >=8.12.0) & Babel 7.x can be found at https://github.com/matthewadams/aspect.js-babel7-poc.
+It's a good way to get going quickly with `aspect.js` in that environment.
 
 For further reading on decorators, take a look at [the spec](https://github.com/wycats/javascript-decorators).
 
