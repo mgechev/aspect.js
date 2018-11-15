@@ -6,6 +6,7 @@ export class MethodMetadata {
   public result: any;
   public exception: any;
   public invoke: (...args: any[]) => any;
+  public complete: (...args: any[]) => any;
 }
 
 export class Metadata {
