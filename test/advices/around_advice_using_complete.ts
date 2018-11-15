@@ -8,7 +8,7 @@ describe("around advices", () => {
     resetRegistry();
   });
 
-  it("should only get invoked once when using MethodMetdata.complete()", () => {
+  it("should only get invoked once when using MethodMetadata.complete()", () => {
     let count = 0;
 
     class Aspect {
