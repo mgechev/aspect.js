@@ -12,15 +12,15 @@ export abstract class JoinPoint {
 
   protected abstract getTarget(fn: Function): Object;
 
-  protected abstract woveTarget(target: Object, match: string, advice: Advice, woveMetadata: any): void;
+  protected abstract wrapTarget(target: Object, match: string, advice: Advice, advisedMetadata: any): void;
 
-  public wove(
-    { fn, matches, woveMetadata }: { fn: Function; matches: string[]; woveMetadata: any },
+  public apply(
+    { fn, matches, advisedMetadata }: { fn: Function; matches: string[]; advisedMetadata: any },
     advice: Advice
   ): void {
     const target = this.getTarget(fn);
     matches.forEach((match: string) => {
-      this.woveTarget(target, match, advice, woveMetadata);
+      this.wrapTarget(target, match, advice, advisedMetadata);
     });
   }
 
@@ -30,9 +30,9 @@ export abstract class JoinPoint {
     fn: Function,
     args: IArguments,
     context: any,
-    woveMetadata: any
+    advisedMetadata: any
   ): Metadata {
-    const boundFn = fn.bind(context)
+    const boundFn = fn.bind(context);
 
     var invocation: MethodMetadata = {
       name: key,
@@ -51,7 +51,7 @@ export abstract class JoinPoint {
     var metadata: Metadata = new Metadata();
     metadata.method = invocation;
     metadata.className = className;
-    metadata.woveMetadata = woveMetadata;
+    metadata.advisedMetadata = advisedMetadata;
     if (args[0] && args[0].__advice_metadata__) {
       let previousMetadata = <Metadata>args[0];
       metadata.method.result = previousMetadata.method.result;
@@ -60,7 +60,7 @@ export abstract class JoinPoint {
       metadata.method.context = previousMetadata.method.context;
     } else {
       metadata.method.args = Array.prototype.slice.call(args);
-      metadata.method.complete = metadata.method.complete.bind(metadata)
+      metadata.method.complete = metadata.method.complete.bind(metadata);
     }
     return metadata;
   }
@@ -75,6 +75,6 @@ export abstract class JoinPoint {
  */
 export abstract class JointPoint extends JoinPoint {
   constructor(public precondition: Precondition) {
-    super(precondition)
+    super(precondition);
   }
 }

@@ -6,7 +6,7 @@ export function weave<TFunction extends Function>(target: TFunction, config?: an
   }
 
   for (const aspect of Array.from(AspectRegistry.values())) {
-    aspect.wove(target, config);
+    aspect.apply(target, config);
   }
 
   Targets.add({ target, config });
@@ -14,7 +14,7 @@ export function weave<TFunction extends Function>(target: TFunction, config?: an
   return target;
 }
 
-export function Wove(config?: any): ClassDecorator {
+export function Advised(config?: any): ClassDecorator {
   return function<TFunction extends Function>(target: TFunction) {
     return weave(target, config);
   };

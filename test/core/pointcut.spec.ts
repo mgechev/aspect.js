@@ -12,8 +12,8 @@ class SimpleJP extends JoinPoint {
   getTarget(fn: any): any {
     return '42';
   }
-  woveTarget(fn: any, match: any, advice: Advice): void {}
-  wove() {}
+  wrapTarget(fn: any, match: any, advice: Advice): void {}
+  apply() {}
 }
 
 class SimplePrecondition implements Precondition {

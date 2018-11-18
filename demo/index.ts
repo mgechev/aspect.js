@@ -1,5 +1,5 @@
 import {
-  Wove,
+  Advised,
   Metadata,
   MethodMetadata,
   beforeMethod,
@@ -50,7 +50,7 @@ class CacheAspect {
 //   }
 // }
 
-@Wove()
+@Advised()
 class Http {
   get(url: string) {
     console.log(`Called Http.get with url = ${url}`);
@@ -60,7 +60,7 @@ class Http {
   }
 }
 
-@Wove()
+@Advised()
 class UserMapper {
   constructor(private http: Http) {}
   get(id: number) {

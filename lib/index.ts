@@ -3,7 +3,7 @@ import { BeforeAdvice, AroundAdvice, AfterAdvice, OnThrowAdvice, AsyncOnThrowAdv
 import { makeMethodCallAdviceDecorator, makeStaticMethodAdviceDecorator } from './src/join_points';
 import { makeFieldGetAdviceDecorator, makeFieldSetAdviceDecorator } from './src/join_points';
 
-export { Wove, Metadata, MethodMetadata, AspectRegistry as _AspectRegistry, Targets as _Targets } from './src/core';
+export { Advised, Metadata, MethodMetadata, AspectRegistry as _AspectRegistry, Targets as _Targets } from './src/core';
 export { MemberPrecondition } from './src/join_points';
 
 export const beforeMethod = makeMethodCallAdviceDecorator(BeforeAdvice);

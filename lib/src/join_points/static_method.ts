@@ -21,20 +21,20 @@ export class StaticMethodJoinPoint extends JoinPoint {
       return (
         this.precondition.assert({
           classDefinition: target,
-          methodName: key,
+          methodName: key
         }) && typeof descriptor.value === 'function'
       );
     });
     return res;
   }
 
-  protected woveTarget(fn: any, key: string, advice: Advice, woveMetadata: any) {
+  protected wrapTarget(fn: any, key: string, advice: Advice, advisedMetadata: any) {
     let className = fn.name;
     let bak = fn[key];
     let self = this;
     fn[key] = function() {
-      let metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
-      return advice.wove(bak, metadata);
+      let metadata = self.getMetadata(className, key, bak, arguments, this, advisedMetadata);
+      return advice.apply(bak, metadata);
     };
     fn[key].__woven__ = true;
   }
@@ -53,7 +53,7 @@ export function makeStaticMethodAdviceDecorator(constr: any) {
       let aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
       AspectRegistry.set(aspectName, aspect);
-      Targets.forEach(({ target, config }) => aspect.wove(target, config));
+      Targets.forEach(({ target, config }) => aspect.apply(target, config));
       return target;
     };
   };
@@ -68,6 +68,6 @@ export function makeStaticMethodAdviceDecorator(constr: any) {
  */
 export abstract class StaticMethodJointPoint extends StaticMethodJoinPoint {
   constructor(precondition: Precondition) {
-    super(precondition)
+    super(precondition);
   }
 }

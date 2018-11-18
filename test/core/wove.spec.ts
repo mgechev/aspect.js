@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { Metadata } from './../../lib/src/core/metadata';
 import { beforeMethod } from './../../lib/index';
-import { Wove } from './../../lib/src/core';
+import { Advised } from './../../lib/src/core';
 
 import { spy } from 'sinon';
 
 const o = 42;
 
-@Wove()
+@Advised()
 class ClassA {
   foo() {}
 
@@ -16,7 +16,7 @@ class ClassA {
   }
 }
 
-@Wove()
+@Advised()
 class ClassB extends ClassA {
   constructor() {
     super();
@@ -46,7 +46,7 @@ class LoggerAspect {
   }
 }
 
-describe('@Wove', () => {
+describe('@Advised', () => {
   beforeEach(() => {
     methods.length = 0;
   });

@@ -16,15 +16,15 @@ export class AccessorJoinPoint extends JoinPoint {
     return fn.prototype;
   }
 
-  protected woveTarget(proto: any, key: string, advice: Advice, woveMetadata: any) {
+  protected wrapTarget(proto: any, key: string, advice: Advice, advisedMetadata: any) {
     const className = proto.constructor.name;
     const self = this;
     const descriptor = Object.getOwnPropertyDescriptor(proto, key);
     if ((this.type === 'get' || this.type === 'set') && typeof descriptor[this.type] === 'function') {
       const bak = descriptor[this.type];
       descriptor[this.type] = function() {
-        const metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
-        return advice.wove(bak, metadata);
+        const metadata = self.getMetadata(className, key, bak, arguments, this, advisedMetadata);
+        return advice.apply(bak, metadata);
       };
       (descriptor[this.type] as any)['__woven__'] = true;
       Object.defineProperty(proto, key, descriptor);
@@ -80,7 +80,7 @@ export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advi
       const aspect = AspectRegistry.get(aspectName) || new Aspect();
       aspect.pointcuts.push(pointcut);
       AspectRegistry.set(aspectName, aspect);
-      Targets.forEach(({ target, config }) => aspect.wove(target, config));
+      Targets.forEach(({ target, config }) => aspect.apply(target, config));
       return target;
     };
   };

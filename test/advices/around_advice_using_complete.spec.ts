@@ -1,4 +1,4 @@
-import { Wove, resetRegistry, Metadata } from '../../lib/src/core';
+import { Advised, resetRegistry, Metadata } from '../../lib/src/core';
 
 import { expect } from 'chai';
 import { aroundMethod } from '../../lib';
@@ -14,7 +14,7 @@ describe('around advices', () => {
       }
     }
 
-    @Wove()
+    @Advised()
     class Test {
       get(it: string): string {
         count++;

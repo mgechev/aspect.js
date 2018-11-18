@@ -11,7 +11,7 @@ export class MethodMetadata {
 
 export class Metadata {
   public method: MethodMetadata;
-  public woveMetadata: any;
+  public advisedMetadata: any;
   public className: string;
   private __advice_metadata__ = true;
 }

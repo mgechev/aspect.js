@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { Metadata, Wove } from '../../lib/src/core';
+import { Metadata, Advised } from '../../lib/src/core';
 import { afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod } from '../../lib/index';
 
-@Wove()
+@Advised()
 class Target {
   async foo() {
     await new Promise(resolve => setTimeout(_ => resolve(42), 10));

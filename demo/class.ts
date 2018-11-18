@@ -1,7 +1,7 @@
 import './aspect';
-import { Wove } from '../lib/index';
+import { Advised } from '../lib/index';
 
-@Wove()
+@Advised()
 class Demo {
   get(foo: any, bar: any): string {
     return 'Demo';

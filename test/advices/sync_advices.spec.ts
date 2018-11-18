@@ -1,4 +1,4 @@
-import { Metadata, Wove, resetRegistry } from '../../lib/src/core';
+import { Metadata, Advised, resetRegistry } from '../../lib/src/core';
 
 import {
   beforeMethod,
@@ -30,7 +30,7 @@ describe('sync advices', () => {
           done();
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         get(foo: any, bar: any) {}
       }
@@ -49,7 +49,7 @@ describe('sync advices', () => {
           expect(methodCalled).to.equal(false);
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         get() {
           methodCalled = true;
@@ -71,7 +71,7 @@ describe('sync advices', () => {
           expect(metadata.method.result).to.be.equal(6);
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         multiplier = 2;
         get(foo: any, bar: any) {
@@ -96,7 +96,7 @@ describe('sync advices', () => {
           expect(metadata.method.result).to.be.equal(3);
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         static get(foo: number, bar: number) {
           called++;
@@ -119,7 +119,7 @@ describe('sync advices', () => {
           expect(metadata.method.result).to.be.equal(5);
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         static get(foo: number, bar: number) {
           called++;
@@ -144,7 +144,7 @@ describe('sync advices', () => {
           expect(result).to.be.equal(5);
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         get foo() {
           called++;
@@ -169,7 +169,7 @@ describe('sync advices', () => {
           metadata.method.invoke('rainbow');
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         private fooValue: any;
 
@@ -206,7 +206,7 @@ describe('sync advices', () => {
           done();
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         get(foo: number, bar: number) {}
       }
@@ -225,7 +225,7 @@ describe('sync advices', () => {
           expect(methodCalled).to.equal(true);
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         get() {
           methodCalled = true;
@@ -240,7 +240,7 @@ describe('sync advices', () => {
       let adviceCalls = 0;
       let methodCalled = false;
 
-      @Wove()
+      @Advised()
       class Demo {
         get() {}
         set() {}
@@ -277,7 +277,7 @@ describe('sync advices', () => {
           metadata.method.result = 'Aspect';
         }
       }
-      @Wove()
+      @Advised()
       class Demo {
         get(foo: any, bar: any): string {
           return 'Demo';
@@ -291,7 +291,7 @@ describe('sync advices', () => {
     it('should invoke the external advice with the appropriate metadata', () => {
       let demo: any;
 
-      @Wove()
+      @Advised()
       class Demo {
         get(foo: any, bar: any): string {
           return 'Demo';
@@ -303,11 +303,11 @@ describe('sync advices', () => {
     });
   });
 
-  describe('Wove', () => {
-    it('should pass the Wove config as `woveMetadata`', () => {
+  describe('Advised', () => {
+    it('should pass the Advised config as `advisedMetadata`', () => {
       let adviceCalls = 0;
 
-      @Wove({ foo: 'bar' })
+      @Advised({ foo: 'bar' })
       class Demo {
         get() {}
         set() {}
@@ -316,7 +316,7 @@ describe('sync advices', () => {
       class Aspect {
         @beforeMethod({ classes: [Demo], methodNamePattern: /get/ })
         before(metadata: Metadata) {
-          expect(metadata.woveMetadata).to.deep.equal({ foo: 'bar' });
+          expect(metadata.advisedMetadata).to.deep.equal({ foo: 'bar' });
           adviceCalls += 1;
         }
       }

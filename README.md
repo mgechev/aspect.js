@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/mgechev/aspect.js.svg?branch=master)](https://travis-ci.org/mgechev/aspect.js)
 
-
 Library for aspect-oriented programming with JavaScript, which takes advantage of ECMAScript 2016 decorators syntax.
 
 > NOTE: if you are using `aspect.js` in a plain JavaScript project that uses [`@babel/plugin-proposal-decorators`](https://www.npmjs.com/package/@babel/plugin-proposal-decorators), you _must_ set its `legacy` property to `true` until [#72](https://github.com/mgechev/aspect.js/issues/72) is fixed.
@@ -29,7 +28,7 @@ class LoggerAspect {
     methodNamePattern: /^(get|set)/
   })
   invokeBeforeMethod(meta: Metadata) {
-    // meta.woveMetadata == { bar: 42 }
+    // meta.advisedMetadata == { bar: 42 }
     console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
   }
 }
@@ -40,7 +39,7 @@ class Article {
   content: string;
 }
 
-@Wove({ bar: 42 })
+@Advised({ bar: 42 })
 class ArticleCollection {
   articles: Article[] = [];
   getArticle(id: number) {
@@ -71,7 +70,7 @@ class LoggerAspect {
     methods: [ArticleCollection.prototype.getArticle, ArticleCollection.prototype.setArticle]
   })
   invokeBeforeMethod(meta: Metadata) {
-    // meta.woveMetadata == { bar: 42 }
+    // meta.advisedMetadata == { bar: 42 }
     console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
   }
 }
@@ -82,7 +81,7 @@ class ArticleCollection {
 }
 ```
 
-In this case you can omit the `@Wove` decorator.
+In this case you can omit the `@Advised` decorator.
 
 This way, by explicitly listing the classes and methods which should be woven, you can prevent the unwanted effect of mangling.
 
@@ -155,7 +154,7 @@ export interface PropertySelector {
 export class Metadata {
   public method: MethodMetadata;
   public className: string;
-  public woveMetadata: any;
+  public advisedMetadata: any;
 }
 ```
 

@@ -35,13 +35,13 @@ export class MethodCallJoinPoint extends JoinPoint {
     return res;
   }
 
-  protected woveTarget(proto: { [key: string]: any }, key: string, advice: Advice, woveMetadata: any) {
+  protected wrapTarget(proto: { [key: string]: any }, key: string, advice: Advice, advisedMetadata: any) {
     const className = proto.constructor.name;
     const bak = proto[key];
     const self = this;
     proto[key] = function() {
-      const metadata = self.getMetadata(className, key, bak, arguments, this, woveMetadata);
-      return advice.wove(bak, metadata);
+      const metadata = self.getMetadata(className, key, bak, arguments, this, advisedMetadata);
+      return advice.apply(bak, metadata);
     };
     proto[key].__woven__ = true;
   }
@@ -61,7 +61,7 @@ export function makeMethodCallAdviceDecorator(constr: any) {
       aspect.pointcuts.push(pointcut);
       AspectRegistry.set(aspectName, aspect);
       // For lazy loading
-      Targets.forEach(({ target, config }) => aspect.wove(target, config));
+      Targets.forEach(({ target, config }) => aspect.apply(target, config));
       return target;
     };
   };

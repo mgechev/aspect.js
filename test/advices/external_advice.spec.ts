@@ -1,4 +1,4 @@
-import { Wove, resetRegistry } from '../../lib/src/core';
+import { Advised, resetRegistry } from '../../lib/src/core';
 
 import { expect } from 'chai';
 
@@ -11,7 +11,7 @@ describe('sync advices', () => {
     it('should invoke the external advice with the appropriate metadata', () => {
       let demo: any;
 
-      @Wove()
+      @Advised()
       class ExternalAspectDemo {
         get(_: any, __: any): string {
           return 'ExternalAspectDemo';

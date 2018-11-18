@@ -6,11 +6,11 @@ export class Pointcut {
   public advice: Advice;
   private _applications = new Set<Function>();
 
-  public apply(fn: Function, woveMetadata: any) {
+  public apply(fn: Function, advisedMetadata: any) {
     if (this._applications.has(fn)) {
       return;
     }
     this._applications.add(fn);
-    this.joinPoints.forEach(jp => jp.wove({ fn, matches: jp.match(fn), woveMetadata }, this.advice));
+    this.joinPoints.forEach(jp => jp.apply({ fn, matches: jp.match(fn), advisedMetadata }, this.advice));
   }
 }

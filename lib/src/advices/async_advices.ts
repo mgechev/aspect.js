@@ -2,7 +2,7 @@ import { AsyncAdvice } from '../core/advice';
 import { Metadata } from '../core/metadata';
 
 export class AsyncOnThrowAdvice extends AsyncAdvice {
-  async wove(target: Function, metadata: Metadata) {
+  async apply(target: Function, metadata: Metadata) {
     try {
       await this.invoke(target, metadata);
     } catch (e) {

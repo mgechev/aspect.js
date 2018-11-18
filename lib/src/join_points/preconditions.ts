@@ -1,6 +1,6 @@
 import { Precondition } from '../core/join_point';
 import { MethodSelector, PropertySelector } from './selectors';
-import { weave } from '../core/wove';
+import { weave } from '../core/advised';
 
 export class MethodPrecondition implements Precondition {
   constructor(private selector: MethodSelector) {
