@@ -5,9 +5,9 @@ export interface MethodSelector {
   methods?: Function[];
 }
 
-export interface MemberSelector {
+export interface PropertySelector {
   classNamePattern?: RegExp;
-  fieldNamePattern?: RegExp;
+  propertyNamePattern?: RegExp;
   classes?: Function[];
-  fields?: PropertyDescriptor[];
+  properties?: PropertyDescriptor[];
 }

@@ -1,17 +1,10 @@
-import {MethodSelector, MemberSelector} from './src/join_points/selectors';
-import {
-  BeforeAdvice,
-  AroundAdvice,
-  AfterAdvice,
-  OnThrowAdvice,
+import { MethodSelector, PropertySelector } from './src/join_points/selectors';
+import { BeforeAdvice, AroundAdvice, AfterAdvice, OnThrowAdvice, AsyncOnThrowAdvice } from './src/advices';
+import { makeMethodCallAdviceDecorator, makeStaticMethodAdviceDecorator } from './src/join_points';
+import { makeFieldGetAdviceDecorator, makeFieldSetAdviceDecorator } from './src/join_points';
 
-  AsyncOnThrowAdvice,
-} from './src/advices';
-import {makeMethodCallAdviceDecorator, makeStaticMethodAdviceDecorator} from './src/join_points';
-import {makeFieldGetAdviceDecorator, makeFieldSetAdviceDecorator} from './src/join_points';
-
-export {Wove, Metadata, MethodMetadata, AspectRegistry as _AspectRegistry, Targets as _Targets} from './src/core';
-export {MemberPrecondition} from './src/join_points';
+export { Wove, Metadata, MethodMetadata, AspectRegistry as _AspectRegistry, Targets as _Targets } from './src/core';
+export { MemberPrecondition } from './src/join_points';
 
 export const beforeMethod = makeMethodCallAdviceDecorator(BeforeAdvice);
 export const afterMethod = makeMethodCallAdviceDecorator(AfterAdvice);

@@ -30,7 +30,7 @@ class CacheAspect {
   })
   @afterGetter({
     classNamePattern: /^(\w+Mapper|Http)$/,
-    fieldNamePattern: /^get/
+    propertyNamePattern: /^get/
   })
   after(meta: Metadata) {
     console.log(

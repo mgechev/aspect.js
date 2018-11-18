@@ -1,4 +1,4 @@
-import { MemberSelector } from './../../lib/src/join_points/selectors';
+import { PropertySelector } from './../../lib/src/join_points/selectors';
 import { MemberPrecondition } from './../../lib/src/join_points/preconditions';
 
 import { expect } from 'chai';
@@ -18,9 +18,9 @@ describe('Preconditions', () => {
         }
       }
 
-      const selector: MemberSelector = {
+      const selector: PropertySelector = {
         classNamePattern: /Foo/,
-        fieldNamePattern: /bar/
+        propertyNamePattern: /bar/
       };
       const p = new MemberPrecondition(selector);
       expect(p.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(true);
@@ -40,9 +40,9 @@ describe('Preconditions', () => {
         }
       }
 
-      const selector: MemberSelector = {
+      const selector: PropertySelector = {
         classes: [Foo],
-        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')]
+        properties: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')]
       };
       const p = new MemberPrecondition(selector);
       // expect(p.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);
@@ -62,9 +62,9 @@ describe('Preconditions', () => {
         }
       }
 
-      const selector: MemberSelector = {
+      const selector: PropertySelector = {
         classes: [Foo],
-        fields: [Foo.prototype.foobar]
+        properties: [Foo.prototype.foobar]
       };
       const p = new MemberPrecondition(selector);
       expect(() => {
@@ -87,14 +87,14 @@ describe('Preconditions', () => {
 
       const p1 = new MemberPrecondition({
         classNamePattern: /Foo/,
-        fields: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')]
+        properties: [Object.getOwnPropertyDescriptor(Foo.prototype, 'baz')]
       });
       expect(p1.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(false);
       expect(p1.assert({ classDefinition: Foo, fieldName: 'baz' })).equal(true);
 
       const p2 = new MemberPrecondition({
         classes: [Foo],
-        fieldNamePattern: /bar/
+        propertyNamePattern: /bar/
       });
       expect(p2.assert({ classDefinition: Foo, fieldName: 'bar' })).equal(true);
       expect(p2.assert({ classDefinition: Foo, fieldName: 'foobar' })).equal(true);

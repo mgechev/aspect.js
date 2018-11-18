@@ -116,16 +116,16 @@ The library offers the following combinations of advices and join points:
 
 ## Accessors
 
-- `beforeSetter(MemberSelector)` - invoked before setter call
-- `afterSetter(MemberSelector)` - invoked after setter call
-- `aroundSetter(MemberSelector)` - invoked around setter call
-- `onThrowOfSetter(MemberSelector)` - invoked on throw of setter call
-- `asyncOnThrowOfSetter(MemberSelector)` - invoked on throw of async setter call
-- `beforeGetter(MemberSelector)` - invoked before getter call
-- `afterGetter(MemberSelector)` - invoked after getter call
-- `aroundGetter(MemberSelector)` - invoked around getter call
-- `onThrowOfGetter(MemberSelector)` - invoked on throw of getter call
-- `asyncOnThrowOfGetter(MemberSelector)` - invoked on throw of async getter call
+- `beforeSetter(PropertySelector)` - invoked before setter call
+- `afterSetter(PropertySelector)` - invoked after setter call
+- `aroundSetter(PropertySelector)` - invoked around setter call
+- `onThrowOfSetter(PropertySelector)` - invoked on throw of setter call
+- `asyncOnThrowOfSetter(PropertySelector)` - invoked on throw of async setter call
+- `beforeGetter(PropertySelector)` - invoked before getter call
+- `afterGetter(PropertySelector)` - invoked after getter call
+- `aroundGetter(PropertySelector)` - invoked around getter call
+- `onThrowOfGetter(PropertySelector)` - invoked on throw of getter call
+- `asyncOnThrowOfGetter(PropertySelector)` - invoked on throw of async getter call
 
 ## `MethodSelector`
 
@@ -138,14 +138,14 @@ export interface MethodSelector {
 }
 ```
 
-## `MemberSelector`
+## `PropertySelector`
 
 ```ts
-export interface MemberSelector {
+export interface PropertySelector {
   classNamePattern?: RegExp;
-  fieldNamePattern?: RegExp;
+  propertyNamePattern?: RegExp;
   classes?: Function[];
-  methods?: PropertyDescriptor[];
+  properties?: PropertyDescriptor[];
 }
 ```
 

@@ -136,7 +136,7 @@ describe('sync advices', () => {
       let demo;
       let called = 0;
       class Aspect {
-        @beforeGetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
+        @beforeGetter({ classNamePattern: /.*/, propertyNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
           const result = metadata.method.invoke(metadata.method.args);
@@ -163,7 +163,7 @@ describe('sync advices', () => {
       let demo;
       let called = 0;
       class Aspect {
-        @beforeSetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
+        @beforeSetter({ classNamePattern: /.*/, propertyNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
           metadata.method.invoke('rainbow');

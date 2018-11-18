@@ -1,5 +1,5 @@
 import { Precondition } from '../core/join_point';
-import { MethodSelector, MemberSelector } from './selectors';
+import { MethodSelector, PropertySelector } from './selectors';
 import { weave } from '../core/wove';
 
 export class MethodPrecondition implements Precondition {
@@ -33,7 +33,7 @@ export class MethodPrecondition implements Precondition {
 }
 
 export class MemberPrecondition implements Precondition {
-  constructor(private selector: MemberSelector) {}
+  constructor(private selector: PropertySelector) {}
 
   assert({ classDefinition, fieldName }: { classDefinition: any; fieldName: string }): boolean {
     const s = this.selector;
@@ -50,10 +50,10 @@ export class MemberPrecondition implements Precondition {
 
     const d = Object.getOwnPropertyDescriptor(classDefinition.prototype, fieldName);
     return !!(
-      (!s.fieldNamePattern && !s.fields) ||
-      (s.fieldNamePattern && s.fieldNamePattern.test(fieldName)) ||
-      (s.fields &&
-        s.fields.some(f => {
+      (!s.propertyNamePattern && !s.properties) ||
+      (s.propertyNamePattern && s.propertyNamePattern.test(fieldName)) ||
+      (s.properties &&
+        s.properties.some(f => {
           if (!f) {
             throw new Error(
               'Got invalid property descriptor for a member selector. Use Object.getOwnPropertyDescriptor(fn.prototype, name) if you are using field selectors.'

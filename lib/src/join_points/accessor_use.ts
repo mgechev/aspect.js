@@ -2,7 +2,7 @@ import { JoinPoint, Precondition } from '../core/join_point';
 import { Advice } from '../core/advice';
 import { Pointcut } from '../core/pointcut';
 import { AspectRegistry, Targets, Aspect } from '../core/aspect';
-import { MemberSelector } from './selectors';
+import { PropertySelector } from './selectors';
 import { MemberPrecondition } from './preconditions';
 
 export type AccessorType = 'get' | 'set';
@@ -50,7 +50,7 @@ export class AccessorJoinPoint extends JoinPoint {
 }
 
 export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advice) {
-  return function(...selectors: MemberSelector[]): MethodDecorator {
+  return function(...selectors: PropertySelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
       const joinpoints = selectors.map(selector => {
         return new AccessorJoinPoint(new MemberPrecondition(selector), 'get');
@@ -68,7 +68,7 @@ export function makeFieldGetAdviceDecorator(constr: new (...args: any[]) => Advi
 }
 
 export function makeFieldSetAdviceDecorator(constr: new (...args: any[]) => Advice) {
-  return function(...selectors: MemberSelector[]): MethodDecorator {
+  return function(...selectors: PropertySelector[]): MethodDecorator {
     return function<T>(target: Object, prop: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
       const joinpoints = selectors.map(selector => {
         return new AccessorJoinPoint(new MemberPrecondition(selector), 'set');
