@@ -1,36 +1,21 @@
-import {
-  Metadata,
-  MethodMetadata,
-  Wove,
-  resetRegistry
-} from '../../lib/src/core';
-import { Advice } from '../../lib/src/core/advice';
-import * as SyncAdvices from '../../lib/src/advices';
+import { Metadata, Wove, resetRegistry } from '../../lib/src/core';
 
 import {
   beforeMethod,
   beforeStaticMethod,
   beforeGetter,
   beforeSetter,
-  afterMethod, aroundMethod
-} from "../../lib/index";
+  afterMethod,
+  aroundMethod
+} from '../../lib/index';
 
 import { expect } from 'chai';
 
-import './external_aspect'
-
 describe('sync advices', () => {
-  beforeEach(() => {
-    resetRegistry();
-  });
-  afterEach(() => {
-    resetRegistry();
-  });
-  describe('BeforeAdvice', () => {
-    // beforeEach(() => {
-    //   resetRegistry();
-    // });
+  beforeEach(resetRegistry);
+  afterEach(resetRegistry);
 
+  describe('BeforeAdvice', () => {
     it('should invoke the advice with the appropriate metadata', done => {
       let demo: any;
       class Aspect {
@@ -82,9 +67,7 @@ describe('sync advices', () => {
         @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke(
-            ...metadata.method.args
-          );
+          metadata.method.result = metadata.method.invoke(...metadata.method.args);
           expect(metadata.method.result).to.be.equal(6);
         }
       }
@@ -109,9 +92,7 @@ describe('sync advices', () => {
         @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
         before(metadata: Metadata) {
           metadata.method.proceed = false;
-          metadata.method.result = metadata.method.invoke(
-            ...metadata.method.args
-          );
+          metadata.method.result = metadata.method.invoke(...metadata.method.args);
           expect(metadata.method.result).to.be.equal(3);
         }
       }
@@ -298,7 +279,9 @@ describe('sync advices', () => {
       }
       @Wove()
       class Demo {
-        get(foo: any, bar: any): string { return 'Demo'; }
+        get(foo: any, bar: any): string {
+          return 'Demo';
+        }
       }
 
       demo = new Demo();
@@ -310,11 +293,13 @@ describe('sync advices', () => {
 
       @Wove()
       class Demo {
-        get(foo: any, bar: any): string { return 'Demo' }
+        get(foo: any, bar: any): string {
+          return 'Demo';
+        }
       }
 
       demo = new Demo();
-      expect(demo.get(42, 1.618)).to.equal('ExternalAspect');
+      expect(demo.get(42, 1.618)).to.equal('Demo');
     });
   });
 

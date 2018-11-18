@@ -1,10 +1,7 @@
-import {Metadata, MethodMetadata, Wove, resetRegistry} from '../../lib/src/core';
-import {Advice} from '../../lib/src/core/advice';
-import * as SyncAdvices from '../../lib/src/advices';
+import { expect } from 'chai';
 
-import {afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod} from '../../lib/index';
-
-import {expect} from 'chai';
+import { Metadata, Wove } from '../../lib/src/core';
+import { afterMethod, asyncOnThrowOfMethod, onThrowOfMethod, aroundMethod } from '../../lib/index';
 
 @Wove()
 class Target {
@@ -14,9 +11,11 @@ class Target {
   }
 
   async throwError() {
-    await new Promise((_, reject) => setTimeout(_ => {
-      reject(42);
-    }, 10))
+    await new Promise((_, reject) =>
+      setTimeout(_ => {
+        reject(42);
+      }, 10)
+    );
   }
 
   async directThrow() {
@@ -94,6 +93,7 @@ describe('async advices', () => {
     it('should work with async targets', async () => {
       let hasBeenCalled = false;
       let calledTimes = 0;
+
       class Advice {
         @aroundMethod({ classNamePattern: /Target/, methodNamePattern: /foo/ })
         async around(data: Metadata) {

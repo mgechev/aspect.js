@@ -13,6 +13,8 @@
     "lib/index.ts",
     "test/advices/sync_advices.spec.ts",
     "test/advices/async_advices.spec.ts",
+    "test/advices/external_advice.spec.ts",
+    "test/advices/around_advice_using_complete.spec.ts",
     "test/core/pointcut.spec.ts",
     "test/core/preconditions.spec.ts",
     "test/core/wove.spec.ts",

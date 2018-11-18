@@ -11,7 +11,9 @@ const o = 42;
 class ClassA {
   foo() {}
 
-  overridden() { return o; }
+  overridden() {
+    return o;
+  }
 }
 
 @Wove()
@@ -27,7 +29,9 @@ class ClassB extends ClassA {
 
   qux() {}
 
-  overridden() { return super.overridden() + 1; }
+  overridden() {
+    return super.overridden() + 1;
+  }
 }
 
 const methods: string[] = [];
@@ -43,14 +47,16 @@ class LoggerAspect {
 }
 
 describe('@Wove', () => {
-  beforeEach(() => (methods.length = 0));
+  beforeEach(() => {
+    methods.length = 0;
+  });
 
   it('should work with subclasses', () => {
     const fooSpy = spy(ClassA.prototype, 'foo');
     const barSpy = spy(ClassB.prototype, 'bar');
     const quxSpy = spy(ClassB.prototype, 'qux');
-    const overriddenSpyA = spy(ClassA.prototype, 'overridden')
-    const overriddenSpyB = spy(ClassB.prototype, 'overridden')
+    const overriddenSpyA = spy(ClassA.prototype, 'overridden');
+    const overriddenSpyB = spy(ClassB.prototype, 'overridden');
 
     const b = new ClassB();
 
