@@ -85,6 +85,71 @@ In this case you can omit the `@Advised` decorator.
 
 This way, by explicitly listing the classes and methods which should be woven, you can prevent the unwanted effect of mangling.
 
+# Sample usage (decorators)
+
+To use advice using custom decorators, you can use the `makeMethodDecorator()` and `makeMemberDecorator()` functions. Here's an example:
+
+```ts
+import { makeMethodDecorator } from 'aspect.js';
+
+export const Log = (message?: string) => {
+  return makeMethodDecorator(((target: object, propertyKey: string | symbol) => {
+    Reflect.defineMetadata(Log, { message }, target, propertyKey);
+  });
+};
+
+class LoggerAspect {
+  @beforeMethod({
+    decorators: [ Log ],
+  })
+  invokeBeforeMethod(meta: Metadata) {
+    let { message } = Reflect.getMetadata(Log, meta.method.context, meta.method.name);
+    if (message != null) {
+      console.log(message);
+    } else {
+      console.log(`Inside of the logger. Called ${meta.className}.${meta.method.name} with args: ${meta.method.args.join(', ')}.`);
+    }
+  }
+}
+
+class Article {
+  id: number;
+  title: string;
+  content: string;
+}
+
+class ArticleCollection {
+  articles: Article[] = [];
+
+  @Log()
+  getArticle(id: number) {
+    console.log(`Getting article with id: ${id}.`);
+    return this.articles.filter(a => {
+      return a.id === id;
+    }).pop();
+  }
+
+  @Log('Log a custom message')
+  setArticle(article: Article) {
+    console.log(`Setting article with id: ${article.id}.`);
+    this.articles.push(article);
+  }
+}
+
+new ArticleCollection().getArticle(1);
+new ArticleCollection().setArticle({
+  id: 2,
+  title: 'Current event',
+  content: '...',
+});
+
+// Result:
+// Inside of the logger. Called ArticleCollection.getArticle with args: 1.
+// Getting article with id: 1.
+// Log a custom message
+// Setting article with id: 2.
+```
+
 # Demo
 
 ```
