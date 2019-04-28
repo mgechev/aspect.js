@@ -20,7 +20,7 @@ Talk from [AngularConnect](https://www.youtube.com/watch?v=C6e6-31HD5A).
 # Sample usage
 
 ```ts
-import {beforeMethod, Wove, Metadata} from 'aspect.js';
+import {beforeMethod, Advised, Metadata} from 'aspect.js';
 
 class LoggerAspect {
   @beforeMethod({
